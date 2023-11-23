@@ -55,4 +55,19 @@ class Patient extends Model
     {
     return $this->belongsTo(Diagnoses::class, 'diagnoses_id');
     }
+
+    // public function parent()
+    // {
+    // return $this->belongsTo(Patient::class, 'parent_id');
+    // }
+
+    /**
+     * Get the user that owns the Patient
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Patient::class, 'foreign_key', 'other_key');
+    }
 }

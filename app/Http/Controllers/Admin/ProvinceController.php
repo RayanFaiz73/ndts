@@ -56,9 +56,12 @@ class ProvinceController extends Controller
 
         ## Total number of record with filtering
         $totalRecordwithFilter = User::where(function ($query) use ($searchValue) {
-            $query->whereHas('state', function ($query) use ($searchValue) {
+            $query
+            ->whereHas('state', function ($query) use ($searchValue) {
                 $query->where('name', 'like', '%' . $searchValue . '%');
-            })->orwhere('name', 'like', '%' . $searchValue . '%')->orwhere('email', 'like', '%' . $searchValue . '%');
+            })
+            ->orwhere('name', 'like', '%' . $searchValue . '%')
+            ->orwhere('email', 'like', '%' . $searchValue . '%');
         })
         ->where('role_id', 2)->get()->count();
 

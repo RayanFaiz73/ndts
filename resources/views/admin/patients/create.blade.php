@@ -62,7 +62,7 @@
                                         <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
                                         @enderror
                                     </div>
-                                    <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                    {{-- <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                         <label
                                             class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                             {{ __('Age') }}
@@ -74,7 +74,7 @@
                                         @error('email')
                                         <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
                                         @enderror
-                                    </div>
+                                    </div> --}}
                                     <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                         <label
                                             class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
@@ -154,6 +154,7 @@
                                     @else
                                     <input type="hidden" name="hospital_id" value="{{ Auth::user()->parent->id }}">
                                     @endif
+                                    @if(Auth::user()->role_id == 1)
                                     <div class="contents" id="rolesDiv">
                                         <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                             <label
@@ -176,8 +177,11 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    @else
+                                        <input type="hidden" name="staff_id" value="{{ Auth::id() }}">
+                                        @endif
                                     @if(Auth::user()->role_id == 1)
-                                    <div class="w-full lg:w-2/2 px-3 mb-6 lg:mb-3">
+                                    <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                         <label
                                             class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                             {{ __('Address') }}

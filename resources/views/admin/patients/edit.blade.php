@@ -66,19 +66,6 @@
                                     <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                         <label
                                             class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
-                                            {{ __('Age') }}
-                                        </label>
-                                        <input required="required" name="age" value="{{ old('age',$patient->age) }}"
-                                            autocomplete="age"
-                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
-                                            type="text" placeholder="{{ __('Please enter  age here') }}...">
-                                        @error('email')
-                                        <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                    <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
-                                        <label
-                                            class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                             {{ __('DOB') }}
                                         </label>
                                         <input required="required" name="dob" value="{{ old('dob',$patient->dob) }}"
@@ -156,6 +143,7 @@
                                     @else
                                     <input type="hidden" name="hospital_id" value="{{ Auth::user()->parent->id }}">
                                     @endif
+                                    @if(Auth::user()->role_id == 1)
                                     <div class="contents" id="rolesDiv">
                                         <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                             <label
@@ -178,6 +166,9 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    @else
+                                   <input type="hidden" name="staff_id" value="{{ Auth::id() }}">
+                                    @endif
                                     @if(Auth::user()->role_id == 1)
                                     <div class="w-full lg:w-12/2 px-3 mb-6 lg:mb-3">
                                         <label

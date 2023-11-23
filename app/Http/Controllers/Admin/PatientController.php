@@ -89,7 +89,7 @@ class PatientController extends Controller
             $pdf = '';
             if($record->pdf){
                 $pdf .= '<a id="downloadLink" href="' . asset(Storage::url('pdf/'.$record->pdf)) . '" download>
-                        <svg style="margin-left: 28;" class="w-6 h-6  text-theme-danger-500 dark:text-white" aria-hidden="true"
+                        <svg style="margin-left: 16;" class="w-6 h-6  text-theme-danger-500 dark:text-white" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M1 18a.969.969 0 0 0 .933 1h12.134A.97.97 0 0 0 15 18M1 7V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v5M6 1v4a1 1 0 0 1-1 1H1m0 9v-5h1.5a1.5 1.5 0 1 1 0 3H1m12 2v-5h2m-2 3h2m-8-3v5h1.375A1.626 1.626 0 0 0 10 13.375v-1.75A1.626 1.626 0 0 0 8.375 10H7Z" />
@@ -176,7 +176,6 @@ public function store(Request $request)
     $request->validate([
         'name' => ['required', 'string', 'max:255'],
         'nic' => ['required', 'string', 'max:15'],
-        'age' => ['required', 'numeric', 'max:99'], // Changed to numeric for age
         'sex' => ['required', 'in:male,female,other'],
         'address' => ['required', 'string', 'max:2000'],
         'pdf' => ['required', 'file', 'mimes:pdf'], // Added validation for PDF file
@@ -188,7 +187,6 @@ public function store(Request $request)
         'diagnoses_id' => $request->diagnoses_id,
         'name' => $request->name,
         'nic' => $request->nic,
-        'age' => $request->age,
         'dob' => $request->dob,
         'sex' => $request->sex,
         'address' => $request->address,
@@ -228,9 +226,7 @@ public function store(Request $request)
         $patient = Patient::findorFail($id);
         $hospitals = User::where('role_id', 3)->get();
         $diagnoses = Diagnoses::all();
-        // dd($diagnoses);
         $staffs = user::where('role_id', 6)->get();
-        // dd($staffs);
         return view('admin.patients.edit',compact('patient','hospitals','diagnoses','staffs'));
     }
 
@@ -242,7 +238,6 @@ public function store(Request $request)
     $request->validate([
         'name' => ['required', 'string', 'max:255'],
         'nic' => ['required', 'string', 'max:15'],
-        'age' => ['required', 'numeric', 'max:99'],
         'sex' => ['required', 'in:male,female,other'],
         'address' => ['required', 'string', 'max:2000'],
         'pdf' => ['file', 'mimes:pdf'], // Removed 'required' validation for PDF file
@@ -256,7 +251,6 @@ public function store(Request $request)
         'diagnoses_id' => $request->diagnoses_id,
         'name' => $request->name,
         'nic' => $request->nic,
-        'age' => $request->age,
         'dob' => $request->dob,
         'sex' => $request->sex,
         'address' => $request->address,
