@@ -39,12 +39,12 @@
                                         <div class="flex flex-wrap -mx-3 mb-6">
                                             <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                                 <label class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
-                                                    {{ __('Diagnoses') }}
+                                                    {{ __('Diagnose') }}
                                                 </label>
                                                 <input required="required" name="diagnose" value="{{ old('diagnose') }}"
                                                     class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
                                                     type="text" placeholder="{{ __('Please enter diagnose here') }}...">
-                                                @error('name')
+                                                @error('diagnose')
                                                 <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
                                                 @enderror
 

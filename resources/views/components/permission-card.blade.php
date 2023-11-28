@@ -6,8 +6,8 @@
 <div
     class="w-full p-4 bg-theme-primary-700  border border-theme-success-200 rounded-lg shadow  sm:p-8 dark:bg-gray-800 dark:border-gray-700">
     <div class="flex items-center justify-between mb-4">
-        <h5 class="text-xl font-bold leading-none text-theme-primary-100 dark:text-white"> {{ $role->name }} </h5>
-        <span class="text-theme-primary-100 dark:text-white">
+        <h5 class="text-xl font-bold leading-none text-theme-secondary-100 dark:text-white"> {{ $role->name }} </h5>
+        <span class="text-theme-secondary-100 dark:text-white">
             {{ __('Total users with this role') }} <span style="font-size: 1.75rem"> {{ $role->users->count() }} </span>
         </span>
     </div>
@@ -15,7 +15,7 @@
 
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-theme-primary-100 uppercase bg-theme-primary-700 dark:bg-gray-700 dark:text-gray-400">
+                <thead class="text-xs text-theme-secondary-100 uppercase bg-theme-primary-700 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3 rounded-l-lg">
                              {{ __('Menu') }}
@@ -40,7 +40,7 @@
                         @if ($key < 3 || $all)
                             <tr class="bg-theme-primary-700 dark:bg-gray-800">
                                 <th scope="row"
-                                    class="px-6 py-2 font-medium text-theme-primary-100 whitespace-nowrap dark:text-white">
+                                    class="px-6 py-2 font-medium text-theme-secondary-100 whitespace-nowrap dark:text-white">
                                     {{ $role_permission->menu->name }}
                                 </th>
                                 <td class="px-6 py-2">
@@ -80,7 +80,7 @@
             </table>
             @if ($role->permissions->count() > 3 && !$all)
                 <div
-                    class="flex items-center p-1 text-xs text-theme-primary-100 rounded-lg bg-theme-primary-700 hover:bg-theme-primary-300 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                    class="flex items-center p-1 text-xs text-theme-secondary-100 rounded-lg bg-theme-primary-700 hover:bg-theme-primary-300 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                     <em>{{ __('and') }} {{ $role->permissions->count() - 3 }} {{ __('more') }}...</em>
                 </div>
             @endif

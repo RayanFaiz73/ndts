@@ -6,7 +6,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Models\User;
 use App\Models\Menu;
 
-class DiagnosesPolicy
+class DiseasePolicy
 {
     use HandlesAuthorization;
 
@@ -23,7 +23,7 @@ class DiagnosesPolicy
     * @return void
     */
     public function __construct(){
-        $menu = Menu::where(["name" => "Diagnoses"])->first();
+        $menu = Menu::where(["name" => "Disease"])->first();
 
         $this->menu_id = $menu->id;
     }

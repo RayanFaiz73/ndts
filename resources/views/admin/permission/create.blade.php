@@ -2,7 +2,7 @@
     <x-slot name="header">
             <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div class="relative flex items-center justify-between h-10">
-                    <h2 class="text-3xl font-bold text-theme-primary-100 dark:text-white">
+                    <h2 class="text-3xl font-bold text-theme-secondary-100 dark:text-white">
                         {{ __($heading.'s')}}
                     </h2>
                     @can("$permission-read")
@@ -11,7 +11,7 @@
                         <!-- Profile dropdown -->
                         <div class="relative ml-3">
                             <div>
-                                <x-primary-link  class="ml-3 " :href="route('admin.permission.index')">
+                                <x-primary-link  class="ml-3 text-theme-secondary-100" :href="route('admin.permission.index')">
                                     {{ __('All '.$heading.'s')}}
                                 </x-primary-link>
                             </div>
@@ -29,7 +29,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="heading-1 py-3">
-                                <h2 class="text-2xl font-bold text-theme-primary-100 dark:text-white">Create {{$heading}}</h2>
+                                <h2 class="text-2xl font-bold text-theme-secondary-100 dark:text-white">Create {{$heading}}</h2>
                             </div>
                         </div>
                         <div class="card-body">
@@ -38,7 +38,7 @@
                                 @csrf
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full lg:w-12/12 px-3 mb-6 lg:mb-6">
-                                        <label class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white"
+                                        <label class="block mb-2 text-sm font-medium text-theme-secondary-100 dark:text-white"
                                             for="name">{{ __('Role Name')}} </label>
                                         <input name="name" required placeholder="{{ __('Enter role name')}}"
                                             class="bg-theme-primary-400 border border-theme-success-200 text-gray-300 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
@@ -51,9 +51,9 @@
                                 <div class="flow-root">
 
                                     <div class="overflow-x-auto">
-                                        <table class="w-full text-sm text-left text-theme-primary-100 dark:text-gray-400">
+                                        <table class="w-full text-sm text-left text-theme-secondary-100 dark:text-gray-400">
                                             <thead
-                                                class="text-xs text-theme-primary-100 uppercase bg-theme-primary-300 dark:bg-gray-700 dark:text-gray-400">
+                                                class="text-xs text-theme-secondary-100 uppercase bg-theme-primary-300 dark:bg-gray-700 dark:text-gray-400">
                                                 <tr>
                                                     <th scope="col" class="px-6 py-3 rounded-l-lg">
                                                         {{ __('Menu')}}
@@ -80,8 +80,8 @@
                                                 @if (count($menu->childrenMenus))
                                                     <tr>
                                                         <th colspan="5" scope="col"
-                                                        class="px-6 pt-3 text-base font-bold text-theme-primary-100dark:text-white decoration-theme-primary-500">{{ $menu->name }}
-                                                        <span class="text-theme-primary-100 text-xs">({{ __('Parent')}})</span></th>
+                                                        class="px-6 pt-3 text-base font-bold text-theme-secondary-100dark:text-white decoration-theme-primary-500">{{ $menu->name }}
+                                                        <span class="text-theme-secondary-100 text-xs">({{ __('Parent')}})</span></th>
                                                     </tr>
                                                     @if($menu->route_name)
                                                         @include('admin.permission.recursive', ['child_menu' => $menu, 'class' => '', 'edit' => false])

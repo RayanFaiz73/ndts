@@ -2,7 +2,7 @@
     <x-slot name="header">
             <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div class="relative flex items-center justify-between h-10">
-                    <h2 class="text-3xl font-bold text-theme-primary-100 dark:text-white">
+                    <h2 class="text-3xl font-bold text-theme-secondary-100 dark:text-white">
                         {{ __($heading.'s')}}
                     </h2>
                     @can("$permission-create")
@@ -10,7 +10,7 @@
                         class="lg:absolute lg:inset-y-0 lg:right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         <div class="relative ml-3">
                             <div>
-                                <x-primary-link class="ml-3" :href="route('admin.permission.create')">
+                                <x-primary-link class="ml-3 text-theme-secondary-100" :href="route('admin.permission.create')">
                                     {{__('Create Role')}}
                                 </x-primary-link>
                             </div>
@@ -61,7 +61,7 @@
                 </button>
                 <!-- Modal header -->
                 <div class="px-6 py-4 border-b rounded-t border-theme-success-200">
-                    <h3 class="text-base font-semibold text-theme-primary-100 lg:text-xl dark:text-white">
+                    <h3 class="text-base font-semibold text-theme-secondary-100 lg:text-xl dark:text-white">
                         {{__('Delete Role ?')}}
                     </h3>
                 </div>
@@ -76,7 +76,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
-                        <h3 class="mb-5 text-lg font-normal text-theme-primary-100 dark:text-gray-400">
+                        <h3 class="mb-5 text-lg font-normal text-theme-secondary-100 dark:text-gray-400">
                         {{__('Are you sure you want to delete this role?')}}</h3>
                         <button type="submit"
                             class="text-white bg-theme-danger-600 hover:bg-theme-danger-800 focus:ring-4 focus:outline-none focus:ring-theme-danger-300 dark:focus:ring-theme-danger-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
@@ -105,7 +105,7 @@
                 </button>
                 <!-- Modal header -->
                 <div class="px-6 py-4 border-b rounded-t border-theme-success-200">
-                    <h3 class="text-base font-semibold text-theme-primary-100 lg:text-xl dark:text-white">
+                    <h3 class="text-base font-semibold text-theme-secondary-100 lg:text-xl dark:text-white">
                         {{__('View Role ?')}}
                     </h3>
                 </div>

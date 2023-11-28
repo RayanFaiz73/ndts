@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-10">
-                <h2 class="text-3xl font-bold text-theme-primary-100 dark:text-white">
+                <h2 class="text-3xl font-bold text-theme-secondary-100 dark:text-white">
                     {{ __($heading.'s')}}
                 </h2>
                 {{-- @can("$permission-read") --}}
@@ -12,7 +12,7 @@
                     <!-- Profile dropdown -->
                     <div class="relative ml-3">
                         <div>
-                            <x-primary-link class="ml-3 hover:bg-theme-primary-300" :href="route('admin.staff.index')">
+                            <x-primary-link class="ml-3 text-theme-secondary-100" :href="route('admin.staff.index')">
                                 {{ __('All '.$heading.'s')}}
                             </x-primary-link>
                         </div>
@@ -29,11 +29,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div
                 class="bg-theme-primary-700 border border-theme-success-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                <div class="p-6 text-theme-primary-100">
+                <div class="p-6 text-theme-secondary-100">
                     <div class="card">
                         <div class="card-header">
                             <div class="heading-1 py-3">
-                                <h2 class="text-2xl font-bold text-theme-primary-100 dark:text-white">
+                                <h2 class="text-2xl font-bold text-theme-secondary-100 dark:text-white">
                                     {{ __('Edit '.$heading)}}
                                 </h2>
                             </div>
@@ -47,11 +47,11 @@
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                         <label
-                                            class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
+                                            class="block mb-2 text-sm font-medium text-theme-secondary-100 dark:text-white">
                                             {{ __('Name') }}
                                         </label>
                                         <input required="required" name="name" value="{{ old('name',$staff->name) }}"
-                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
+                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
                                             type="text" placeholder="{{ __('Please enter name here') }}...">
                                         @error('name')
                                         <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
@@ -59,12 +59,12 @@
                                     </div>
                                     <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                         <label
-                                            class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
+                                            class="block mb-2 text-sm font-medium text-theme-secondary-100 dark:text-white">
                                             {{ __('Email') }}
                                         </label>
                                         <input required="required" name="email" value="{{ old('email',$staff->email) }}"
                                             autocomplete="username"
-                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
+                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
                                             type="email" placeholder="{{ __('Please enter email address here') }}...">
                                         @error('email')
                                         <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
@@ -72,12 +72,12 @@
                                     </div>
                                     <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                         <label
-                                            class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
+                                            class="block mb-2 text-sm font-medium text-theme-secondary-100 dark:text-white">
                                             {{ __('Password') }}
                                         </label>
                                         <input required="required" name="password" value="{{ old('password') }}"
                                             autocomplete="new-password"
-                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
+                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
                                             type="password" placeholder="{{ __('Please enter password here') }}...">
                                         @error('password')
                                         <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
@@ -85,11 +85,11 @@
                                     </div>
                                     <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                         <label
-                                            class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
+                                            class="block mb-2 text-sm font-medium text-theme-secondary-100 dark:text-white">
                                             {{ __('Status') }}
                                         </label>
                                         <select required name="status" id="status"
-                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                             <option value="">{{ __('Select status') }}</option>
                                             <option value="pending" {{$staff->status == 'pending' ? 'selected' : ''}}>{{
                                                 __('Pending') }}</option>
@@ -105,11 +105,11 @@
                                     <!-- Hospital Select -->
                                     <div class="w-full lg:w-2/2 px-3 mb-6 lg:mb-3">
                                         <label
-                                            class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
+                                            class="block mb-2 text-sm font-medium text-theme-secondary-100 dark:text-white">
                                             {{ __('Hospital') }}
                                         </label>
                                         <select required name="parent_id" id="hospital_select"
-                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                             <option value="">{{ __('Select Option') }}</option>
                                             @foreach ($hospitals as $hospital)
                                             <option value="{{ $hospital->id }}" @if ($hospital->id == $staff->parent_id)

@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "apexcharts": "^3.44.0",
-        "flowbite": "^2.1.1"
+        "flowbite": "^2.1.1",
+        "nice-select2": "^2.1.0"
     }
 }

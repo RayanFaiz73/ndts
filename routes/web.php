@@ -16,8 +16,11 @@ use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ResourceController;
 use App\Models\Role;
 use App\Models\Permission;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,21 +32,15 @@ use App\Models\Permission;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// Route::get('test123', function () {
-//    $role =  Role::find(1);
-//    $permissions =  Permission::where('role_id', 1);
-//    dd($role->permissions,$permissions);
-// });
+Route::get('test123', function () {
+    dd(Auth::user()->hospitals);
+   $dateOfBirth = '1994-07-02';
+            $years = Carbon::parse($dateOfBirth)->age;
+            $years =Carbon::parse($dateOfBirth)->diff(Carbon::now())->format('%y years, %m months and %d days');
+            dd($years);
+});
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-use Stichoza\GoogleTranslate\GoogleTranslate;
-Route::get('/test', function () {
-
-$tr = new GoogleTranslate('en'); // Translates into English
-echo $tr->setSource('en')->setTarget('es')->translate('Goodbye');
-dd($tr);
-    return view('mails.certificate-created');
-});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -61,89 +58,97 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::prefix('admin')->as('admin.')->group(function () {
-        Route::prefix('menu')->as('menu.')->controller(MenuController::class)->group(function () {
-        Route::get('/', 'index')->name('index')->middleware('can:Menu-read');
-        Route::post('/store', 'store')->name('store')->middleware('can:Menu-create');
-        Route::post('/update', 'update')->name('update')->middleware('can:Menu-update');
-        });
+            Route::prefix('menu')->as('menu.')->controller(MenuController::class)->group(function () {
+                Route::get('/', 'index')->name('index')->middleware('can:Menu-read');
+                Route::post('/store', 'store')->name('store')->middleware('can:Menu-create');
+                Route::post('/update', 'update')->name('update')->middleware('can:Menu-update');
+            });
 
-        Route::prefix('permission')->as('permission.')->controller(PermissionController::class)->group(function () {
-        Route::get('/', 'index')->name('index')->middleware('can:Permission-read');
-        Route::get('/view/{role}', 'view')->name('view')->middleware('can:Permission-read');
-        Route::get('/create', 'create')->name('create')->middleware('can:Permission-create');
-        Route::post('/store', 'store')->name('store')->middleware('can:Permission-create');
-        Route::get('/edit/{role}', 'edit')->name('edit')->middleware('can:Permission-update');
-        Route::post('/update', 'update')->name('update')->middleware('can:Permission-update');
-        Route::post('/destroy', 'destroy')->name('destroy')->middleware('can:Permission-delete');
-        });
+            Route::prefix('permission')->as('permission.')->controller(PermissionController::class)->group(function () {
+                Route::get('/', 'index')->name('index')->middleware('can:Permission-read');
+                Route::get('/view/{role}', 'view')->name('view')->middleware('can:Permission-read');
+                Route::get('/create', 'create')->name('create')->middleware('can:Permission-create');
+                Route::post('/store', 'store')->name('store')->middleware('can:Permission-create');
+                Route::get('/edit/{role}', 'edit')->name('edit')->middleware('can:Permission-update');
+                Route::post('/update', 'update')->name('update')->middleware('can:Permission-update');
+                Route::post('/destroy', 'destroy')->name('destroy')->middleware('can:Permission-delete');
+            });
 
-       //Province
-        Route::prefix('provinces')->as('provinces.')->controller(ProvinceController::class)->group(function () {
-        Route::get('/', 'index')->name('index')->middleware('can:Province-read');
-        Route::post('/', 'list')->name('list')->middleware('can:Province-read');
-        Route::get('/create', 'create')->name('create')->middleware('can:Province-create');
-        Route::post('/store', 'store')->name('store')->middleware('can:Province-create');
-        Route::get('/search', 'searchProvinces')->name('search');
-        Route::get('/edit/{id}', 'edit')->name('edit')->middleware('can:Province-update');
-        Route::post('/update/{id}', 'update')->name('update')->middleware('can:Province-update');
-        Route::get('/destroy/{id}', 'destroy')->name('destroy')->middleware('can:Province-delete');
-        Route::get('/states', 'fetchStatesByCountry')->name('fetchState');
-        Route::get('/cities', 'fetchCitiesByState')->name('fetchCities');
-        });
+        //Province
+            Route::prefix('provinces')->as('provinces.')->controller(ProvinceController::class)->group(function () {
+                Route::get('/', 'index')->name('index')->middleware('can:Province-read');
+                Route::post('/', 'list')->name('list')->middleware('can:Province-read');
+                // Route::post('/search', 'search')->name('search')->middleware('can:Province-read');
+                Route::get('/create', 'create')->name('create')->middleware('can:Province-create');
+                Route::post('/store', 'store')->name('store')->middleware('can:Province-create');
+                Route::get('/search', 'searchProvinces')->name('search');
+                Route::get('/edit/{id}', 'edit')->name('edit')->middleware('can:Province-update');
+                Route::post('/update/{id}', 'update')->name('update')->middleware('can:Province-update');
+                Route::get('/destroy/{id}', 'destroy')->name('destroy')->middleware('can:Province-delete');
+            });
 
-        //Hospital
-        Route::prefix('hospitals')->as('hospitals.')->controller(HospitalController::class)->group(function () {
-        Route::get('/', 'index')->name('index')->middleware('can:Hospital-read');
-        Route::post('/', 'list')->name('list')->middleware('can:Hospital-read');
-        Route::get('/create', 'create')->name('create')->middleware('can:Hospital-create');
-        Route::post('/store', 'store')->name('store')->middleware('can:Hospital-create');
-        Route::get('/edit/{id}', 'edit')->name('edit')->middleware('can:Hospital-update');
-        Route::post('/update/{id}', 'update')->name('update')->middleware('can:Hospital-update');
-        Route::get('/destroy/{id}', 'destroy')->name('destroy')->middleware('can:Hospital-delete');
-        Route::get('/states', 'fetchStatesByCountry')->name('fetchState');
-        Route::get('/cities', 'fetchCitiesByState')->name('fetchCities');
+            //Hospital
+            Route::prefix('hospitals')->as('hospitals.')->controller(HospitalController::class)->group(function () {
+                Route::get('/', 'index')->name('index')->middleware('can:Hospital-read');
+                Route::post('/', 'list')->name('list')->middleware('can:Hospital-read');
+                Route::get('modal/{id}', 'modal')->name('modal');
+                Route::get('/create', 'create')->name('create')->middleware('can:Hospital-create');
+                Route::post('/store', 'store')->name('store')->middleware('can:Hospital-create');
+                Route::get('/edit/{id}', 'edit')->name('edit')->middleware('can:Hospital-update');
+                Route::post('/update/{id}', 'update')->name('update')->middleware('can:Hospital-update');
+                Route::get('/destroy/{id}', 'destroy')->name('destroy')->middleware('can:Hospital-delete');
 
-        });
+            });
 
-        //Staff
-        Route::prefix('staff')->as('staff.')->controller(StaffController::class)->group(function () {
-        Route::get('/', 'index')->name('index')->middleware('can:Staff-read');
-        Route::post('/', 'list')->name('list')->middleware('can:Staff-read');
-        Route::get('/create', 'create')->name('create')->middleware('can:Staff-create');
-        Route::post('/store', 'store')->name('store')->middleware('can:Staff-create');
-        Route::get('/edit/{id}', 'edit')->name('edit')->middleware('can:Staff-update');
-        Route::post('/update/{id}', 'update')->name('update')->middleware('can:Staff-update');
-        Route::get('/destroy/{id}', 'destroy')->name('destroy')->middleware('can:Staff-delete');
-        });
+            //Staff
+            Route::prefix('staff')->as('staff.')->controller(StaffController::class)->group(function () {
+                Route::get('/', 'index')->name('index')->middleware('can:Staff-read');
+                Route::post('/', 'list')->name('list')->middleware('can:Staff-read');
+                Route::get('/create', 'create')->name('create')->middleware('can:Staff-create');
+                Route::post('/store', 'store')->name('store')->middleware('can:Staff-create');
+                Route::get('/edit/{id}', 'edit')->name('edit')->middleware('can:Staff-update');
+                Route::post('/update/{id}', 'update')->name('update')->middleware('can:Staff-update');
+                Route::get('/destroy/{id}', 'destroy')->name('destroy')->middleware('can:Staff-delete');
+            });
 
-        //Diagnoses
-        Route::prefix('diagnoses')->as('diagnoses.')->controller(DiagnosesController::class)->group(function () {
-        Route::get('/', 'index')->name('index')->middleware('can:Diagnoses-read');
-        Route::post('/', 'list')->name('list')->middleware('can:Diagnoses-read');
-        Route::get('/diagnoses/modal/{id}', 'modal')->name('modal');
-        Route::get('/create', 'create')->name('create')->middleware('can:Diagnoses-create');
-        Route::post('/store', 'store')->name('store')->middleware('can:Diagnoses-create');
-        Route::get('/edit/{role}', 'edit')->name('edit')->middleware('can:Diagnoses-update');
-        Route::post('/update/{id}', 'update')->name('update')->middleware('can:Diagnoses-update');
-        Route::get('/destroy/{id}', 'destroy')->name('destroy')->middleware('can:Diagnoses-delete');
-        });
+            //Diagnoses
+            Route::prefix('diagnoses')->as('diagnoses.')->controller(DiagnosesController::class)->group(function () {
+                Route::get('/', 'index')->name('index')->middleware('can:Disease-read');
+                Route::post('/', 'list')->name('list')->middleware('can:Disease-read');
+                Route::get('/diagnoses/modal/{id}', 'modal')->name('modal');
+                Route::get('/create', 'create')->name('create')->middleware('can:Disease-create');
+                Route::post('/store', 'store')->name('store')->middleware('can:Disease-create');
+                Route::get('/edit/{role}', 'edit')->name('edit')->middleware('can:Disease-update');
+                Route::post('/update/{id}', 'update')->name('update')->middleware('can:Disease-update');
+                Route::get('/destroy/{id}', 'destroy')->name('destroy')->middleware('can:Disease-delete');
+            });
 
-        //Patient
-        Route::prefix('patients')->as('patients.')->controller(PatientController::class)->group(function () {
-        Route::get('/', 'index')->name('index')->middleware('can:Patient-read');
-        Route::post('/', 'list')->name('list')->middleware('can:Patient-read');
-        Route::get('/create', 'create')->name('create')->middleware('can:Patient-create');
-        Route::post('/store', 'store')->name('store')->middleware('can:Patient-create');
-        Route::get('/edit/{role}', 'edit')->name('edit')->middleware('can:Patient-update');
-        Route::post('/update/{id}', 'update')->name('update')->middleware('can:Patient-update');
-        Route::get('/destroy/{id}', 'destroy')->name('destroy')->middleware('can:Patient-delete');
-        });
+            //Patient
+            Route::prefix('patients')->as('patients.')->controller(PatientController::class)->group(function () {
+                Route::get('/', 'index')->name('index')->middleware('can:Patient-read');
+                Route::post('/', 'list')->name('list')->middleware('can:Patient-read');
+                Route::get('modal/{id}', 'modal')->name('modal');
+                Route::get('/create', 'create')->name('create')->middleware('can:Patient-create');
+                Route::post('/store', 'store')->name('store')->middleware('can:Patient-create');
+                Route::get('/edit/{role}', 'edit')->name('edit')->middleware('can:Patient-update');
+                Route::post('/update/{id}', 'update')->name('update')->middleware('can:Patient-update');
+                Route::get('/destroy/{id}', 'destroy')->name('destroy')->middleware('can:Patient-delete');
+            });
 
-        // Settings
-        Route::prefix('setting')->as('setting.')->controller(SettingController::class)->group(function () {
-        Route::get('/', 'index')->name('index')->middleware('can:Setting-read');
-        Route::post('/', 'update')->name('update')->middleware('can:Setting-update');
-        });
+            // Settings
+            Route::prefix('setting')->as('setting.')->controller(SettingController::class)->group(function () {
+                Route::get('/', 'index')->name('index')->middleware('can:Setting-read');
+                Route::post('/', 'update')->name('update')->middleware('can:Setting-update');
+            });
+
+
+            // Resources
+            Route::prefix('resource')->as('resource.')->controller(ResourceController::class)->group(function () {
+                Route::get('/countries', 'fetchCountries')->name('fetchCountry');
+                Route::get('/states', 'fetchStatesByCountry')->name('fetchState');
+                Route::get('/cities', 'fetchCitiesByState')->name('fetchCities');
+                Route::get('/staff', 'fetchStaffsByHospital')->name('fetchStaff');
+            });
 
     });
 });

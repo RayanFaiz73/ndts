@@ -56,35 +56,19 @@ class StaffController extends Controller
 
         $allUsersCount = $allUsersCount;
         $totalRecords = $allUsersCount->get()->count();
-        $records = $allUsersCount->where('name', 'like', '%' . $searchValue . '%')->skip($start)->take($rowperpage)->get();
+        $records = $allUsersCount->where('name', 'like', '%' . $searchValue . '%')->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
         $totalRecordwithFilter = count($records);
         }elseif(Auth::user()->role_id == 2){
         $allUsersCount = $allUsersCount->where('state_id', Auth::user()->state_id);
         $totalRecords = $allUsersCount->get()->count();
-        $records = $allUsersCount->where('name', 'like', '%' . $searchValue . '%')->skip($start)->take($rowperpage)->get();
+        $records = $allUsersCount->where('name', 'like', '%' . $searchValue . '%')->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
         $totalRecordwithFilter = count($records);
         }else{
         $allUsersCount = $allUsersCount->where('parent_id', Auth::id());
         $totalRecords = $allUsersCount->get()->count();
-        $records = $allUsersCount->where('name', 'like', '%' . $searchValue . '%')->skip($start)->take($rowperpage)->get();
+        $records = $allUsersCount->where('name', 'like', '%' . $searchValue . '%')->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
         $totalRecordwithFilter = count($records);
         }
-
-    //            if (Auth::user()->role_id == 1) {
-    //     # code...
-    //     $totalRecords = User::where('role_id', 6)->count();
-    //     $totalRecordwithFilter = User::where('name', 'like', '%' . $searchValue . '%')->where('role_id', 6)->get()->count();
-    //     $records = User::where('name', 'like', '%' . $searchValue . '%')->where('role_id',
-    //     6)->skip($start)->take($rowperpage)->get();
-    // }elseif (Auth::user()->role_id == 2) {
-    //     $totalRecords = User::where('role_id', 6)->where('state_id', Auth::user()->state_id)->count();
-    //     $totalRecordwithFilter = User::where('name', 'like', '%' . $searchValue . '%')->where('role_id', 6)->where('state_id', Auth::user()->state_id)->get()->count();
-    //     $records = User::where('name', 'like', '%' . $searchValue . '%')->where('role_id',6)->where('state_id', Auth::user()->state_id)->skip($start)->take($rowperpage)->get();
-    // }else{
-    //     $totalRecords = User::where('role_id', 6)->where('parent_id', Auth::id())->count();
-    //     $totalRecordwithFilter = User::where('name', 'like', '%' . $searchValue . '%')->where('role_id', 6)->where('parent_id', Auth::id())->get()->count();
-    //     $records = User::where('name', 'like', '%' . $searchValue . '%')->where('role_id',6)->where('parent_id', Auth::id())->skip($start)->take($rowperpage)->get();
-    // }
         $data = array();
         $sl = 1;
         foreach ($records as $record) {
@@ -96,9 +80,9 @@ class StaffController extends Controller
             $email = $record->email ? $record->email : '--';
 
            if ($record->state_id == $record->state->id) {
-               $parent = $record->state->name;
+               $state_id = $record->state->name;
             } else {
-               $parent = 'None';
+               $state_id = 'None';
             }
 
             if ($record->parent_id == $record->parent->id) {
@@ -106,7 +90,6 @@ class StaffController extends Controller
             } else {
             $parent_id = 'None';
             }
-            // $zip_code = $record->zip_code ? $record->zip_code : '--';
             $created_at = date('d-m-Y',strtotime($record->created_at ? $record->created_at : '--')) ;
         $button = '';
         $button .= '<a href="' . route('admin.staff.edit', [$record->id, 'lang' => 'en']) . '"
@@ -134,7 +117,7 @@ class StaffController extends Controller
             $data[] = array(
                 'name'    => $name,
                 'email' => $email,
-                'parent' => $parent,
+                'state_id' => $state_id,
                 'parent_id'    => $parent_id,
                 'created_at'             => $created_at,
                 'options'             => $button,
@@ -147,7 +130,8 @@ class StaffController extends Controller
             "draw" => intval($draw),
             "iTotalRecords" => $totalRecordwithFilter,
             "iTotalDisplayRecords" => $totalRecords,
-            "aaData" => $data
+            "aaData" => $data,
+            "cusData" => $columnName
         );
         return $response;
     }
@@ -156,17 +140,6 @@ class StaffController extends Controller
      */
     public function index()
     {
-        // dd(Auth::user()->parent);
-
-        // For Province as Login User
-        // $allUsers = collect([]);
-        // if(Auth::user()->role_id == 2){
-        //     $allUsers = User::where('parent_id',Auth::id())->get();
-        // }
-
-        // $staffs = User::where('role_id', 6)->where('parent_id', Auth::id())->paginate(10);
-        // // return view('admin.staffs.index', compact('staffs'));
-        // $staffs = User::where('role_id', 6)->paginate(10);
         return view('admin.staffs.index');
     }
 
@@ -175,7 +148,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        $heading = "Staff";
+        $heading = "Data Opertor";
         $permission = $this->permission;
         $stateIds = [2723, 2724, 2725, 2726, 2727, 2728, 2729];
         $states = State::where('country_id', 166)->get();
@@ -227,7 +200,7 @@ class StaffController extends Controller
      */
     public function edit(string $id)
     {
-        $heading = "Staff";
+        $heading = "Data Opertor";
         $staff = User::findorFail($id);
         $provinces = User::where('role_id', 2)->get();
         $hospitals = User::where('role_id', 3)->get();

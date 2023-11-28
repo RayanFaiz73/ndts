@@ -40,56 +40,111 @@ class PatientController extends Controller
         ## Total number of records without filtering
         if (Auth::user()->role_id == 1) {
             $totalRecords = Patient::all()->count();
-            $totalRecordwithFilter = Patient::where('name', 'like', '%' . $searchValue . '%')->get()->count();
-            $records = Patient::where('name', 'like', '%' . $searchValue . '%')->skip($start)->take($rowperpage)->get();
-        }else{
-            $totalRecords = Patient::where('hospital_id', Auth::user()->parent->id)->count();
+            // $totalRecordwithFilter = Patient::where('name', 'like', '%' . $searchValue . '%')->get()->count();
             $totalRecordwithFilter = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
             $query->whereHas('diagnose', function ($query) use ($searchValue) {
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
             ->where('name', 'like', '%' . $searchValue . '%')
-            ->orWhere('dob', '=', $dateOfBirth)
+            ->orWhere('dob', 'like', '%' . $searchValue . '%')
             ->orWhere('nic', 'like', '%' . $searchValue . '%');
-            })->where('hospital_id', Auth::user()->parent->id)->get()->count();
+            })->get()->count();
+            // $records = Patient::where('name', 'like', '%' . $searchValue . '%')->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
+            $records = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
+            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $query->where('diagnose', 'like', '%' . $searchValue . '%');
+            })
+            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('dob', 'like', '%' . $searchValue . '%')
+            ->orWhere('nic', 'like', '%' . $searchValue . '%');
+            })->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
+        }
+        elseif(Auth::user()->role_id == 2){
+            $totalRecords = Patient::wherehas('hospital', function($query){
+                $query->where('state_id',Auth::user()->state_id);
+            } )->count();
+            $totalRecordwithFilter = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
+            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $query->where('diagnose', 'like', '%' . $searchValue . '%');
+            })
+            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('dob', 'like', '%' . $searchValue . '%')
+            ->orWhere('nic', 'like', '%' . $searchValue . '%');
+            })
+            ->wherehas('hospital', function($query){
+            $query->where('state_id',Auth::user()->state_id);
+            } )->get()->count();
 
             $records = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
             $query->whereHas('diagnose', function ($query) use ($searchValue) {
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
             ->where('name', 'like', '%' . $searchValue . '%')
-            ->orWhere('dob', '=', $dateOfBirth)
+            ->orWhere('dob', 'like', '%' . $searchValue . '%')
             ->orWhere('nic', 'like', '%' . $searchValue . '%');
-            })->where('hospital_id', Auth::user()->parent->id)->skip($start)->take($rowperpage)->get();
+            })->wherehas('hospital', function($query){
+            $query->where('state_id',Auth::user()->state_id);
+            } )->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
+
+        }
+        elseif(Auth::user()->role_id == 3){
+            $totalRecords = Patient::where('hospital_id', Auth::user()->id)->count();
+            $totalRecordwithFilter = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
+            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $query->where('diagnose', 'like', '%' . $searchValue . '%');
+            })
+            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('dob', 'like', '%' . $searchValue . '%')
+            ->orWhere('nic', 'like', '%' . $searchValue . '%');
+            })->where('hospital_id', Auth::user()->id)->get()->count();
+
+            $records = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
+            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $query->where('diagnose', 'like', '%' . $searchValue . '%');
+            })
+            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('dob', 'like', '%' . $searchValue . '%')
+            ->orWhere('nic', 'like', '%' . $searchValue . '%');
+            })->where('hospital_id', Auth::user()->id)->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
+
+        }else{
+            $totalRecords = Patient::where('staff_id', Auth::user()->id)->count();
+            $totalRecordwithFilter = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
+            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $query->where('diagnose', 'like', '%' . $searchValue . '%');
+            })
+            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('dob', 'like', '%' . $searchValue . '%')
+            ->orWhere('nic', 'like', '%' . $searchValue . '%');
+            })->where('staff_id', Auth::user()->id)->get()->count();
+
+            $records = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
+            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $query->where('diagnose', 'like', '%' . $searchValue . '%');
+            })
+            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('dob', 'like', '%' . $searchValue . '%')
+            ->orWhere('nic', 'like', '%' . $searchValue . '%');
+            })->where('staff_id', Auth::user()->id)->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
 
         }
         $data = array();
         $sl = 1;
         foreach ($records as $record) {
-        if ($record->hospital_id == $record->hospital->id) {
-            $parent = $record->hospital->data_name;
-        }else{
-            $parent = '--';
-        }
-        if ($record->staff_id == $record->staff->id) {
-            $staff_id = $record->staff->name;
-        }else{
-            $staff_id = '--';
-        }
-        if ($record->diagnoses_id == $record->diagnose->id) {
-            $diagnoses_id = $record->diagnose->diagnose;
-        }else{
-            $diagnoses_id = '--';
-        }
+
+                $hospital_id = $record->hospital->data_name ?? '--';
+
+            $staff_id = $record->staff->name ?? '--';
+            $diagnoses_id = $record->diagnose->diagnose ?? '--';
             $name =  $record->name ? $record->name : '--' ;
             $nic = $record->nic ?? '--';
             $dateOfBirth = $record->dob;
             $age = Carbon::parse($dateOfBirth)->age;
-            $age = $age ? $age : '--';
+            $dob = $age ? $age : '--';
             $pdf = '';
             if($record->pdf){
                 $pdf .= '<a id="downloadLink" href="' . asset(Storage::url('pdf/'.$record->pdf)) . '" download>
-                        <svg style="margin-left: 16;" class="w-6 h-6  text-theme-danger-500 dark:text-white" aria-hidden="true"
+                        <svg style="margin-left: 2;" class="w-6 h-6  text-theme-danger-500 dark:text-white" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M1 18a.969.969 0 0 0 .933 1h12.134A.97.97 0 0 0 15 18M1 7V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v5M6 1v4a1 1 0 0 1-1 1H1m0 9v-5h1.5a1.5 1.5 0 1 1 0 3H1m12 2v-5h2m-2 3h2m-8-3v5h1.375A1.626 1.626 0 0 0 10 13.375v-1.75A1.626 1.626 0 0 0 8.375 10H7Z" />
@@ -100,6 +155,18 @@ class PatientController extends Controller
             }
 
         $button = '';
+
+        $button .= '<a href="javascript:void(0);" onclick="detailsInfo(this)" data-id="' . $record->id . '"
+            data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
+            class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
+            <svg class="w-6 h-6 text-theme-primary-50 " style="margin-right:5px;" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                    <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
+                </g>
+            </svg>
+        </a>';
         $button .= '<a href="' . route('admin.patients.edit', [$record->id, 'lang' => 'en']) . '"
                     class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
                     <svg class="w-6 h-6 text-theme-success-200 dark:text-white"
@@ -123,12 +190,12 @@ class PatientController extends Controller
     </a>';
 
             $data[] = array(
-                'parent'    => $parent,
+                'hospital_id'    => $hospital_id,
                 'staff_id'    => $staff_id,
                 'diagnoses_id'    => $diagnoses_id,
                 'name'    => $name,
                 'nic' => $nic,
-                'age' => $age,
+                'dob' => $dob,
                 // 'dob'    => $dob,
                 // 'created_at'             => $created_at,
                 'pdf'             => $pdf,
@@ -142,7 +209,8 @@ class PatientController extends Controller
             "draw" => intval($draw),
             "iTotalRecords" => $totalRecordwithFilter,
             "iTotalDisplayRecords" => $totalRecords,
-            "aaData" => $data
+            "aaData" => $data,
+            "cusData" => $data
         );
         return $response;
     }
@@ -162,9 +230,29 @@ class PatientController extends Controller
      */
     public function create()
     {
-        $hospitals = User::where('role_id',3)->get();
+        if (Auth::user()->role_id == 1) {
+            $hospitals = User::where('role_id',3)->get();
+        }elseif(Auth::user()->role_id == 2){
+            $hospitals = User::where('role_id',3)->where('parent_id', Auth::id())->get();
+
+        }else{
+            $hospitals = '';
+        }
         $diagnoses = Diagnoses::all();
+        if (Auth::user()->role_id == 1) {
         $staffs = user::where('role_id', 6)->get();
+        }elseif(Auth::user()->role_id == 2){
+            $staffs = User::whereHas('parent',function($query){
+                $query->where('state_id',Auth::user()->state_id);
+            })
+            ->where('role_id',6)
+            ->get();
+            // dd($users);
+            // $staffs = user::where('role_id', 6)->get();
+        }else{
+        $staffs = User::where('role_id', 6)->where('parent_id',Auth::id())->get();
+        }
+
        return view('admin.patients.create',compact('hospitals','diagnoses','staffs'));
     }
 
@@ -173,6 +261,7 @@ class PatientController extends Controller
      */
 public function store(Request $request)
 {
+    // dd($request->all());
     $request->validate([
         'name' => ['required', 'string', 'max:255'],
         'nic' => ['required', 'string', 'max:15'],
@@ -224,9 +313,22 @@ public function store(Request $request)
     public function edit(string $id)
     {
         $patient = Patient::findorFail($id);
-        $hospitals = User::where('role_id', 3)->get();
+        if (Auth::user()->role_id == 1) {
+        $hospitals = User::where('role_id',3)->get();
+        }elseif(Auth::user()->role_id == 2){
+        $hospitals = User::where('role_id',3)->where('parent_id', Auth::id())->get();
+
+        }else{
+        $hospitals = '';
+        }
         $diagnoses = Diagnoses::all();
+        if (Auth::user()->role_id == 1) {
+           $staffs = user::where('role_id', 6)->get();
+        }elseif(Auth::user()->role_id == 2){
         $staffs = user::where('role_id', 6)->get();
+        }else{
+        $staffs = User::where('role_id', 6)->where('parent_id',Auth::id())->get();
+        }
         return view('admin.patients.edit',compact('patient','hospitals','diagnoses','staffs'));
     }
 
@@ -286,5 +388,10 @@ public function store(Request $request)
         $patient = Patient::findOrFail($id);
         $patient->delete();
        return redirect()->back()->with(['msg'=>__('Patient delete successfully!')]);
+    }
+
+    public function modal(Request $request, string $id){
+    $patient = Patient::findOrFail($id);
+    return view('admin.patients.modal',compact('patient'));
     }
 }

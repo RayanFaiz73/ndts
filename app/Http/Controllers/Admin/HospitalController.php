@@ -58,21 +58,21 @@ class HospitalController extends Controller
 
         ## Fetch records
         if (Auth::user()->role_id == 1) {
-              $records = User::where('data_name', 'like', '%' . $searchValue . '%')->where('role_id',3)->skip($start)->take($rowperpage)->get();
+              $records = User::where('data_name', 'like', '%' . $searchValue . '%')->where('role_id',3)->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
         }else{
-            $records = User::where('data_name', 'like', '%' . $searchValue . '%')->where('role_id',3)->where('state_id',Auth::user()->state_id)->skip($start)->take($rowperpage)->get();
+            $records = User::where('data_name', 'like', '%' . $searchValue . '%')->where('role_id',3)->where('state_id',Auth::user()->state_id)->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
 
         }
 
 
         $data = array();
         $sl = 1;
-        $parent = null;
+        $state_id = null;
         foreach ($records as $record) {
             $data_name =   $record->data_name ? $record->data_name : '--' ;
             if (Auth::user()->role_id == 1) {
                if ($record->state_id == $record->state->id) {
-                     $parent = $record->state->name;
+                     $state_id = $record->state->name;
             } else {
                      $parent = 'None';
             }
@@ -82,8 +82,19 @@ class HospitalController extends Controller
             $email = $record->email ? $record->email : '--';
             $type = $record->type ? $record->type : '--';
             $phone = $record->phone ? $record->phone : '--';
-            $created_at = date('d-m-Y',strtotime($record->created_at ? $record->created_at : '--')) ;
+            // $created_at = date('d-m-Y',strtotime($record->created_at ? $record->created_at : '--')) ;
         $button = '';
+        $button .= '<a href="javascript:void(0);" onclick="detailsInfo(this)" data-id="' . $record->id . '"
+                    data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
+                    class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
+                    <svg class="w-6 h-6 text-theme-primary-50 " style="margin-right:5px;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 20 14">
+                        <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                            <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
+                        </g>
+                    </svg>
+                </a>';
         $button .= '<a href="' . route('admin.hospitals.edit', [$record->id, 'lang' => 'en']) . '"
                     class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
                     <svg class="w-6 h-6 text-theme-success-200 dark:text-white"
@@ -108,12 +119,11 @@ class HospitalController extends Controller
 
             $data[] = array(
                 'data_name' => $data_name,
-                'parent' => $parent,
+                'state_id' => $state_id,
                 'name'    => $name,
                 'email' => $email,
                 'type'             => $type,
                 'phone'             => $phone,
-                'created_at'             => $created_at,
                 'options'             => $button,
             );
             $sl++;
@@ -124,7 +134,8 @@ class HospitalController extends Controller
             "draw" => intval($draw),
             "iTotalRecords" => $totalRecordwithFilter,
             "iTotalDisplayRecords" => $totalRecords,
-            "aaData" => $data
+            "aaData" => $data,
+            "cusData" => $columnName
         );
         return $response;
     }
@@ -161,6 +172,7 @@ class HospitalController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', Rules\Password::defaults()],
         ]);
+        $parent = Auth::id();
         $created_by = Auth::id();
         $user = User::create([
             'data_name' => $request->data_name,
@@ -168,7 +180,7 @@ class HospitalController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'created_by' => $created_by,
-            // 'parent_id' => $request->parent_id,
+            'parent_id' => $parent,
             'country_id' => $request->country_id,
             'state_id' => $request->state_id,
             'city_id' => $request->city_id,
@@ -200,7 +212,6 @@ class HospitalController extends Controller
        $provinces = User::where('role_id', 2)->get();
        $stateIds = [2723, 2724, 2725, 2726, 2727, 2728, 2729];
        $countries = Country::where('id', 166)->get();
-    //    $states = State::where('country_id' ,$country->id)->get();
        $states = State::where('country_id', 166)->get();
        $cities = City::whereIn('state_id', $stateIds)->get();
        return view('admin.hospitals.edit',compact('hospital','provinces','countries','states','cities'));
@@ -266,15 +277,9 @@ public function searchProvinces(Request $request){
     }
 }
 
-
-public function fetchStatesByCountry(Request $request){
-    $states = State::where(['country_id' => $request->id])->get();
-    return response()->json(['data' => $states]);
-}
-
-public function fetchCitiesByState(Request $request){
-    $cities = City::where(['state_id' => $request->id])->get();
-    return response()->json(['data' => $cities]);
+public function modal(Request $request, string $id){
+    $hospital = User::findOrFail($id);
+    return view('admin.hospitals.modal',compact('hospital'));
 }
 
 

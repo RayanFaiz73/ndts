@@ -66,24 +66,24 @@ class ProvinceController extends Controller
         ->where('role_id', 2)->get()->count();
 
         ## Fetch records
-        $records = User::where(function ($query) use ($searchValue) {
+        $records = User::withCount('hospitals')->where(function ($query) use ($searchValue) {
         $query->whereHas('state', function ($query) use ($searchValue){
              $query->where('name', 'like', '%' . $searchValue . '%');
         })->orwhere('name', 'like', '%' . $searchValue . '%')->orwhere('email', 'like', '%' . $searchValue . '%');
-        })->where('role_id', 2)->skip($start)->take($rowperpage)->get();
+        })->where('role_id', 2)->skip($start)->take($rowperpage)->orderBy($columnName,$columnSortOrder)->get();
         $data = array();
         $sl = 1;
         foreach ($records as $record) {
-            $hCount = User::where('state_id', $record->state->id)->get();
+            // $hCount = User::where('state_id', $record->state->id)->get();
             // dd($record->state);
             if ($record->state) {
-            $data_name = $record->state->name;
+            $state_id = $record->state->name;
             } else {
-            $data_name = 'No State';
+            $state_id = 'No State';
             }
             $name =  $record->name ;
             $email = $record->email;
-            $parent_id = count($hCount);
+            $hospitals_count = $record->hospitals_count;
             $created_at = date('d-m-Y',strtotime($record->created_at)) ;
         $button = '';
         $button .= '<a href="' . route('admin.provinces.edit', [$record->id, 'lang' => 'en']) . '"
@@ -109,9 +109,9 @@ class ProvinceController extends Controller
     </a>';
 
             $data[] = array(
-                'data_name' => $data_name,
+                'state_id' => $state_id,
                 'name'    => $name,
-                'parent_id'    => $parent_id,
+                'hospitals_count'    => $hospitals_count,
                 'email' => $email,
                 'created_at'             => $created_at,
                 'options'             => $button,
@@ -124,7 +124,8 @@ class ProvinceController extends Controller
             "draw" => intval($draw),
             "iTotalRecords" => $totalRecordwithFilter,
             "iTotalDisplayRecords" => $totalRecords,
-            "aaData" => $data
+            "aaData" => $data,
+            "cusData" => $data
         );
         return $response;
     }
@@ -237,4 +238,19 @@ class ProvinceController extends Controller
         $province->delete();
        return redirect()->back()->with(['msg' => 'Province Delete successfully!']);
     }
+
+
+    public function searchProvinces(Request $request){
+    $q = $request->q;
+    if($q){
+        $country = Country::when($q, function ($query) use ($q) {
+            return $query->where('name', 'like', '%' . $q . '%');
+        })->get(['id','name']);
+        return [
+            'total_count' => $country->count(),
+            'country' => $country,
+        ];
+    }
+}
+
 }

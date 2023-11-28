@@ -60,6 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+
     /**
      * The attributes that should be cast.
      *
@@ -71,45 +72,14 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * Get all requested certificates for the User
+     * Get all of the hospitals for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function certificateUsers(): HasMany
+    public function hospitals(): HasMany
     {
-        return $this->hasMany(CertificateUser::class);
+        return $this->hasMany(User::class, 'state_id', 'state_id')->where('role_id',3);
     }
-
-    /**
-     * Get all requested certificates for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function certificateClientRequirements(): HasMany
-    {
-        return $this->hasMany(CertificateUserRequirement::class,'client_id');
-    }
-
-    /**
-     * Get all requested certificates for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function certificateUserRequirements(): HasMany
-    {
-        return $this->hasMany(CertificateUserRequirement::class,'user_id');
-    }
-
-    /**
-     * Get all requested certificates for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function certificatesUserRequests(): HasMany
-    {
-        return $this->hasMany(CertificateUserRequest::class,'user_id');
-    }
-
     /**
      * Get the parent that owns the Menu
      *
@@ -130,6 +100,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(User::class,'parent_id');
     }
+
 
     /**
      * Get all of the comments for the Menu
@@ -152,6 +123,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(User::class,'created_by');
     }
 
+
     /**
      * Get the user that owns the User
      *
@@ -162,6 +134,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Role::class);
     }
 
+
     /**
      * Send the password reset notification.
      *
@@ -171,6 +144,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+
 
     /**
      * Send the email verification notification.
@@ -203,12 +177,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    protected static $relations_to_cascade = [
-        'certificateUsers',
-        'certificateUserRequirements',
-        'certificateClientRequirements',
-        'certificatesUserRequests'
-    ];
+    protected static $relations_to_cascade = [];
 
     protected static function boot()
     {
@@ -251,8 +220,14 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    public function country() {
+         return $this->belongsTo(Country::class, 'country_id', 'id');
+     }
    public function state() {
         return $this->belongsTo(State::class, 'state_id', 'id');
+    }
+   public function city() {
+        return $this->belongsTo(City::class, 'city_id', 'id');
     }
    public function patient() {
         return $this->belongsTo(Patient::class, 'id', 'staff_id');

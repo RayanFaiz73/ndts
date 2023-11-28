@@ -53,10 +53,10 @@
                 aria-label="Sidebar">
                 <div class="sticky top-0 z-10 px-3 min-h-screen overflow-y-auto">
                     <div
-                        class="flex items-center justify-center mb-4 h-16 border-b border-theme-success-200 dark:border-gray-700">
+                        class="flex items-center justify-center mb-4 h-28 border-b border-theme-success-200 dark:border-gray-700">
                         <a href="{{ route('dashboard') }}">
                             <img src="{{ Storage::disk('site')->url(siteSetting('logo')) }}"
-                                class="block h-12 w-full fill-current text-gray-400 dark:text-gray-200 rounded-xl" />
+                                class="block h-24 w-full fill-current text-gray-400 dark:text-gray-200 rounded-xl" />
                         </a>
                         {{-- <a href="{{ route('dashboard') }}"> --}}
                             {{-- <x-application-logo
@@ -71,7 +71,7 @@
                        <li>
                         <a href="{{route('dashboard')}}"
                             class="{{ request()->routeIs('dashboard') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2 rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
-                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-theme-primary-100 dark:group-hover:text-white"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                                 <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
                                 <path
@@ -85,7 +85,7 @@
                        <li>
                         <a href="{{route('admin.menu.index')}}"
                             class="{{ request()->routeIs('admin.menu.index') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2  rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
-                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-theme-primary-100 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 17 14">
                                 <path
                                     d="M16 2H1a1 1 0 0 1 0-2h15a1 1 0 1 1 0 2Zm0 6H1a1 1 0 0 1 0-2h15a1 1 0 1 1 0 2Zm0 6H1a1 1 0 0 1 0-2h15a1 1 0 0 1 0 2Z">
@@ -99,7 +99,7 @@
                        <li>
                         <a href="{{route('admin.permission.index')}}"
                             class="{{ request()->routeIs('admin.permission.index') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2  rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
-                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-theme-primary-100 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     d="M5 11.424V1a1 1 0 1 0-2 0v10.424a3.228 3.228 0 0 0 0 6.152V19a1 1 0 1 0 2 0v-1.424a3.228 3.228 0 0 0 0-6.152ZM19.25 14.5A3.243 3.243 0 0 0 17 11.424V1a1 1 0 0 0-2 0v10.424a3.227 3.227 0 0 0 0 6.152V19a1 1 0 1 0 2 0v-1.424a3.243 3.243 0 0 0 2.25-3.076Zm-6-9A3.243 3.243 0 0 0 11 2.424V1a1 1 0 0 0-2 0v1.424a3.228 3.228 0 0 0 0 6.152V19a1 1 0 1 0 2 0V8.576A3.243 3.243 0 0 0 13.25 5.5Z">
@@ -114,7 +114,7 @@
                         <a href="{{route('admin.provinces.index')}}" class="{{ request()->routeIs('admin.provinces.index') ? "
                             bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100" }} flex items-center p-2 rounded-lg
                             dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
-                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-theme-primary-100 dark:group-hover:text-white"
                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     d="M10 .5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19ZM8.374 17.4a7.6 7.6 0 0 1-5.9-7.4c0-.83.137-1.655.406-2.441l.239.019a3.887 3.887 0 0 1 2.082 2.5 4.1 4.1 0 0 0 2.441 2.8c1.148.522 1.389 2.007.732 4.522Zm3.6-8.829a.997.997 0 0 0-.027-.225 5.456 5.456 0 0 0-2.811-3.662c-.832-.527-1.347-.854-1.486-1.89a7.584 7.584 0 0 1 8.364 2.47c-1.387.208-2.14 2.237-2.14 3.307a1.187 1.187 0 0 1-1.9 0Zm1.626 8.053-.671-2.013a1.9 1.9 0 0 1 1.771-1.757l2.032.619a7.553 7.553 0 0 1-3.132 3.151Z" />
@@ -127,7 +127,7 @@
                        <li>
                         <a href="{{route('admin.hospitals.index')}}"
                             class="{{ request()->routeIs('admin.hospitals.index') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2  rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
-                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-theme-primary-100 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 18 18">
                                 <path
                                     d="M17 16h-1V2a1 1 0 1 0 0-2H2a1 1 0 0 0 0 2v14H1a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM5 4a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4Zm0 5V8a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1Zm6 7H7v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3Zm2-7a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1Zm0-4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1Z" />
@@ -140,26 +140,26 @@
                        <li>
                         <a href="{{route('admin.staff.index')}}"
                             class="{{ request()->routeIs('admin.staff.index') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2  rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
-                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-theme-primary-100 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 18">
                                 <path
                                     d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                             </svg>
-                            <span class="ms-3">Staff</span>
+                            <span class="ms-3">Data Operator</span>
                         </a>
                     </li>
                     @endcan
-                    @can("Diagnoses-read")
+                    @can("Disease-read")
                        <li>
                         <a href="{{route('admin.diagnoses.index')}}"
                             class="{{ request()->routeIs('admin.diagnoses.index') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2  rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
-                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-theme-primary-100 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     d="M9 19V.352A3.451 3.451 0 0 0 7.5 0a3.5 3.5 0 0 0-3.261 2.238A3.5 3.5 0 0 0 2.04 6.015a3.518 3.518 0 0 0-.766 1.128c-.042.1-.064.209-.1.313a3.34 3.34 0 0 0-.106.344 3.463 3.463 0 0 0 .02 1.468A4.016 4.016 0 0 0 .3 10.5l-.015.036a3.861 3.861 0 0 0-.216.779A3.968 3.968 0 0 0 0 12a4.032 4.032 0 0 0 .107.889 4 4 0 0 0 .2.659c.006.014.015.027.021.041a3.85 3.85 0 0 0 .417.727c.105.146.219.284.342.415.072.076.148.146.225.216.1.091.205.179.315.26.11.081.2.14.308.2.02.013.039.028.059.04v.053a3.506 3.506 0 0 0 3.03 3.469 3.426 3.426 0 0 0 4.154.577A.972.972 0 0 1 9 19Zm10.934-7.68a3.956 3.956 0 0 0-.215-.779l-.017-.038a4.016 4.016 0 0 0-.79-1.235 3.417 3.417 0 0 0 .017-1.468 3.387 3.387 0 0 0-.1-.333c-.034-.108-.057-.22-.1-.324a3.517 3.517 0 0 0-.766-1.128 3.5 3.5 0 0 0-2.202-3.777A3.5 3.5 0 0 0 12.5 0a3.451 3.451 0 0 0-1.5.352V19a.972.972 0 0 1-.184.546 3.426 3.426 0 0 0 4.154-.577A3.506 3.506 0 0 0 18 15.5v-.049c.02-.012.039-.027.059-.04.106-.064.208-.13.308-.2s.214-.169.315-.26c.077-.07.153-.14.225-.216a4.007 4.007 0 0 0 .459-.588c.115-.176.215-.361.3-.554.006-.014.015-.027.021-.041.087-.213.156-.434.205-.659.013-.057.024-.115.035-.173.046-.237.07-.478.073-.72a3.948 3.948 0 0 0-.066-.68Z">
                                 </path>
                             </svg>
-                            <span class="ms-3">Diagnoses</span>
+                            <span class="ms-3">Disease</span>
                         </a>
                     </li>
                     @endcan
@@ -167,7 +167,7 @@
                        <li>
                         <a href="{{route('admin.patients.index')}}"
                             class="{{ request()->routeIs('admin.patients.index') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2  rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
-                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-theme-primary-100 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 18 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 4H1m3 4H1m3 4H1m3 4H1m6.071.286a3.429 3.429 0 1 1 6.858 0M4 1h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Zm9 6.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z">
@@ -182,7 +182,7 @@
                        <li>
                         <a href="{{route('admin.setting.index')}}"
                             class="{{ request()->routeIs('admin.setting.index') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2  rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
-                          <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" viewBox="0 0 20 18" fill="none"
+                          <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-theme-primary-100 dark:group-hover:text-white" aria-hidden="true" viewBox="0 0 20 18" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M6.5 8C5.80777 8 5.13108 7.79473 4.55551 7.41015C3.97993 7.02556 3.53133 6.47893 3.26642 5.83939C3.00152 5.19985 2.9322 4.49612 3.06725 3.81719C3.2023 3.13825 3.53564 2.51461 4.02513 2.02513C4.51461 1.53564 5.13825 1.2023 5.81719 1.06725C6.49612 0.932205 7.19985 1.00152 7.83939 1.26642C8.47893 1.53133 9.02556 1.97993 9.41015 2.55551C9.79473 3.13108 10 3.80777 10 4.5"
@@ -236,7 +236,7 @@
                             {{ $header }}
                             @if (Session::has('msg') || Session::has('success'))
                             <div id="successMsg"
-                                class="flex items-center p-4 mt-4 text-theme-success-800 rounded-lg bg-theme-success-200 dark:bg-gray-600 dark:text-theme-success-400"
+                                class="flex items-center p-4 mt-4 text-white rounded-lg bg-theme-success-200 dark:bg-gray-600 dark:text-theme-success-400"
                                 role="alert">
                                 <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                     fill="currentColor" viewBox="0 0 20 20">
@@ -354,14 +354,16 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('assets/site/js/cropper.min.js') }}"></script>
     <script src="{{ asset('assets/site/js/custom.js') }}"></script>
-    <script src="{{ asset('assets/site/js/dropzone.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/site/js/dropzone.min.js') }}"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
 
 
     <!-- BEGIN: DATATABLE JS-->
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('admin/app-assets/vendors/js/extensions/moment.min.js') }}"></script>
+    {{-- <script src="{{ asset('admin/app-assets/vendors/js/extensions/moment.min.js') }}"></script> --}}
     <script src="{{ asset('admin/app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('admin/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/site/plugins/nice-select2/dist/js/nice-select2.js') }}"></script>
 
     <script>
         $(document).ready(function() {

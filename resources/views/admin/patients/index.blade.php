@@ -2,14 +2,14 @@
     <x-slot name="header">
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-10">
-                <h2 class="text-3xl font-bold text-theme-primary-100 dark:text-white">
-                    All Patients
+                <h2 class="text-3xl font-bold text-theme-secondary-100 dark:text-white">
+                    All Patient
                 </h2>
                 <div
                     class="lg:absolute lg:inset-y-0 lg:right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <div class="relative ml-3">
                         <div>
-                            <x-primary-link class="ml-3" :href="route('admin.patients.create')">
+                            <x-primary-link class="ml-3 text-theme-secondary-100" :href="route('admin.patients.create')">
                                 Create Patient
                             </x-primary-link>
                         </div>
@@ -26,23 +26,23 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="heading-1 py-3">
-                                <h2 class="text-2xl font-bold text-theme-primary-100 dark:text-white">
-                                    Patients
+                                <h2 class="text-2xl font-bold text-theme-secondary-100 dark:text-white">
+                                    {{-- Patients --}}
                                 </h2>
                             </div>
                         </div>
                         <div class="card-body">
                             <div id="ajax-datatable" class=" shadow-md sm:rounded-lg">
                                 <table id="patient-datatable"
-                                    class="w-full text-sm text-left text-theme-primary-100 dark:text-theme-primary-100">
+                                    class="w-full text-sm text-left text-theme-secondary-100 dark:text-theme-secondary-100">
                                     <thead class="text-xs text-white uppercase bg-theme-primary-300 dark:text-white">
                                         <tr>
-                                            <th scope="col" class="px-3 py-3 w-1/6" style="text-align: center;">{{ __('Name') }}</th>
+                                            <th scope="col" class="px-3 py-3 w-1/6">{{ __('Name') }}</th>
                                             <th scope="col" class="px-3 py-3 w-1/6" style="text-align: center;">{{ __('Nic') }}</th>
                                             <th scope="col" class="px-3 py-3 w-1/6" style="text-align: center;">{{ __('Age') }}</th>
-                                            <th scope="col" class="px-3 py-3 w-1/6" style="text-align: center;">{{ __('Disease') }}</th>
-                                            <th scope="col" class="px-3 py-3 w-1/6" style="text-align: center;">{{ __('Staff') }}</th>
-                                            <th scope="col" class="px-3 py-3 w-1/6" style="text-align: center;">{{ __('Hospital') }}</th>
+                                            <th scope="col" class="px-3 py-3 w-1/6" >{{ __('Disease') }}</th>
+                                            <th scope="col" class="px-3 py-3 w-1/6" >{{ __('Data Operator') }}</th>
+                                            <th scope="col" class="px-3 py-3 w-1/6" >{{ __('Hospital') }}</th>
                                             {{-- <th scope="col" class="px-3 py-3 w-1/6" style="text-align: center;">{{ __('DOB') }}</th> --}}
                                             {{-- <th scope="col" class="px-3 py-3 w-1/6" style="text-align: center;">{{ __('Created At') }}</th> --}}
                                             <th scope="col" class="px-3 py-3 w-1/6" style="text-align: center;">{{ __('PDF') }}</th>
@@ -53,6 +53,33 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="popup-modal" tabindex="-1" aria-hidden="true"
+        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-1/2 max-w-1/2 max-h-full">
+            <div class="relative bg-theme-primary-500 rounded-lg shadow dark:bg-gray-700">
+                <div
+                    class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-theme-success-200">
+                    <h3 class="text-xl font-semibold text-theme-secondary-100 dark:text-white">
+                        Patient Information
+                    </h3>
+                    <button type="button" id="hide-modal"
+                        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <div class="px-6 py-6 lg:px-8 content-center">
+                    <div id="popup-modal-content">
+
                     </div>
                 </div>
             </div>
@@ -69,19 +96,17 @@
                     "aaSorting": [
                         [0, "asc"]
                     ],
-                    "columnDefs": [{
-                        "bSortable": false,
-                        "aTargets": [0, 1, 2, 3, 4, 5, 6]
+                   "columnDefs": [
+                    { "orderable": true, "targets": '_all' },
+                    {
+                    className: "text-center",
+                    targets: [1, 2]
                     },
                     {
-                        className: "text-center",
-                        targets: [0, 1, 2, 3, 4, 5, 6]
-                    },
-                    {
-                        "targets": [-1],
-                        "createdCell": function(td, cellData, rowData, row, col) {
-                            $(td).eq(-1).addClass('flex justify-center text-center');
-                        }
+                    "targets": [-1],
+                    "createdCell": function(td, cellData, rowData, row, col) {
+                    $(td).eq(-1).addClass('flex justify-center text-center');
+                    }
                     }
                     ],
                     'processing': true,
@@ -146,7 +171,7 @@
                             data: 'nic'
                         },
                         {
-                            data: 'age'
+                            data: 'dob'
                         },
                          {
                             data: 'diagnoses_id'
@@ -155,7 +180,7 @@
                             data: 'staff_id'
                         },
                         {
-                            data: 'parent'
+                            data: 'hospital_id'
                         },
 
 
@@ -182,35 +207,36 @@
                         'flex items-center justify-center h-full py-1.5 px-3  text-gray-200 bg-theme-primary-500 rounded-l-lg border border-theme-success-200 cursor-auto'
                         ).removeClass('paginate_button');
                     $('#patient-datatable_next').addClass(
-                        'flex items-center justify-center  py-1.5 px-3 leading-tight text-gray-200 bg-theme-primary-500 rounded-r-lg border border-theme-success-200 hover:bg-theme-primary-300 hover:text-theme-primary-100 '
+                        'flex items-center justify-center  py-1.5 px-3 leading-tight text-gray-200 bg-theme-primary-500 rounded-r-lg border border-theme-success-200 hover:bg-theme-primary-300 hover:text-theme-secondary-100 '
                         ).removeClass('paginate_button');
                     $('.dataTables_paginate > span a').addClass(
-                        'active flex items-center inline-flex justify-center  py-2 px-3 leading-tight text-gray-200 bg-theme-primary-500 border border-theme-success-200 hover:bg-theme-primary-300 hover:text-theme-primary-100 '
+                        'active flex items-center inline-flex justify-center  py-2 px-3 leading-tight text-gray-200 bg-theme-primary-500 border border-theme-success-200 hover:bg-theme-primary-300 hover:text-theme-secondary-100 '
                         ).removeClass('paginate_button');
                     $('.active.current').addClass('bg-theme-primary-300').removeClass(
                         'bg-theme-primary-500');
+                        $('#patient-datatable_processing').addClass('bg-theme-primary-700 text-theme-success-100');
                 }
 
                 });
 
                 var searchInput = $('input[type="search"]').addClass(
-                'bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5  placeholder-theme-primary-100 '
+                'bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5  placeholder-theme-primary-100 '
                 ).attr('placeholder', 'Search patient');
                 var searchLabel = $('label[for="' + searchInput.attr('id') + '"]')
-                    .addClass('text-theme-primary-100');
+                    .addClass('text-theme-secondary-100');
                 // paging_simple_numbers
                 var lengthSelect = $('.dataTables_length').find('select')
-                    .addClass('bg-theme-primary-700 text-theme-primary-100 border border-theme-success-200');
+                    .addClass('bg-theme-primary-700 text-theme-secondary-100 border border-theme-success-200');
                 var lengthLabel = $('.dataTables_length').find('label')
-                    .addClass('text-theme-primary-100');
+                    .addClass('text-theme-secondary-100');
 
                 var searchLabel = $('.dataTables_filter').find('label')
-                    .addClass('text-theme-primary-100');
+                    .addClass('text-theme-secondary-100');
                 var totalShow = $('#patient-datatable_info')
-                    .addClass('text-theme-primary-100');
+                    .addClass('text-theme-secondary-100');
 
                 var lengthOptions = $('.dataTables_length').find('select option')
-                    .addClass('text-theme-primary-100');
+                    .addClass('text-theme-secondary-100');
 
                 var paginatButton = $('#patient-datatable_paginate')
                     .addClass('inline-flex');
@@ -232,6 +258,28 @@
             document.getElementById("downloadPdf").addEventListener("click", function() {
             window.location.href = "' . asset(Storage::url('pdf/'.$patient->pdf)) . '";
             });
+
+
+            function detailsInfo(element) {
+        const $targetEl = document.getElementById('popup-modal');
+        const modal = new Modal($targetEl);
+        $('#popup-modal-content').html('');
+
+        var id = $(element).data('id');
+        // console.log(id);
+
+        modal.show();
+
+        // Assuming you have a route like 'admin.diagnoses.details'
+        $.get('{{ route('admin.patients.modal', ':id') }}'.replace(':id', id), function (data) {
+            $('#popup-modal-content').html(data);
+
+            $('#hide-modal').click(function (e) {
+                e.preventDefault();
+                modal.hide();
+            });
+        });
+            }
         </script>
 
         @endsection

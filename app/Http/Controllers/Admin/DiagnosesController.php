@@ -9,7 +9,7 @@ class DiagnosesController extends Controller
 {
     public function __construct()
     {
-        $this->permission = "Diagnoses";
+        $this->permission = "Diseases";
     }
 
      public function list(Request $request)
@@ -32,13 +32,37 @@ class DiagnosesController extends Controller
         $totalRecordwithFilter = Diagnoses::where('diagnose', 'like', '%' . $searchValue . '%')->get()->count();
 
         ## Fetch records
-        $records = Diagnoses::where('diagnose', 'like', '%' . $searchValue . '%')->skip($start)->take($rowperpage)->get();
+        // $records = Diagnoses::withCount('patients')->where('diagnose', 'like', '%' . $searchValue . '%')->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
+        $records = Diagnoses::withCount('patients')
+        ->where('diagnose', 'like', '%' . $searchValue . '%')
+        ->orderBy($columnName, $columnSortOrder)
+        ->skip($start)
+        ->take($rowperpage)
+        ->get();
         $data = array();
         $sl = 1;
         foreach ($records as $record) {
-            $diagnoses =  $record->diagnose ? $record->diagnose : '--' ;
+            $diagnose =  $record->diagnose ? $record->diagnose : '--' ;
             $created_at = date('d-m-Y',strtotime($record->created_at ? $record->created_at : '--')) ;
+            // $patient = $record->patients->count();
+            $patients_count = $record->patients_count;
+
+            // dd($record->patients);
+
+
+
             $button = '';
+            $button .= '<a href="javascript:void(0);"  data-id="' . $record->id . '"
+                data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
+                class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
+                <svg class="w-6 h-6 text-theme-primary-50 " style="margin-right:5px;" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                    <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                        <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
+                    </g>
+                </svg>
+            </a>';
             $button .= '<a href="javascript:void(0);" onclick="detailsInfo(this)" data-id="' . $record->id . '"
                 data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
                 class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
@@ -62,8 +86,9 @@ class DiagnosesController extends Controller
         </a>';
 
             $data[] = array(
-                'diagnoses'    => $diagnoses,
+                'diagnose'    => $diagnose,
                 'created_at'             => $created_at,
+                'patients_count'             => $patients_count,
                 'options'             => $button,
             );
             $sl++;
@@ -74,7 +99,8 @@ class DiagnosesController extends Controller
             "draw" => intval($draw),
             "iTotalRecords" => $totalRecordwithFilter,
             "iTotalDisplayRecords" => $totalRecords,
-            "aaData" => $data
+            "aaData" => $data,
+            "cusData" => $columnName
         );
         return $response;
     }
@@ -102,6 +128,7 @@ class DiagnosesController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'diagnose' => ['required', 'string', 'max:255'],
         ]);
@@ -109,7 +136,7 @@ class DiagnosesController extends Controller
         $user = Diagnoses::create([
             'diagnose' => $request->diagnose,
         ]);
-        return redirect()->route('admin.diagnoses.index');
+        return redirect()->back()->with(['msg' => 'Diagnose created successfully!']);
     }
 
     /**
@@ -142,7 +169,7 @@ class DiagnosesController extends Controller
     $diagnose->diagnose = $request->diagnose;
     $diagnose->save();
 
-    return redirect()->route('admin.diagnoses.index');
+    return redirect()->back()->with(['msg' => 'Diagnose updated successfully!']);
     }
 
     /**

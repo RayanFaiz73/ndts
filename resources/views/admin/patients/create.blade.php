@@ -9,7 +9,7 @@
                     class="lg:absolute lg:inset-y-0 lg:right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <div class="relative ml-3">
                         <div>
-                            <x-primary-link class="ml-3" :href="route('admin.patients.index')">
+                            <x-primary-link class="ml-3 text-theme-secondary-100" :href="route('admin.patients.index')">
                                 All Patients
                             </x-primary-link>
                         </div>
@@ -109,12 +109,12 @@
                                         <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                             <label
                                                 class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
-                                                {{ __('Diagnoses') }}
+                                                {{ __('Disease') }}
                                             </label>
                                             <select required="required" name="diagnoses_id" id="diagnoses_id"
                                                 onChange="getManagers(this)"
                                                 class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
-                                                <option value=""> {{ __('Select Diagnoses') }} </option>
+                                                <option value=""> {{ __('Select Disease') }} </option>
                                                 @foreach ($diagnoses as $diagnose)
                                                 <option value="{{ $diagnose->id }}" @if (old('user_id')==$diagnose->id)
                                                     selected @endif>
@@ -142,7 +142,7 @@
                                                 <option value="{{ $hospital->id }}" @if (old('hospital_id')==$hospital->
                                                     id)
                                                     selected @endif>
-                                                    {{ $hospital->name }}
+                                                    {{ $hospital->data_name }}
                                                 </option>
                                                 @endforeach
                                             </select>
@@ -151,20 +151,81 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    @elseif(Auth::user()->role_id == 2)
+                                    <div class="contents" id="rolesDiv">
+                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                            <label
+                                                class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
+                                                {{ __('Hospital') }}
+                                            </label>
+                                            <select required="required" name="hospital_id" id="hospital_id" onChange="fetchStaffsByHospital(this, 'staff_id', '{{ route('admin.resource.fetchStaff') }}')"
+                                                onChange="getManagers(this)"
+                                                class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                                <option value=""> {{ __('Select Hospital') }} </option>
+                                                @foreach ($hospitals as $hospital)
+                                                <option value="{{ $hospital->id }}">{{ $hospital->data_name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('hospital_id')
+                                            <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    @elseif(Auth::user()->role_id == 3)
+                                    <input type="hidden" name="hospital_id" value="{{ Auth::id() }}">
                                     @else
                                     <input type="hidden" name="hospital_id" value="{{ Auth::user()->parent->id }}">
                                     @endif
+
                                     @if(Auth::user()->role_id == 1)
                                     <div class="contents" id="rolesDiv">
                                         <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                             <label
                                                 class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
-                                                {{ __('Staff') }}
+                                                {{ __('Data Operator') }}
                                             </label>
                                             <select required="required" name="staff_id" id="staff_id"
                                                 onChange="getManagers(this)"
                                                 class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
-                                                <option value=""> {{ __('Select Staff') }} </option>
+                                                <option value=""> {{ __('Select Data Operator') }} </option>
+                                                @foreach ($staffs as $staff)
+                                                <option value="{{ $staff->id }}" @if (old('staff_id')==$staff->id)
+                                                    selected @endif>
+                                                    {{ $staff->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            @error('role_id')
+                                            <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    @elseif(Auth::user()->role_id == 2)
+                                    <div class="contents" id="rolesDiv">
+                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                            <label
+                                                class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
+                                                {{ __('Data Operator') }}
+                                            </label>
+                                            <select required="required" name="staff_id" id="staff_id"
+                                                onChange="getManagers(this)"
+                                                class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                                <option value=""> {{ __('Select Data Operator') }} </option>
+                                            </select>
+                                            @error('role_id')
+                                            <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    @elseif(Auth::user()->role_id == 3)
+                                    <div class="contents" id="rolesDiv">
+                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                            <label class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
+                                                {{ __('Data Operator') }}
+                                            </label>
+                                            <select required="required" name="staff_id" id="staff_id" onChange="getManagers(this)"
+                                                class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                                <option value=""> {{ __('Select Data Operator') }} </option>
                                                 @foreach ($staffs as $staff)
                                                 <option value="{{ $staff->id }}" @if (old('staff_id')==$staff->id)
                                                     selected @endif>
@@ -178,8 +239,9 @@
                                         </div>
                                     </div>
                                     @else
-                                        <input type="hidden" name="staff_id" value="{{ Auth::id() }}">
-                                        @endif
+                                    <input type="hidden" name="staff_id" value="{{ Auth::id() }}">
+                                    @endif
+
                                     @if(Auth::user()->role_id == 1)
                                     <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                         <label
@@ -205,7 +267,7 @@
                                         @error('address')
                                         <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
                                         @enderror
-                                </div>
+                                    </div>
                                     @endif
 
                                     <div class="w-full lg:w-12/12 px-3 mb-6 lg:mb-3">
@@ -250,4 +312,27 @@
             input.value = formattedNIC;
         }
     }
+</script>
+<script>
+let fetchStaffsByHospital = (elem, name, url)=>{
+    $(`select[name=${name}]`).css({display: 'none'});
+    $.ajax({
+        url: `{{ route('admin.resource.fetchStaff') }}?id=${elem.value}`,
+        type: 'GET',
+        success: res => {
+            let options = '<option value="">Select Staff...</option>';
+            res.data.forEach(obj => {
+                options += `<option value="${obj.id}">${obj.name}</option>`;
+            });
+            $(`select[name=${name}]`).html(options);
+            $(`select[name=${name}]`).css({display: 'block'});
+        },
+        error: err => {
+            console.error(err);
+        }
+    });
+}
+
+
+
 </script>
