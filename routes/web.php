@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\StaffController;
 // use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\ResourceController;
 use App\Models\Role;
 use App\Models\Permission;
@@ -60,6 +60,7 @@ use Illuminate\Support\Facades\Route;
 //             dd($years);
 // });
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/province-chart', [HomeController::class, 'provinceChart'])->name('provinceChart');
 
 
 // Route::get('/dashboard', function () {
