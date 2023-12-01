@@ -48,7 +48,7 @@ class StaffController extends Controller
         ## Search
 
         $allUsers = new User();
-        $allUsersCount = $allUsers->where('role_id', 6);
+        $allUsersCount = $allUsers->where('role_id', 4);
         $totalRecords = 0;
         $records = collect([]);
         $totalRecordwithFilter = 0;

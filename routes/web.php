@@ -61,6 +61,7 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/province-chart', [HomeController::class, 'provinceChart'])->name('provinceChart');
+Route::post('/province-and-disease-chart', [HomeController::class, 'provinceAndDiseaseChart'])->name('provinceAndDiseaseChart');
 
 
 // Route::get('/dashboard', function () {
