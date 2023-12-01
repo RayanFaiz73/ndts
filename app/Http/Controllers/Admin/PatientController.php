@@ -40,21 +40,19 @@ class PatientController extends Controller
         ## Total number of records without filtering
         if (Auth::user()->role_id == 1) {
             $totalRecords = Patient::all()->count();
-            // $totalRecordwithFilter = Patient::where('name', 'like', '%' . $searchValue . '%')->get()->count();
             $totalRecordwithFilter = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
             $query->whereHas('diagnose', function ($query) use ($searchValue) {
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
-            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('name', 'like', '%' . $searchValue . '%')
             ->orWhere('dob', 'like', '%' . $searchValue . '%')
             ->orWhere('nic', 'like', '%' . $searchValue . '%');
             })->get()->count();
-            // $records = Patient::where('name', 'like', '%' . $searchValue . '%')->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
             $records = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
             $query->whereHas('diagnose', function ($query) use ($searchValue) {
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
-            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('name', 'like', '%' . $searchValue . '%')
             ->orWhere('dob', 'like', '%' . $searchValue . '%')
             ->orWhere('nic', 'like', '%' . $searchValue . '%');
             })->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
@@ -63,11 +61,11 @@ class PatientController extends Controller
             $totalRecords = Patient::wherehas('hospital', function($query){
                 $query->where('state_id',Auth::user()->state_id);
             } )->count();
-            $totalRecordwithFilter = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
-            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $totalRecordwithFilter = where(function ($query) use ($searchValue) {
+            $query->whereHas('diagnoses', function ($query) use ($searchValue){
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
-            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('name', 'like', '%' . $searchValue . '%')
             ->orWhere('dob', 'like', '%' . $searchValue . '%')
             ->orWhere('nic', 'like', '%' . $searchValue . '%');
             })
@@ -75,11 +73,11 @@ class PatientController extends Controller
             $query->where('state_id',Auth::user()->state_id);
             } )->get()->count();
 
-            $records = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
-            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $records = Patient::where(function ($query) use ($searchValue) {
+            $query->whereHas('diagnoses', function ($query) use ($searchValue){
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
-            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('name', 'like', '%' . $searchValue . '%')
             ->orWhere('dob', 'like', '%' . $searchValue . '%')
             ->orWhere('nic', 'like', '%' . $searchValue . '%');
             })->wherehas('hospital', function($query){
@@ -89,40 +87,40 @@ class PatientController extends Controller
         }
         elseif(Auth::user()->role_id == 3){
             $totalRecords = Patient::where('hospital_id', Auth::user()->id)->count();
-            $totalRecordwithFilter = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
-            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $totalRecordwithFilter = where(function ($query) use ($searchValue) {
+            $query->whereHas('diagnoses', function ($query) use ($searchValue){
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
-            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('name', 'like', '%' . $searchValue . '%')
             ->orWhere('dob', 'like', '%' . $searchValue . '%')
             ->orWhere('nic', 'like', '%' . $searchValue . '%');
             })->where('hospital_id', Auth::user()->id)->get()->count();
 
-            $records = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
-            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $records = Patient::where(function ($query) use ($searchValue) {
+            $query->whereHas('diagnoses', function ($query) use ($searchValue){
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
-            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('name', 'like', '%' . $searchValue . '%')
             ->orWhere('dob', 'like', '%' . $searchValue . '%')
             ->orWhere('nic', 'like', '%' . $searchValue . '%');
             })->where('hospital_id', Auth::user()->id)->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
 
         }else{
             $totalRecords = Patient::where('staff_id', Auth::user()->id)->count();
-            $totalRecordwithFilter = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
-            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $totalRecordwithFilter = where(function ($query) use ($searchValue) {
+            $query->whereHas('diagnoses', function ($query) use ($searchValue){
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
-            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('name', 'like', '%' . $searchValue . '%')
             ->orWhere('dob', 'like', '%' . $searchValue . '%')
             ->orWhere('nic', 'like', '%' . $searchValue . '%');
             })->where('staff_id', Auth::user()->id)->get()->count();
 
-            $records = Patient::where(function ($query) use ($dateOfBirth, $searchValue) {
-            $query->whereHas('diagnose', function ($query) use ($searchValue) {
+            $records = where(function ($query) use ($searchValue) {
+            $query->whereHas('diagnoses', function ($query) use ($searchValue){
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
-            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('name', 'like', '%' . $searchValue . '%')
             ->orWhere('dob', 'like', '%' . $searchValue . '%')
             ->orWhere('nic', 'like', '%' . $searchValue . '%');
             })->where('staff_id', Auth::user()->id)->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
@@ -143,7 +141,7 @@ class PatientController extends Controller
             $dob = $age ? $age : '--';
             $pdf = '';
             if($record->pdf){
-                $pdf .= '<a id="downloadLink" href="' . asset(Storage::url('pdf/'.$record->pdf)) . '" download>
+                $pdf .= '<a id="downloadLink" href="' . asset(Storage::url('pdf/'.$record->pdf)) . '" target="_blank">
                         <svg style="margin-left: 2;" class="w-6 h-6  text-theme-danger-500 dark:text-white" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -245,7 +243,7 @@ class PatientController extends Controller
             $staffs = User::whereHas('parent',function($query){
                 $query->where('state_id',Auth::user()->state_id);
             })
-            ->where('role_id',6)
+            ->where('role_id', 6)
             ->get();
             // dd($users);
             // $staffs = user::where('role_id', 6)->get();
@@ -283,8 +281,11 @@ public function store(Request $request)
 
     if ($request->file('pdf')) {
         $path = 'pdf/';
+        Storage::makeDirectory('public/'.$path);
         $fileName =  Str::random(20) . time() . '.' . $request->pdf->extension();
         $filePath = Storage::disk('public')->path($fileName);
+        $storagePath = Storage::path('public/'.$path);
+        chmod($storagePath, 0755);
 
         // Store the PDF file
         $request->file('pdf')->storeAs('public/' . $path, $fileName);
@@ -364,8 +365,11 @@ public function store(Request $request)
         ]);
 
         $path = 'pdf/';
+        Storage::makeDirectory('public/'.$path);
         $fileName =  Str::random(20) . time() . '.' . $request->pdf->extension();
         $filePath = Storage::disk('public')->path($fileName);
+        $storagePath = Storage::path('public/'.$path);
+        chmod($storagePath, 0755);
 
         // Store the PDF file
         $request->file('pdf')->storeAs('public/' . $path, $fileName);

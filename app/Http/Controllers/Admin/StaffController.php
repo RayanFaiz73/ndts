@@ -12,6 +12,7 @@ use App\Models\CertificateUser;
 use App\Models\CertificateUserRequirement;
 use App\Models\Role;
 use App\Models\State;
+use App\Models\Patient;
 use App\Models\RoleNew;
 use App\Models\Hospital;
 use App\Models\User;
@@ -85,14 +86,26 @@ class StaffController extends Controller
                $state_id = 'None';
             }
 
-            if ($record->parent_id == $record->parent->id) {
+            // if ($record->parent_id == $record->parent->id) {
+            // $parent_id = $record->parent->data_name;
+            // } else {
+            // $parent_id = 'None';
+            // }
             $parent_id = $record->parent->data_name;
-            } else {
-            $parent_id = 'None';
-            }
             $created_at = date('d-m-Y',strtotime($record->created_at ? $record->created_at : '--')) ;
         $button = '';
-        $button .= '<a href="' . route('admin.staff.edit', [$record->id, 'lang' => 'en']) . '"
+        $button .= '<a href="javascript:void(0);" onclick="detailsPatient(this)" data-id="' . $record->id . '" data-modal-target="authentication-modal"
+            data-modal-toggle="authentication-modal" type="button"
+            class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
+            <svg class="w-6 h-6 text-theme-primary-50 " style="margin-right:5px;" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                    <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
+                </g>
+            </svg>
+        </a>';
+        $button .= '<a href="' . route('admin.data-operator.edit', [$record->id, 'lang' => 'en']) . '"
                     class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
                     <svg class="w-6 h-6 text-theme-success-200 dark:text-white"
                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +116,7 @@ class StaffController extends Controller
                         d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />
                 </svg>
                 </a>';
-        $button .= '<a href="' . route('admin.staff.destroy', $record->id) . '"
+        $button .= '<a href="' . route('admin.data-operator.destroy', $record->id) . '"
         class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
         <svg class="w-6 h-6 text-theme-danger-500 dark:text-white"
         aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +153,7 @@ class StaffController extends Controller
      */
     public function index()
     {
-        return view('admin.staffs.index');
+        return view('admin.data-operators.index');
     }
 
     /**
@@ -148,13 +161,13 @@ class StaffController extends Controller
      */
     public function create()
     {
-        $heading = "Data Opertor";
+        $heading = "Data Operator";
         $permission = $this->permission;
         $stateIds = [2723, 2724, 2725, 2726, 2727, 2728, 2729];
         $states = State::where('country_id', 166)->get();
         $hospitals = User::where('role_id', 3)->get();
         // dd($hospitals);
-        return view('admin.staffs.create',compact('heading', 'permission','states','hospitals'));
+        return view('admin.data-operators.create',compact('heading', 'permission','states','hospitals'));
     }
 
     /**
@@ -200,11 +213,11 @@ class StaffController extends Controller
      */
     public function edit(string $id)
     {
-        $heading = "Data Opertor";
+        $heading = "Data Operator";
         $staff = User::findorFail($id);
         $provinces = User::where('role_id', 2)->get();
         $hospitals = User::where('role_id', 3)->get();
-        return view('admin.staffs.edit',compact('staff','heading','provinces','hospitals'));
+        return view('admin.data-operators.edit',compact('staff','heading','provinces','hospitals'));
     }
 
     /**
@@ -242,4 +255,11 @@ class StaffController extends Controller
         $province->delete();
         return redirect()->back()->with(['msg' => 'Staff Delete successfully!']);
     }
+
+    public function modal(Request $request, string $id){
+    $staff = User::findOrFail($id);
+    $patients = Patient::where('staff_id',$staff->id)->get();
+    // dd($patients);
+    return view('admin.data-operators.modal',compact('staff','patients'));
+}
 }

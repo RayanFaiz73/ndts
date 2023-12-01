@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Diagnoses;
+use App\Models\User;
 
 class DiagnosesController extends Controller
 {
     public function __construct()
     {
-        $this->permission = "Diseases";
+        $this->permission = "Disease";
     }
 
      public function list(Request $request)
@@ -49,10 +50,11 @@ class DiagnosesController extends Controller
 
             // dd($record->patients);
 
-
-
             $button = '';
-            $button .= '<a href="javascript:void(0);"  data-id="' . $record->id . '"
+            // $provinces_count = User::where('role_id', 2)->with('hospitals.patients')->count();
+            // dd($provinces_count);
+            if ($patients_count > 0) {
+            $button .= '<a href="javascript:void(0);" onclick="detailsDisease(this)" data-id="' . $record->id . '"
                 data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
                 class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
                 <svg class="w-6 h-6 text-theme-primary-50 " style="margin-right:5px;" aria-hidden="true"
@@ -63,6 +65,18 @@ class DiagnosesController extends Controller
                     </g>
                 </svg>
             </a>';
+            } else{
+            $button .= '<a href="javascript:void(0);"  data-id="' . $record->id . '"
+                data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
+                class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
+                <svg class="w-6 h-6 text-theme-warning-500" style="margin-right:5px;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 20 18">
+                    <path stroke="currentColor" stroke-linecap="round"  stroke-linejoin="round" stroke-width="2"
+                        d="M1.933 10.909A4.357 4.357 0 0 1 1 9c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 19 9c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M2 17 18 1m-5 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+            </a>';
+            }
+
             $button .= '<a href="javascript:void(0);" onclick="detailsInfo(this)" data-id="' . $record->id . '"
                 data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
                 class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
@@ -74,7 +88,7 @@ class DiagnosesController extends Controller
                         d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />
                 </svg>
             </a>';
-            $button .= '<a href="' . route('admin.diagnoses.destroy', $record->id) . '"
+            $button .= '<a href="' . route('admin.diseases.destroy', $record->id) . '"
             class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
             <svg class="w-6 h-6 text-theme-danger-500 dark:text-white"
             aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +125,7 @@ class DiagnosesController extends Controller
     {
         // $diagnoses = Diagnoses::paginate(10);
         $permission = $this->permission;
-        return view('admin.diagnoses.index',compact('permission'));
+        return view('admin.diseases.index',compact('permission'));
     }
 
     /**
@@ -120,7 +134,7 @@ class DiagnosesController extends Controller
     public function create()
     {
         $permission = $this->permission;
-        return view('admin.diagnoses.create',compact('permission'));
+        return view('admin.diseases.create',compact('permission'));
     }
 
     /**
@@ -179,12 +193,64 @@ class DiagnosesController extends Controller
     {
         $diagnose = Diagnoses::findOrFail($id);
         $diagnose->delete();
-        return Redirect()->route('admin.diagnoses.index');
+        return Redirect()->route('admin.diseases.index');
     }
 
     public function modal(Request $request, string $id){
         $diagnose = Diagnoses::findOrFail($id);
         // dd($diagnose);
-        return view('admin.diagnoses.modal',compact('diagnose'));
+        return view('admin.diseases.modal',compact('diagnose'));
     }
+public function diseaseModal(Request $request, string $id){
+    $disease = Diagnoses::findOrFail($id);
+
+    $provinces = User::where('role_id', 2)
+        ->with('hospitals.patients')
+        ->get();
+
+    $data = [];
+    $data_card = [];
+    $total_patients = 0;
+
+    foreach($provinces->groupBy('state_id') as $state_id => $provinceUsers){
+        $province = $provinceUsers->first();
+        $count = 0;
+        $count_male = 0;
+        $count_female = 0;
+        $count_other = 0;
+            foreach($province->hospitals as $hospital){
+
+                $count += $hospital->patients->where('diagnoses_id', $id)->count();
+                $count_male += $hospital->patients->where('diagnoses_id', $id)->where('sex','male')->count();
+                $count_female += $hospital->patients->where('diagnoses_id', $id)->where('sex','female')->count();
+                $count_other += $hospital->patients->where('diagnoses_id', $id)->where('sex','other')->count();
+            }
+            $data[$province->state->name] = $count;
+            $data_card[$province->state->name] = [
+                "all" => $count,
+                "male" => $count_male,
+                "female" => $count_female,
+                "other" => $count_other
+            ];
+            $total_patients += $count;
+        }
+        // dd($count);
+
+    $data_id_percentage = [];
+    $show_graph = true;
+
+        foreach($data as $state => $d){
+            if ($total_patients > 0) {
+                $data_id_percentage[$state] = round(($d * 100 / $total_patients), 2);
+            }
+            else {
+        $show_graph = false;
+            }
+        }
+        // dd($data_id_percentage);
+    return view('admin.diseases.disease_modal', compact('disease', 'provinces', 'data_id_percentage', 'show_graph','data_card'));
+}
+
+
+
 }

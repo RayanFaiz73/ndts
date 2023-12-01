@@ -115,7 +115,7 @@
                                                 <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
                                             @enderror
                                         </div>
-                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3" id="country_id_div">
                                             <label
                                                 class="block mb-2 text-sm font-medium text-theme-secondary-100 dark:text-white">
                                                 {{ __('Country') }}
@@ -123,13 +123,17 @@
                                            <select required name="country_id" id="country_id"
                                             onChange="fetchStatesByCountry(this, 'state_id', 'your_state_fetch_url')"
                                             class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                            <option value="">{{ __('Select Option') }}</option>
+                                            @foreach ($countries as $key => $country)
+                                                <option value="{{ $country->id }}">{{ __($country->name) }}</option>
+                                                @endforeach
                                         </select>
                                             @error('country_id')
                                                 <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
                                             @enderror
                                         </div>
 
-                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3" id="state_id_div">
                                             <label
                                                 class="block mb-2 text-sm font-medium text-theme-secondary-100 dark:text-white">
                                                 {{ __('State') }}
@@ -156,163 +160,74 @@
                 </div>
             </div>
         </div>
-        @section('scripts')
+       @section('scripts')
         <script>
             var options = {
-                searchable: true,
-                placeholder:"Select Option"
-            };
-            let niceSelectDropdown = NiceSelect.bind(document.getElementById("country_id"), options);
-            let niceStateDropdown = NiceSelect.bind(document.getElementById("state_id"), options);
+                        searchable: true,
+                        placeholder:"Select Option"
+                    };
+                    let countrySelectDropdown = NiceSelect.bind(document.getElementById("country_id"), options);
+                    let stateSelectDropdown = NiceSelect.bind(document.getElementById("state_id"), options);
 
-            let getAjaxData = (elem) => {
-                console.log(elem);
-            }
-
-            let fetchStatesByCountry = (elem, name, url) => {
-                $(`select[name=${name}]`).css({
-                    display: 'none'
-                });
-                $.ajax({
-                    url: `{{ route('admin.resource.fetchState') }}?id=${elem.value}`,
-                    type: 'GET',
-                    success: res => {
-                        let options = '<option value="">Select State...</option>';
-                        res.data.forEach(obj => {
-                            options += `<option value="${obj.id}">${obj.name}</option>`;
-                        });
-                        $(`select[name=${name}]`).html(options);
-                        $(`select[name=${name}]`).css({
-                            display: 'block'
-                        });
-                        niceStateDropdown.update();
-                    },
-                    error: err => {
-                        console.error(err);
+                    let getAjaxData = (elem) => {
+                        console.log(elem);
                     }
-                });
-            }
-
-            $(function () {
-                let searchInputValue = '';
-
-                $(document).on('keyup', '.nice-select-search', function () {
-                    let value = this.value;
-                    searchInputValue = value;
-                    if (value.length < 2) {
-                            $('#country_id').html('');
-                            // $('#country_id').append(`<option value=""> Select Option </option>`);
-                            $('.nice-select-search').val(searchInputValue);
-                        return false;
-                    }
-                    else if (value.length == 2) {
-                            $('#country_id').html('');
-                            // $('#country_id').append(`<option value=""> Select Option </option>`);
-                            console.log(niceSelectDropdown);
-                            if (!Array.isArray(niceSelectDropdown.data) || !niceSelectDropdown.data.length) {
-                            }
-                            else {
-                                niceSelectDropdown.update();
-                            }
-                            // if(empty(niceSelectDropdown.data)){
-                            //     niceSelectDropdown.update();
-                            // }
-
-                            $('.nice-select-search').val(searchInputValue);
-                        return false;
-                    }
-
-                    $.ajax({
-                        url: `{{ route('admin.resource.fetchCountry') }}?name=${value}`,
-                        type: 'GET',
-                        success: res => {
-                            console.log(res);
-                            let selectedValue = $('#country_id').val();
-                            $('#country_id').html('');
-                            // $('#country_id').append(`<option value=""> Select Option </option>`);
-                            res.data.forEach(country => {
-                                $('#country_id').append(
-                                    `<option value="${country.id}">${country.name}</option>`
-                                );
+                     let fetchStatesByCountry = (elem, name, url) => {
+                            $(`select[name=${name}]`).css({
+                                display: 'none'
                             });
-                            niceSelectDropdown.update();
-
-                            $('.nice-select-search').val(searchInputValue);
-
-                            $('#country_id').val(selectedValue);
-                        },
-                        error: err => {
-                            console.error(err);
+                            $.ajax({
+                                url: `{{ route('admin.resource.fetchState') }}?id=${elem.value}`,
+                                type: 'GET',
+                                success: res => {
+                                    let options = '<option value="">Select State...</option>';
+                                    res.data.forEach(obj => {
+                                        options += `<option value="${obj.id}">${obj.name}</option>`;
+                                    });
+                                    $(`select[name=${name}]`).html(options);
+                                    $(`select[name=${name}]`).css({
+                                        display: 'block'
+                                    });
+                                    stateSelectDropdown.update();
+                                },
+                                error: err => {
+                                    console.error(err);
+                                }
+                            });
                         }
+                    $(function () {
+                        let searchInputValue = '';
+                        $("#country_id_div .nice-select-search, #state_id_div .nice-select-search").keyup(function() {
+                            console.log(this)
+                            let mainDiv = $(this).parent().parent().parent().parent();
+                            let newDropDown;
+                            let currentSelect;
+                            let url;
+                            let elem = this;
+                            let value = this.value;
+
+                            if(mainDiv.attr('id') == 'country_id_div'){
+                                newDropDown = countrySelectDropdown;
+                                currentSelect = $('#country_id_div');
+                                url =`{{ route('admin.resource.fetchDiseases') }}?diagnose=${value}`;
+                            }
+                            else if(mainDiv.attr('id') == 'state_id_div'){
+                                newDropDown = stateSelectDropdown;
+                                currentSelect = $('#state_id_div');
+                                url =`{{ route('admin.resource.fetchDiseases') }}?diagnose=${value}`;
+                            }
+                            // else if(mainDiv.attr('id') == 'city_id_div'){
+                            //     newDropDown = citySelectDropdown;
+                            //     currentSelect = $('#city_id_div');
+                            //     url =`{{ route('admin.resource.fetchDiseases') }}?diagnose=${value}`;
+                            // }
+                            let selectedValue = $(currentSelect).val();
+                            // newDropDown.update();
+                            $(elem).val(value);
+                            $(currentSelect).val(selectedValue);
+                        });
                     });
-                });
-            });
         </script>
-            {{-- <script>
-                let newCountries = [];
-
-                function onKeyUp(e) {
-                    let keyword = e.target.value;
-                    if (keyword.length <= 2) {
-                        console.log(keyword.length);
-                        return false;
-                    }
-
-                    $.ajax({
-                        url: `{{ route('admin.resource.fetchCountry') }}?name=${keyword}`,
-                        type: 'GET',
-                        success: res => {
-                            $('#country_id').html('');
-                            $('#country_id').append(`<option value=""> Select Option </option>`);
-                            newCountries = res.data;
-                            let dropdownEl = document.querySelector("#dropdown");
-                            dropdownEl.classList.remove("hidden");
-
-                            let filteredCountries = newCountries.filter(c => c.name.toLowerCase().includes(keyword.toLowerCase()));
-                            renderOptions(filteredCountries);
-                        },
-                        error: err => {
-                            console.error(err);
-                        }
-                    });
-                }
-
-                document.addEventListener("DOMContentLoaded", () => {
-                    renderOptions(newCountries);
-                });
-
-                function renderOptions(options) {
-                    let dropdownEl = document.querySelector("#dropdown");
-                    let newHtml = '';
-
-                    options.forEach(country => {
-                        newHtml += `<div
-                            onclick="selectOption('${country.name}')"
-                            class="px-5 py-3 border-b border-gray-200 text-stone-600 cursor-pointer hover:bg-slate-100 transition-colors"
-                        >
-                            ${country.name}
-                        </div>`;
-                    });
-
-                    dropdownEl.innerHTML = newHtml;
-                }
-
-                function selectOption(selectedOption) {
-                    hideDropdown();
-                    let input = document.querySelector("#autocompleteInput");
-                    input.value = selectedOption;
-                }
-
-                document.addEventListener("click", () => {
-                    hideDropdown();
-                });
-
-                function hideDropdown() {
-                    let dropdownEl = document.querySelector("#dropdown");
-                    dropdownEl.classList.add("hidden");
-                }
-
-            </script> --}}
         @endsection
     @endcan
 </x-app-layout>

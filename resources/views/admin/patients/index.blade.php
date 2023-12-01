@@ -270,7 +270,7 @@
 
         modal.show();
 
-        // Assuming you have a route like 'admin.diagnoses.details'
+        // Assuming you have a route like 'admin.diseases.details'
         $.get('{{ route('admin.patients.modal', ':id') }}'.replace(':id', id), function (data) {
             $('#popup-modal-content').html(data);
 

@@ -66,6 +66,33 @@
             </div>
         </div>
     </div>
+    <div id="popup-modal" tabindex="-1" aria-hidden="true"
+            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full" style="margin-left: 137px;">
+            <div class="relative w-1/2 max-w-1/2 max-h-full">
+                <div class="relative bg-theme-primary-500 rounded-lg shadow dark:bg-gray-700">
+                    <div
+                        class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-theme-success-200">
+                        <h3 class="text-xl font-semibold text-theme-secondary-100 dark:text-white">
+                            Province Hospital List
+                        </h3>
+                        <button type="button" id="hide-modal"
+                            class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <div class="px-6 py-6 lg:px-8 content-center">
+                        <div id="popup-modal-content">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     @section('scripts')
     <script>
             $(document).ready(function() {
@@ -213,6 +240,27 @@
                         $('#province-datatable_processing').hide();
                     });
             });
+
+            function detailsHospital(element) {
+        const $targetEl = document.getElementById('popup-modal');
+        const modal = new Modal($targetEl);
+        $('#popup-modal-content').html('');
+
+        var id = $(element).data('id');
+        // console.log(id);
+
+        modal.show();
+
+        // Assuming you have a route like 'admin.diseases.details'
+        $.get('{{ route('admin.provinces.modal', ':id') }}'.replace(':id', id), function (data) {
+            $('#popup-modal-content').html(data);
+
+            $('#hide-modal').click(function (e) {
+                e.preventDefault();
+                modal.hide();
+            });
+        });
+            }
     </script>
     @endsection
 </x-app-layout>

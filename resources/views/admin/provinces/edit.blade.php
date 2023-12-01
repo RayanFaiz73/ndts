@@ -113,7 +113,7 @@
                                         <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
                                         @enderror
                                     </div>
-                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3" id="country_id_div">
                                         <label class="block mb-2 text-sm font-medium text-theme-secondary-100 dark:text-white">
                                             {{ __('Country') }}
                                         </label>
@@ -129,16 +129,16 @@
                                         @enderror
                                         </div>
 
-                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3" id="state_id_div">
                                         <label class="block mb-2 text-sm font-medium text-theme-secondary-100 dark:text-white">
                                             {{ __('State') }}
                                         </label>
                                         <select required name="state_id" id="state_id" class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                             <option value="">{{ __('Select Option') }}</option>
-                                            {{-- @foreach ($states as $key => $state)
-                                            <option value="{{ $state->id }}" @if ($state->id == $province->state->country_id) selected @endif>{{
-                                                __($country->name) }}</option>
-                                            @endforeach --}}
+                                            @foreach ($states as $key => $state)
+                                            <option value="{{ $state->id }}" @if ($state->id == $province->state_id) selected @endif>{{
+                                                __($state->name) }}</option>
+                                            @endforeach
                                         </select>
                                         @error('status')
                                             <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
@@ -160,137 +160,72 @@
         </div>
     </div>
     @section('scripts')
-    <script src="{{ asset('assets/site/plugins/nice-select2/dist/js/nice-select2.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        var options = {
-                    searchable: true,
-                    placeholder:"Select Option"
-                };
-                let niceSelectDropdown = NiceSelect.bind(document.getElementById("country_id"), options);
-                let niceStateDropdown = NiceSelect.bind(document.getElementById("state_id"), options);
+        <script>
+            var options = {
+                        searchable: true,
+                        placeholder:"Select Option"
+                    };
+                    let countrySelectDropdown = NiceSelect.bind(document.getElementById("country_id"), options);
+                    let stateSelectDropdown = NiceSelect.bind(document.getElementById("state_id"), options);
 
-                let getAjaxData = (elem) => {
-                    console.log(elem);
-                }
-
-                let fetchStatesByCountry = (elem, name, url) => {
-                    $(`select[name=${name}]`).css({
-                        display: 'none'
-                    });
-                    $.ajax({
-                        url: `{{ route('admin.resource.fetchState') }}?id=${elem.value}`,
-                        type: 'GET',
-                        success: res => {
-                            let options = '<option value="">Select State...</option>';
-                            res.data.forEach(obj => {
-                                options += `<option value="${obj.id}">${obj.name}</option>`;
-                            });
-                            $(`select[name=${name}]`).html(options);
+                    let getAjaxData = (elem) => {
+                        console.log(elem);
+                    }
+                     let fetchStatesByCountry = (elem, name, url) => {
                             $(`select[name=${name}]`).css({
-                                display: 'block'
+                                display: 'none'
                             });
-                            niceStateDropdown.update();
-                        },
-                        error: err => {
-                            console.error(err);
-                        }
-                    });
-                }
-
-                $(function () {
-                    let searchInputValue = '';
-
-                    $(document).on('keyup', '.nice-select-search', function () {
-                        let value = this.value;
-                        searchInputValue = value;
-                        if (value.length < 2) {
-                                $('#country_id').html('');
-                                // $('#country_id').append(`<option value=""> Select Option </option>`);
-                                $('.nice-select-search').val(searchInputValue);
-                            return false;
-                        }
-                        else if (value.length == 2) {
-                                $('#country_id').html('');
-                                // $('#country_id').append(`<option value=""> Select Option </option>`);
-                                console.log(niceSelectDropdown);
-                                if (!Array.isArray(niceSelectDropdown.data) || !niceSelectDropdown.data.length) {
+                            $.ajax({
+                                url: `{{ route('admin.resource.fetchState') }}?id=${elem.value}`,
+                                type: 'GET',
+                                success: res => {
+                                    let options = '<option value="">Select State...</option>';
+                                    res.data.forEach(obj => {
+                                        options += `<option value="${obj.id}">${obj.name}</option>`;
+                                    });
+                                    $(`select[name=${name}]`).html(options);
+                                    $(`select[name=${name}]`).css({
+                                        display: 'block'
+                                    });
+                                    stateSelectDropdown.update();
+                                },
+                                error: err => {
+                                    console.error(err);
                                 }
-                                else {
-                                    niceSelectDropdown.update();
-                                }
-                                // if(empty(niceSelectDropdown.data)){
-                                //     niceSelectDropdown.update();
-                                // }
-
-                                $('.nice-select-search').val(searchInputValue);
-                            return false;
+                            });
                         }
+                    $(function () {
+                        let searchInputValue = '';
+                        $("#country_id_div .nice-select-search, #state_id_div .nice-select-search").keyup(function() {
+                            console.log(this)
+                            let mainDiv = $(this).parent().parent().parent().parent();
+                            let newDropDown;
+                            let currentSelect;
+                            let url;
+                            let elem = this;
+                            let value = this.value;
 
-                        $.ajax({
-                            url: `{{ route('admin.resource.fetchCountry') }}?name=${value}`,
-                            type: 'GET',
-                            success: res => {
-                                console.log(res);
-                                let selectedValue = $('#country_id').val();
-                                $('#country_id').html('');
-                                // $('#country_id').append(`<option value=""> Select Option </option>`);
-                                res.data.forEach(country => {
-                                    $('#country_id').append(
-                                        `<option value="${country.id}">${country.name}</option>`
-                                    );
-                                });
-                                niceSelectDropdown.update();
-
-                                $('.nice-select-search').val(searchInputValue);
-
-                                $('#country_id').val(selectedValue);
-                            },
-                            error: err => {
-                                console.error(err);
+                            if(mainDiv.attr('id') == 'country_id_div'){
+                                newDropDown = countrySelectDropdown;
+                                currentSelect = $('#country_id_div');
+                                url =`{{ route('admin.resource.fetchDiseases') }}?diagnose=${value}`;
                             }
+                            else if(mainDiv.attr('id') == 'state_id_div'){
+                                newDropDown = stateSelectDropdown;
+                                currentSelect = $('#state_id_div');
+                                url =`{{ route('admin.resource.fetchDiseases') }}?diagnose=${value}`;
+                            }
+                            // else if(mainDiv.attr('id') == 'city_id_div'){
+                            //     newDropDown = citySelectDropdown;
+                            //     currentSelect = $('#city_id_div');
+                            //     url =`{{ route('admin.resource.fetchDiseases') }}?diagnose=${value}`;
+                            // }
+                            let selectedValue = $(currentSelect).val();
+                            // newDropDown.update();
+                            $(elem).val(value);
+                            $(currentSelect).val(selectedValue);
                         });
                     });
-                });
-
-    </script>
-    @endsection
-{{-- @section('scripts')
-<script>
-    const countrySelect = document.getElementById('country_id');
-    const stateSelect = document.getElementById('state_id');
-
-    const countries = @json($countries);
-    const states = @json($states);
-    const selectedStateId = {{$province->state_id}};
-
-    countrySelect.addEventListener('change', function() {
-        const selectedCountryId = parseInt(countrySelect.value);
-
-
-        const filteredStates = states.filter(state => state.country_id === selectedCountryId);
-
-        stateSelect.innerHTML = '<option value="" selected="selected">{{ __('Select State') }}</option>';
-
-        filteredStates.forEach(state => {
-            const option = document.createElement('option');
-            option.value = state.id;
-            option.textContent = state.name;
-            stateSelect.appendChild(option);
-        });
-
-        const selectedStateForCountry = filteredStates.find(state => state.id === selectedStateId);
-        if (selectedStateForCountry) {
-
-            stateSelect.value = selectedStateForCountry.id;
-        }
-    });
-
-    // Trigger change event if country is pre-selected
-    if (countrySelect.value) {
-        const event = new Event('change');
-        countrySelect.dispatchEvent(event);
-    }
-</script>
-    @endsection --}}
+        </script>
+        @endsection
     </x-app-layout>

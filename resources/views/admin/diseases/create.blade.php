@@ -3,13 +3,13 @@
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-10">
                 <h2 class="text-3xl font-bold text-theme-primary-100 dark:text-white">
-                    All Diagnoses
+                    All Diseases
                 </h2>
                 <div class="lg:absolute lg:inset-y-0 lg:right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <div class="relative ml-3">
                         <div>
-                            <x-primary-link class="ml-3" :href="route('admin.diagnoses.index')">
-                                All Diagnoses
+                            <x-primary-link class="ml-3" :href="route('admin.diseases.index')">
+                                All Diseases
                             </x-primary-link>
                         </div>
                     </div>
@@ -26,12 +26,12 @@
                         <div class="card-header">
                             <div class="heading-1 py-3">
                                 <h2 class="text-2xl font-bold text-theme-primary-100 dark:text-white">
-                                   Create Diagnoses
+                                   Create Diseases
                                 </h2>
                             </div>
                         </div>
                         <div class="card-body">
-                            <form class="w-full" action="{{ route('admin.diagnoses.store') }}" method="POST"
+                            <form class="w-full" action="{{ route('admin.diseases.store') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
@@ -43,7 +43,7 @@
                                                 </label>
                                                 <input required="required" name="diagnose" value="{{ old('diagnose') }}"
                                                     class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
-                                                    type="text" placeholder="{{ __('Please enter diagnose here') }}...">
+                                                    type="text" placeholder="{{ __('Please enter disease name here') }}...">
                                                 @error('diagnose')
                                                 <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
                                                 @enderror

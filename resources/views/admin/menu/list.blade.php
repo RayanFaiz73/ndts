@@ -161,8 +161,8 @@
                                                 <td class="px-6 py-4">
                                                     @if ($menu->status == 'active')
                                                         <span
-                                                            class="w-full flex justify-center items-center px-2 py-1 mr-2 text-sm font-medium text-theme-success-800 bg-theme-success-300 rounded dark:bg-theme-success-900 dark:text-theme-success-300">
-                                                            <i class="fas fa-check mr-2 text-theme-success-800 dark:text-theme-success-300"></i>
+                                                            class="w-full flex justify-center items-center px-2 py-1 mr-2 text-sm font-medium text-theme-secondary-100 bg-theme-success-300 rounded dark:bg-theme-success-900 dark:text-theme-success-300">
+                                                            <i class="fas fa-check mr-2 text-theme-secondary-100 dark:text-theme-success-300"></i>
                                                             {{ __('Active') }}
                                                         </span>
                                                     @else

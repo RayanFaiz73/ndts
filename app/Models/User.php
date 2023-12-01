@@ -80,6 +80,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(User::class, 'state_id', 'state_id')->where('role_id',3);
     }
+
     /**
      * Get the parent that owns the Menu
      *
@@ -88,6 +89,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function parent(): BelongsTo
     {
     return $this->belongsTo(User::class, 'parent_id');
+    }
+
+    /**
+    * Get the patients that owns the Hospital
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
+    public function patients(): HasMany
+    {
+    return $this->hasMany(Patient::class, 'hospital_id');
     }
 
 

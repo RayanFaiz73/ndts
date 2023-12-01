@@ -94,7 +94,7 @@ class PermissionController extends Controller
                     'delete' =>  $delete,
                     'role_id' =>  $role->id,
                     'created_at' =>now(),
-                    'deleted_at' =>now(),
+                    'updated_at' =>now(),
                 ];
                 // $role_permission_id = Permission::create([
                 //     'menu_id' => $menu['menu_id'],
@@ -105,6 +105,7 @@ class PermissionController extends Controller
                 //     'role_id' =>  $role->id
                 // ]);
             }
+            // dd($permissions);
             Permission::insert($permissions);
             // dd($request->all());
             return redirect()->back()->with('msg', __('Role has been created!'));

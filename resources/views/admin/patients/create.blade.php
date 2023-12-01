@@ -1,4 +1,18 @@
 <x-app-layout>
+@section('styles')
+<link rel="stylesheet" href="{{ asset('assets/site/plugins/nice-select2/dist/css/nice-select2.css') }}" />
+<style>
+    .nice-select .nice-select-dropdown {
+        background-color: #004f7a;
+    }
+
+    .nice-select .option:hover,
+    .nice-select .option.focus,
+    .nice-select .option.selected.focus {
+        background-color: #002b42;
+    }
+</style>
+@endsection
     <x-slot name="header">
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-10">
@@ -62,19 +76,6 @@
                                         <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
                                         @enderror
                                     </div>
-                                    {{-- <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
-                                        <label
-                                            class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
-                                            {{ __('Age') }}
-                                        </label>
-                                        <input required="required" name="age" value="{{ old('age') }}"
-                                            autocomplete="age"
-                                            class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
-                                            type="text" placeholder="{{ __('Please enter  age here') }}...">
-                                        @error('email')
-                                        <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
-                                        @enderror
-                                    </div> --}}
                                     <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                         <label
                                             class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
@@ -93,7 +94,7 @@
                                                 class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                                 {{ __('Gender') }}
                                             </label>
-                                            <select required="required" name="sex" id="sex" onChange="getManagers(this)"
+                                            <select required="required" name="sex" id="sex"
                                                 class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                                 <option value=""> {{ __('Select a Option') }} </option>
                                                 <option value="male"> {{ __('Male') }} </option>
@@ -106,14 +107,13 @@
                                         </div>
                                     </div>
                                     <div class="contents" id="rolesDiv">
-                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3" id="diagnoses_id_div">
                                             <label
                                                 class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                                 {{ __('Disease') }}
                                             </label>
                                             <select required="required" name="diagnoses_id" id="diagnoses_id"
-                                                onChange="getManagers(this)"
-                                                class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                                class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                                 <option value=""> {{ __('Select Disease') }} </option>
                                                 @foreach ($diagnoses as $diagnose)
                                                 <option value="{{ $diagnose->id }}" @if (old('user_id')==$diagnose->id)
@@ -129,14 +129,14 @@
                                     </div>
                                     @if(Auth::user()->role_id == 1)
                                     <div class="contents" id="rolesDiv">
-                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3" id="hospital_id_div">
                                             <label
                                                 class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                                 {{ __('Hospital') }}
                                             </label>
-                                            <select required="required" name="hospital_id" id="hospital_id"
-                                                onChange="getManagers(this)"
-                                                class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                            <select required="required" name="hospital_id" id="hospital_id" onChange="fetchStaffsByHospital(this, 'staff_id', '{{ route('admin.resource.fetchStaff') }}')"
+                                                onChange="(this)"
+                                                class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                                 <option value=""> {{ __('Select Hospital') }} </option>
                                                 @foreach ($hospitals as $hospital)
                                                 <option value="{{ $hospital->id }}" @if (old('hospital_id')==$hospital->
@@ -153,14 +153,14 @@
                                     </div>
                                     @elseif(Auth::user()->role_id == 2)
                                     <div class="contents" id="rolesDiv">
-                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3" id="hospital_id_div">
                                             <label
                                                 class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                                 {{ __('Hospital') }}
                                             </label>
                                             <select required="required" name="hospital_id" id="hospital_id" onChange="fetchStaffsByHospital(this, 'staff_id', '{{ route('admin.resource.fetchStaff') }}')"
-                                                onChange="getManagers(this)"
-                                                class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                                onChange="(this)"
+                                                class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                                 <option value=""> {{ __('Select Hospital') }} </option>
                                                 @foreach ($hospitals as $hospital)
                                                 <option value="{{ $hospital->id }}">{{ $hospital->data_name }}</option>
@@ -179,14 +179,14 @@
 
                                     @if(Auth::user()->role_id == 1)
                                     <div class="contents" id="rolesDiv">
-                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
+                                        <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3" id="staff_id_div">
                                             <label
                                                 class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                                 {{ __('Data Operator') }}
                                             </label>
                                             <select required="required" name="staff_id" id="staff_id"
-                                                onChange="getManagers(this)"
-                                                class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                                onChange="(this)"
+                                                class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                                 <option value=""> {{ __('Select Data Operator') }} </option>
                                                 @foreach ($staffs as $staff)
                                                 <option value="{{ $staff->id }}" @if (old('staff_id')==$staff->id)
@@ -208,8 +208,8 @@
                                                 {{ __('Data Operator') }}
                                             </label>
                                             <select required="required" name="staff_id" id="staff_id"
-                                                onChange="getManagers(this)"
-                                                class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                                onChange="(this)"
+                                                class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                                 <option value=""> {{ __('Select Data Operator') }} </option>
                                             </select>
                                             @error('role_id')
@@ -223,8 +223,8 @@
                                             <label class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                                 {{ __('Data Operator') }}
                                             </label>
-                                            <select required="required" name="staff_id" id="staff_id" onChange="getManagers(this)"
-                                                class="bg-theme-primary-400 border border-theme-success-200 text-theme-primary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                            <select required="required" name="staff_id" id="staff_id" onChange="(this)"
+                                                class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                                 <option value=""> {{ __('Select Data Operator') }} </option>
                                                 @foreach ($staffs as $staff)
                                                 <option value="{{ $staff->id }}" @if (old('staff_id')==$staff->id)
@@ -296,43 +296,91 @@
             </div>
         </div>
     </div>
-</x-app-layout>
-<script>
-    function formatNIC(input) {
-        var cleaned = input.value.replace(/\D/g, '');
-        console.log(cleaned.length);
-        if (cleaned.length >= 5 && cleaned.length < 12) {
-            var formattedNIC = cleaned.substr(0, 5) + '-' + cleaned.substr(5, 6);
+    @section('scripts')
+    <script>
+        function formatNIC(input) {
+            var cleaned = input.value.replace(/\D/g, '');
+            console.log(cleaned.length);
+            if (cleaned.length >= 5 && cleaned.length < 12) {
+                var formattedNIC = cleaned.substr(0, 5) + '-' + cleaned.substr(5, 6);
 
-            input.value = formattedNIC;
-        }
-        else if(cleaned.length >= 11){
-            var formattedNIC = cleaned.substr(0, 5) + '-' + cleaned.substr(5, 7) + '-' + cleaned.substr(14);
+                input.value = formattedNIC;
+            }
+            else if(cleaned.length >= 11){
+                var formattedNIC = cleaned.substr(0, 5) + '-' + cleaned.substr(5, 7) + '-' + cleaned.substr(14);
 
-            input.value = formattedNIC;
+                input.value = formattedNIC;
+            }
         }
-    }
-</script>
-<script>
-let fetchStaffsByHospital = (elem, name, url)=>{
-    $(`select[name=${name}]`).css({display: 'none'});
-    $.ajax({
-        url: `{{ route('admin.resource.fetchStaff') }}?id=${elem.value}`,
-        type: 'GET',
-        success: res => {
-            let options = '<option value="">Select Staff...</option>';
-            res.data.forEach(obj => {
-                options += `<option value="${obj.id}">${obj.name}</option>`;
+    </script>
+    <script>
+        var options = {
+            searchable: true,
+            placeholder:"Select Option"
+        };
+        let diagnoseSelectDropdown = NiceSelect.bind(document.getElementById("diagnoses_id"), options);
+        let hospitalSelectDropdown = NiceSelect.bind(document.getElementById("hospital_id"), options);
+        let staffSelectDropdown = NiceSelect.bind(document.getElementById("staff_id"), options);
+
+        let getAjaxData = (elem) => {
+            console.log(elem);
+        }
+        let fetchStaffsByHospital = (elem, name, url) => {
+                    $(`select[name=${name}]`).css({
+                        display: 'none'
+                    });
+                    $.ajax({
+                        url: `{{ route('admin.resource.fetchStaff') }}?id=${elem.value}`,
+                        type: 'GET',
+                        success: res => {
+                            let options = '<option value="">Select Staff...</option>';
+                            res.data.forEach(obj => {
+                                options += `<option value="${obj.id}">${obj.name}</option>`;
+                            });
+                            $(`select[name=${name}]`).html(options);
+                            $(`select[name=${name}]`).css({
+                                display: 'block'
+                            });
+                            staffSelectDropdown.update();
+                        },
+                        error: err => {
+                            console.error(err);
+                        }
+                    });
+                }
+        $(function () {
+            let searchInputValue = '';
+            $("#diagnoses_id_div .nice-select-search, #hospital_id_div .nice-select-search, #staff_id_div .nice-select-search").keyup(function() {
+                console.log(this)
+                let mainDiv = $(this).parent().parent().parent().parent();
+                let newDropDown;
+                let currentSelect;
+                let url;
+                let elem = this;
+                let value = this.value;
+
+                if(mainDiv.attr('id') == 'diagnoses_id_div'){
+                    newDropDown = diagnoseSelectDropdown;
+                    currentSelect = $('#diagnoses_id');
+                    url =`{{ route('admin.resource.fetchDiseases') }}?diagnose=${value}`;
+                }
+                else if(mainDiv.attr('id') == 'hospital_id_div'){
+                    newDropDown = hospitalSelectDropdown;
+                    currentSelect = $('#hospital_id');
+                    url =`{{ route('admin.resource.fetchDiseases') }}?diagnose=${value}`;
+                }
+                else if(mainDiv.attr('id') == 'staff_id_div'){
+                    newDropDown = staffSelectDropdown;
+                    currentSelect = $('#staff_id');
+                    url =`{{ route('admin.resource.fetchDiseases') }}?diagnose=${value}`;
+                }
+                let selectedValue = $(currentSelect).val();
+                // newDropDown.update();
+                $(elem).val(value);
+                $(currentSelect).val(selectedValue);
             });
-            $(`select[name=${name}]`).html(options);
-            $(`select[name=${name}]`).css({display: 'block'});
-        },
-        error: err => {
-            console.error(err);
-        }
-    });
-}
+        });
+    </script>
+    @endsection
+</x-app-layout>
 
-
-
-</script>

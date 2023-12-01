@@ -37,11 +37,14 @@ class ProfileController extends Controller
         if($request->image){
             $path = 'profile/';
             Storage::makeDirectory('public/'.$path);
+            $storagePath = Storage::path('public/'.$path);
+            chmod($storagePath, 0755);
             $fileName = $path.Str::random(20).time().'.'.$request->image->extension();
             Storage::disk('public')->delete($fileName);
             $img = Image::make($request->image)->crop(intval($request->widthImage), intval($request->heightImage), intval($request->xImage), intval($request->yImage))
             ->save(Storage::path('public/').$fileName);
             $request->user()->avatar = $fileName;
+            // chmod(Storage::disk('public')->path('/').$path, 644);
         }
 
         $request->user()->save();

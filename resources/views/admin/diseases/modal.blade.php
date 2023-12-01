@@ -1,4 +1,4 @@
-<form class="w-full" action="{{ route('admin.diagnoses.update',$diagnose->id) }}" method="POST" enctype="multipart/form-data">
+<form class="w-full" action="{{ route('admin.diseases.update',$diagnose->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-6">
@@ -11,7 +11,7 @@
                         class="bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg
                         focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
                         placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
-                        type="text" placeholder="{{ __('Please enter diagnoses here') }}...">
+                        type="text" placeholder="{{ __('Please enter disease name here') }}...">
                     @error('name')
                     <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
                     @enderror

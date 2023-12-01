@@ -50,17 +50,56 @@ class HospitalController extends Controller
 
         ## Total number of record with filtering
         if (Auth::user()->role_id == 1) {
-        $totalRecordwithFilter = User::where('data_name', 'like', '%' . $searchValue . '%')->where('role_id', 3)->get()->count();
+        $totalRecordwithFilter = User::where(function ($query) use ($searchValue) {
+            $query->whereHas('state', function ($query) use ($searchValue){
+            $query->where('name', 'like', '%' . $searchValue . '%');
+        })
+        ->orwhere('data_name', 'like', '%' . $searchValue . '%')
+        ->orwhere('email', 'like', '%' . $searchValue . '%')
+        ->orwhere('name', 'like', '%' . $searchValue . '%')
+        ->orwhere('type', 'like', '%' . $searchValue . '%')
+        ->orwhere('phone', 'like', '%' . $searchValue . '%');
+        })->where('role_id', 3)->get()->count();
         }else{
-            $totalRecordwithFilter = User::where('data_name', 'like', '%' . $searchValue . '%')->where('role_id', 3)->where('state_id',Auth::user()->state_id)->get()->count();
+            $totalRecordwithFilter = User::where(function ($query) use ($searchValue) {
+            $query->whereHas('state', function ($query) use ($searchValue){
+            $query->where('name', 'like', '%' . $searchValue . '%');
+            })
+            ->orwhere('data_name', 'like', '%' . $searchValue . '%')
+            ->orwhere('email', 'like', '%' . $searchValue . '%')
+            ->orwhere('name', 'like', '%' . $searchValue . '%')
+            ->orwhere('type', 'like', '%' . $searchValue . '%')
+            ->orwhere('phone', 'like', '%' . $searchValue . '%');
+            })->where('role_id', 3)->where('state_id',Auth::user()->state_id)->get()->count();
+            // $totalRecordwithFilter = User::where('data_name', 'like', '%' . $searchValue . '%')->where('role_id', 3)->where('state_id',Auth::user()->state_id)->get()->count();
 
         }
 
         ## Fetch records
         if (Auth::user()->role_id == 1) {
-              $records = User::where('data_name', 'like', '%' . $searchValue . '%')->where('role_id',3)->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
+              $records = User::where(function ($query) use ($searchValue) {
+            $query->whereHas('state', function ($query) use ($searchValue){
+            $query->where('name', 'like', '%' . $searchValue . '%');
+            })
+            ->orwhere('data_name', 'like', '%' . $searchValue . '%')
+            ->orwhere('email', 'like', '%' . $searchValue . '%')
+            ->orwhere('name', 'like', '%' . $searchValue . '%')
+            ->orwhere('type', 'like', '%' . $searchValue . '%')
+            ->orwhere('phone', 'like', '%' . $searchValue . '%');
+            })->where('role_id',3)->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
         }else{
-            $records = User::where('data_name', 'like', '%' . $searchValue . '%')->where('role_id',3)->where('state_id',Auth::user()->state_id)->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
+            $records = User::where(function ($query) use ($searchValue) {
+            $query->whereHas('state', function ($query) use ($searchValue){
+            $query->where('name', 'like', '%' . $searchValue . '%');
+            })
+            ->orwhere('data_name', 'like', '%' . $searchValue . '%')
+            ->orwhere('email', 'like', '%' . $searchValue . '%')
+            ->orwhere('name', 'like', '%' . $searchValue . '%')
+            ->orwhere('type', 'like', '%' . $searchValue . '%')
+            ->orwhere('phone', 'like', '%' . $searchValue . '%');
+            })->where('role_id',3)->where('state_id',Auth::user()->state_id)->skip($start)->take($rowperpage)->orderBy($columnName,
+            $columnSortOrder)->get();
+            // $records = User::where('data_name', 'like', '%' . $searchValue . '%')->where('role_id',3)->where('state_id',Auth::user()->state_id)->skip($start)->take($rowperpage)->orderBy($columnName, $columnSortOrder)->get();
 
         }
 

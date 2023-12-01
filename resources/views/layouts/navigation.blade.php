@@ -4,7 +4,7 @@
         <div class="flex justify-between h-28">
             <div class="flex flex-1 justify-center flex-col">
                 <p class="text-3xl text-theme-secondary-100 mt-6 text-center">
-                    {{ siteSetting('website_name') }}
+                    {{ siteSetting('website_heading') }}
                 </p>
                 <p class="text-xl text-theme-secondary-100 mt-4 text-center">
                     @if(Auth::user()->role_id == 1)

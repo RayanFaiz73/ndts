@@ -19,6 +19,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ResourceController;
 use App\Models\Role;
 use App\Models\Permission;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
@@ -32,13 +33,32 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('test123', function () {
-    dd(Auth::user()->hospitals);
-   $dateOfBirth = '1994-07-02';
-            $years = Carbon::parse($dateOfBirth)->age;
-            $years =Carbon::parse($dateOfBirth)->diff(Carbon::now())->format('%y years, %m months and %d days');
-            dd($years);
-});
+// Route::get('test123', function () {
+//     $data = [];
+//     $total_patients = 0;
+//     $provinces = User::where('role_id',2)->get();
+//         foreach($provinces->groupBy('state_id') as $state_id => $provinces){
+//             if($provinces->isNotEmpty()){
+//                 $province = $provinces[0];
+//                 $count = 0;
+//                 foreach($province->hospitals as $hospital){
+//                     $count += $hospital->patients->count();
+//                 }
+//                 $data[$province->state->name] = $count;
+//                 $total_patients += $count;
+//             }
+//         }
+//         $data_id_percentage = [];
+//         foreach($data as $state => $d){
+//             $data_id_percentage[$state] = ($d * 100 / $total_patients) .' %';
+//         }
+//         dd($data,$total_patients, $data_id_percentage);
+//     dd(Auth::user()->hospitals);
+//    $dateOfBirth = '1994-07-02';
+//             $years = Carbon::parse($dateOfBirth)->age;
+//             $years =Carbon::parse($dateOfBirth)->diff(Carbon::now())->format('%y years, %m months and %d days');
+//             dd($years);
+// });
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
@@ -78,7 +98,7 @@ Route::middleware(['auth'])->group(function () {
             Route::prefix('provinces')->as('provinces.')->controller(ProvinceController::class)->group(function () {
                 Route::get('/', 'index')->name('index')->middleware('can:Province-read');
                 Route::post('/', 'list')->name('list')->middleware('can:Province-read');
-                // Route::post('/search', 'search')->name('search')->middleware('can:Province-read');
+                Route::get('/modal/{id}', 'modal')->name('modal');
                 Route::get('/create', 'create')->name('create')->middleware('can:Province-create');
                 Route::post('/store', 'store')->name('store')->middleware('can:Province-create');
                 Route::get('/search', 'searchProvinces')->name('search');
@@ -101,9 +121,10 @@ Route::middleware(['auth'])->group(function () {
             });
 
             //Staff
-            Route::prefix('staff')->as('staff.')->controller(StaffController::class)->group(function () {
+            Route::prefix('data-operators')->as('data-operator.')->controller(StaffController::class)->group(function () {
                 Route::get('/', 'index')->name('index')->middleware('can:Staff-read');
                 Route::post('/', 'list')->name('list')->middleware('can:Staff-read');
+                Route::get('/modal/{id}', 'modal')->name('modal');
                 Route::get('/create', 'create')->name('create')->middleware('can:Staff-create');
                 Route::post('/store', 'store')->name('store')->middleware('can:Staff-create');
                 Route::get('/edit/{id}', 'edit')->name('edit')->middleware('can:Staff-update');
@@ -111,11 +132,12 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/destroy/{id}', 'destroy')->name('destroy')->middleware('can:Staff-delete');
             });
 
-            //Diagnoses
-            Route::prefix('diagnoses')->as('diagnoses.')->controller(DiagnosesController::class)->group(function () {
+            //diagnoses
+            Route::prefix('diseases')->as('diseases.')->controller(DiagnosesController::class)->group(function () {
                 Route::get('/', 'index')->name('index')->middleware('can:Disease-read');
                 Route::post('/', 'list')->name('list')->middleware('can:Disease-read');
-                Route::get('/diagnoses/modal/{id}', 'modal')->name('modal');
+                Route::get('/diseases/modal/{id}', 'modal')->name('modal');
+                Route::get('/diseases/disease-modal/{id}', 'diseaseModal')->name('diseaseModal');
                 Route::get('/create', 'create')->name('create')->middleware('can:Disease-create');
                 Route::post('/store', 'store')->name('store')->middleware('can:Disease-create');
                 Route::get('/edit/{role}', 'edit')->name('edit')->middleware('can:Disease-update');
@@ -147,7 +169,9 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/countries', 'fetchCountries')->name('fetchCountry');
                 Route::get('/states', 'fetchStatesByCountry')->name('fetchState');
                 Route::get('/cities', 'fetchCitiesByState')->name('fetchCities');
-                Route::get('/staff', 'fetchStaffsByHospital')->name('fetchStaff');
+                Route::get('/staffs', 'fetchStaffsByHospital')->name('fetchStaff');
+                Route::get('/hospitals', 'fetchHospitals')->name('fetchHospitals');
+                Route::get('/diseases', 'fetchDiseases')->name('fetchDiseases');
             });
 
     });

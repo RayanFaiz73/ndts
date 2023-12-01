@@ -66,7 +66,11 @@ class ProvinceController extends Controller
         ->where('role_id', 2)->get()->count();
 
         ## Fetch records
-        $records = User::withCount('hospitals')->where(function ($query) use ($searchValue) {
+        $records = User::withCount([
+            'hospitals' => function ($query) {
+                $query->where('role_id', 3);
+            }
+        ])->where(function ($query) use ($searchValue) {
         $query->whereHas('state', function ($query) use ($searchValue){
              $query->where('name', 'like', '%' . $searchValue . '%');
         })->orwhere('name', 'like', '%' . $searchValue . '%')->orwhere('email', 'like', '%' . $searchValue . '%');
@@ -86,6 +90,17 @@ class ProvinceController extends Controller
             $hospitals_count = $record->hospitals_count;
             $created_at = date('d-m-Y',strtotime($record->created_at)) ;
         $button = '';
+        $button .= '<a href="javascript:void(0);" onclick="detailsHospital(this)"  data-id="' . $record->id . '"
+            data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" type="button"
+            class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
+            <svg class="w-6 h-6 text-theme-primary-50 " style="margin-right:5px;" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                    <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
+                </g>
+            </svg>
+        </a>';
         $button .= '<a href="' . route('admin.provinces.edit', [$record->id, 'lang' => 'en']) . '"
                     class="font-medium text-theme-success-200 dark:text-blue-500 hover:underline">
                     <svg class="w-6 h-6 text-theme-success-200 dark:text-white"
@@ -252,5 +267,12 @@ class ProvinceController extends Controller
         ];
     }
 }
+
+public function modal(Request $request, string $id){
+    $province = User::findOrFail($id);
+    $hospitals = User::where('role_id', 3)->where('state_id',$province->state_id)->get();
+    return view('admin.provinces.modal',compact('province','hospitals'));
+}
+
 
 }

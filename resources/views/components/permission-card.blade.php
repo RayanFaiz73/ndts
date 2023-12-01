@@ -102,7 +102,7 @@
 
             @can("$permission-update")
             <x-warning-link :href="route('admin.permission.edit',['role'=>$role->id])">
-                <i class="fas fa-plus-square mr-1 text-white"></i> {{ __('Update') }}
+                <i class="fas fa-plus-square mr-1 text-white"></i> {{ __('Edit') }}
             </x-warning-link>
             @endcan
             {{-- @endcan

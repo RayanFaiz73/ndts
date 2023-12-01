@@ -33,7 +33,7 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('assets/site/plugins/dropzone/dropzone.min.css') }}">
-    {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
@@ -44,6 +44,17 @@
         }
     </script>
     @yield('styles')
+    <style>
+        select:not([size]) {
+            background-image: url("data:image/svg+xml,%3csvg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 10 6'%3e%3cpath stroke='%23dbdbdb' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 1 4 4 4-4'/%3e%3c/svg%3e")
+            }
+            .apexcharts-canvas .apexcharts-legend-text{
+                color: #fff !important;
+            }
+            .apexcharts-canvas .apexcharts-legend-text:not(.apexcharts-inactive-legend):hover {
+                color: #a5a5a5 !important;
+            }
+    </style>
 </head>
 
 <body class="font-sans antialiased">
@@ -56,7 +67,7 @@
                         class="flex items-center justify-center mb-4 h-28 border-b border-theme-success-200 dark:border-gray-700">
                         <a href="{{ route('dashboard') }}">
                             <img src="{{ Storage::disk('site')->url(siteSetting('logo')) }}"
-                                class="block h-24 w-full fill-current text-gray-400 dark:text-gray-200 rounded-xl" />
+                                class="block h-24  fill-current text-gray-400 dark:text-gray-200 rounded-xl" />
                         </a>
                         {{-- <a href="{{ route('dashboard') }}"> --}}
                             {{-- <x-application-logo
@@ -138,8 +149,8 @@
                     @endcan
                     @can("Staff-read")
                        <li>
-                        <a href="{{route('admin.staff.index')}}"
-                            class="{{ request()->routeIs('admin.staff.index') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2  rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
+                        <a href="{{route('admin.data-operator.index')}}"
+                            class="{{ request()->routeIs('admin.data-operator.index') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2  rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
                             <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-theme-primary-100 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 18">
                                 <path
@@ -151,8 +162,8 @@
                     @endcan
                     @can("Disease-read")
                        <li>
-                        <a href="{{route('admin.diagnoses.index')}}"
-                            class="{{ request()->routeIs('admin.diagnoses.index') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2  rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
+                        <a href="{{route('admin.diseases.index')}}"
+                            class="{{ request()->routeIs('admin.diseases.index') ? "bg-theme-primary-300 text-theme-primary-100" : "text-theme-primary-100"}} flex items-center p-2  rounded-lg dark:text-white hover:bg-theme-primary-400 dark:hover:bg-gray-700 group">
                             <svg class="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-theme-primary-100 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 20">
                                 <path

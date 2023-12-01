@@ -1,9 +1,10 @@
 <x-app-layout>
+
     <x-slot name="header">
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-10">
                 <h2 class="text-3xl font-bold text-theme-secondary-100 dark:text-white">
-                    All Diseases
+                    All Disease
                 </h2>
                 @can("$permission-create")
                 <div
@@ -11,7 +12,7 @@
                     <div class="relative ml-3">
                         <div>
                             <x-primary-link class="ml-3 text-theme-secondary-100"
-                                :href="route('admin.diagnoses.create')">
+                                :href="route('admin.diseases.create')">
                                 Create Disease
                             </x-primary-link>
                         </div>
@@ -36,7 +37,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form class="w-full" action="{{ route('admin.diagnoses.store') }}" method="POST"
+                            <form class="w-full" action="{{ route('admin.diseases.store') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
@@ -45,11 +46,11 @@
                                             <div class="w-full lg:w-10/12 px-3 mb-6 lg:mb-3">
                                                 <label
                                                     class="block mb-2 text-sm font-medium text-theme-secondary-100 dark:text-white">
-                                                    {{ __('Diagnoses') }}
+                                                    {{ __('Name') }}
                                                 </label>
                                                 <input required="required" name="diagnose" value="{{ old('diagnose') }}"
                                                     class="bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500"
-                                                    type="text" placeholder="{{ __('Please enter diagnose here') }}...">
+                                                    type="text" placeholder="{{ __('Please enter disease here') }}...">
                                                 @error('name')
                                                 <p class="text-theme-danger-500 text-xs italic">{{ $message }}</p>
                                                 @enderror
@@ -84,13 +85,13 @@
                         <div class="card-header">
                             <div class="heading-1 py-3">
                                 <h2 class="text-2xl font-bold text-theme-secondary-100 dark:text-white">
-                                    Disease
+                                    {{-- Disease --}}
                                 </h2>
                             </div>
                         </div>
                         <div class="card-body">
                             <div id="ajax-datatable" class=" shadow-md sm:rounded-lg">
-                                <table id="diagnoses-datatable"
+                                <table id="diseases-datatable"
                                     class="w-full text-sm text-left text-gray-200 dark:text-theme-secondary-100">
                                     <thead class="text-xs text-white uppercase bg-theme-primary-300 dark:text-white">
                                         <tr>
@@ -113,6 +114,7 @@
             </div>
         </div>
     </div>
+
     <div id="popup-modal" tabindex="-1" aria-hidden="true"
         class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative w-full max-w-md max-h-full">
@@ -134,12 +136,33 @@
             </div>
         </div>
     </div>
+    <!-- // Disease Graph Modal -->
+    <div id="disease-modal" tabindex="-1" aria-hidden="true"
+        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative  max-h-full" style="width: 1000px;">
+            <div class="relative bg-theme-primary-700 rounded-lg shadow dark:bg-gray-700">
+                <button type="button" id="hideDiseasemodal"
+                    class="absolute bg-theme-primary-400 dark:hover:bg-gray-600 dark:hover:text-white h-8 hover:bg-gray-200 inline-flex items-center justify-center ml-auto right-2.5 rounded-lg text-gray-400 text-sm top-3 w-8">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="px-6 py-6 lg:px-8 content-center" id="show">
+                    <div id="disease-modal-content">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
     <script>
         $(document).ready(function() {
                         "use strict";
-                        var diagnoses_table = $('#diagnoses-datatable').DataTable({
+                        var diseases_table = $('#diseases-datatable').DataTable({
                             responsive: true,
 
                             "aaSorting": [
@@ -200,7 +223,7 @@
                                 exportOptions: {
                                     columns: [0, 1, 2] //Your Colume value those you want print
                                 },
-                                title: "<center>DiagnosesList</center>",
+                                title: "<center>DiseasesList</center>",
                                 className: "btn-sm prints"
                             }],
 
@@ -209,7 +232,7 @@
                                 'headers': {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
-                                'url': "{{ route('admin.diagnoses.list') }}",
+                                'url': "{{ route('admin.diseases.list') }}",
                                 'data': function(data) {}
                             },
                             'columns': [
@@ -231,10 +254,10 @@
                             console.log($('.paginate_button.current'))
                             $('.paginate_button.current').addClass('bg-theme-primary-100').removeClass(
                                 'bg-theme-primary-500');
-                            $('#diagnoses-datatable_previous').addClass(
+                            $('#diseases-datatable_previous').addClass(
                                 'flex items-center justify-center h-full py-1.5 px-3  text-gray-200 bg-theme-primary-500 rounded-l-lg border border-theme-success-200 cursor-auto'
                                 ).removeClass('paginate_button');
-                            $('#diagnoses-datatable_next').addClass(
+                            $('#diseases-datatable_next').addClass(
                                 'flex items-center justify-center  py-1.5 px-3 leading-tight text-gray-200 bg-theme-primary-500 rounded-r-lg border border-theme-success-200 hover:bg-theme-primary-300 hover:text-theme-secondary-100 '
                                 ).removeClass('paginate_button');
                             $('.dataTables_paginate > span a').addClass(
@@ -242,14 +265,14 @@
                                 ).removeClass('paginate_button');
                             $('.active.current').addClass('bg-theme-primary-300').removeClass(
                                 'bg-theme-primary-500');
-                                $('#diagnoses-datatable_processing').addClass('bg-theme-primary-700 text-theme-success-100');
+                                $('#diseases-datatable_processing').addClass('bg-theme-primary-700 text-theme-success-100');
                         }
 
                         });
 
                         var searchInput = $('input[type="search"]').addClass(
                         'bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full p-2.5  placeholder-theme-primary-100 '
-                        ).attr('placeholder', 'Search diagnoses');
+                        ).attr('placeholder', 'Search diseases');
                         var searchLabel = $('label[for="' + searchInput.attr('id') + '"]')
                             .addClass('text-theme-secondary-100');
                         // paging_simple_numbers
@@ -260,47 +283,64 @@
 
                         var searchLabel = $('.dataTables_filter').find('label')
                             .addClass('text-theme-secondary-100');
-                        var totalShow = $('#diagnoses-datatable_info')
+                        var totalShow = $('#diseases-datatable_info')
                             .addClass('text-theme-secondary-100');
 
                         var lengthOptions = $('.dataTables_length').find('select option')
                             .addClass('text-theme-secondary-100');
 
-                        var paginatButton = $('#diagnoses-datatable_paginate')
+                        var paginatButton = $('#diseases-datatable_paginate')
                             .addClass('inline-flex');
 
 
-                    $('#diagnoses-datatable_processing').hide();
+                    $('#diseases-datatable_processing').hide();
 
-                    $('#diagnoses-datatable')
+                    $('#diseases-datatable')
                         .on('preXhr.dt', function(e, settings, data) {
-                            $('#diagnoses-datatable_processing').show();
+                            $('#diseases-datatable_processing').show();
                         })
 
                         .on('xhr.dt', function(e, settings, json, xhr) {
-                            $('#diagnoses-datatable_processing').hide();
+                            $('#diseases-datatable_processing').hide();
                         });
 
                     });
 
 
         function detailsInfo(element) {
-                const $targetEl = document.getElementById('popup-modal');
-                const modal = new Modal($targetEl);
+                let $targetEl = document.getElementById('popup-modal');
+                let modal = new Modal($targetEl);
                 $('#popup-modal-content').html('');
 
                 var id = $(element).data('id');
-                // console.log(id);
 
                 modal.show();
 
-                // Assuming you have a route like 'admin.diagnoses.details'
-                $.get('{{ route('admin.diagnoses.modal', ':id') }}'.replace(':id', id), function (data) {
+                $.get('{{ route('admin.diseases.modal', ':id') }}'.replace(':id', id), function (data) {
                     $('#popup-modal-content').html(data);
 
                     $('#hide-modal').click(function (e) {
                         e.preventDefault();
                         modal.hide();
+                    });
+                });
+            }
+        function detailsDisease(element) {
+                let $targetElS = document.getElementById('disease-modal');
+                let modal = new Modal($targetElS);
+                $('#disease-modal-content').html('');
+
+                var id = $(element).data('id');
+
+                modal.show();
+
+                $.get('{{ route('admin.diseases.diseaseModal', ':id') }}'.replace(':id', id), function (data) {
+                    $('#disease-modal-content').html(data);
+
+                    $('#hideDiseasemodal').click(function (e) {
+                        e.preventDefault();
+                        modal.hide();
+                        $('#disease-modal-content').val('');
                     });
                 });
             }

@@ -40,7 +40,8 @@ class SettingController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request){
+    public function update(Request $request)
+    {
 
         $request->validate([
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
