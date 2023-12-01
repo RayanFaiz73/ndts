@@ -131,11 +131,36 @@ class ResourceController extends Controller
         ]);
     }
 
-    //     dd($data);
+    public function diseaseGraph(Request $request){
+        $diseasesId = $request->input('diseasesId');
 
-    //     return response()->json([
-    //         'data' => $data
-    //     ]);
-    // }
+        $patients = Patient::where('diagnoses_id', $diseasesId)->get();
+        $count = 0;
+        $count_male = 0;
+        $count_female = 0;
+        $count_other = 0;
 
+        foreach ($patients as $patient) {
+            $count += $patient->where('diagnoses_id', $diseasesId)->count();
+            $count_male += $patient->where('diagnoses_id', $diseasesId)->where('sex', 'male')->count();
+            $count_female += $patient->where('diagnoses_id', $diseasesId)->where('sex', 'female')->count();
+            $count_other += $patient->where('diagnoses_id', $diseasesId)->where('sex', 'other')->count();
+        }
+        $diseaseName = Diagnoses::find($diseasesId)->diagnose;
+        $data['diseases'] = [
+            "name" => $diseaseName,
+            "males" => $count_male,
+            "females" => $count_female,
+            "others" => $count_other
+        ];
+        // dd($data);
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ]);
+
+
+
+
+    }
 }

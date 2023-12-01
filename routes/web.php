@@ -174,6 +174,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/hospitals', 'fetchHospitals')->name('fetchHospitals');
                 Route::get('/diseases', 'fetchDiseases')->name('fetchDiseases');
                 Route::get('disease-graph', 'graph')->name('graph');
+                Route::get('graph', 'diseaseGraph')->name('diseaseGraph');
             });
 
     });

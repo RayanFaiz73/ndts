@@ -179,8 +179,10 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    @elseif(Auth::user()->role_id == 3)
+                                    <input type="hidden" name="hospital_id" value="{{ Auth::id() }}">
                                     @else
-                                    <input type="hidden" name="hospital_id" value="{{ Auth::user()->id }}">
+                                    <input type="hidden" name="hospital_id" value="{{ Auth::user()->parent->id }}">
                                     @endif
                                     @if(Auth::user()->role_id == 1)
                                     <div class="contents" id="rolesDiv">
