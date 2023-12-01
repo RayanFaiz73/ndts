@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{siteSetting('website_name')}}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -16,6 +17,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
         integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="{{ asset('assets/site/plugins/nice-select2/dist/css/nice-select2.css') }}" />
+    <style>
+        .nice-select .nice-select-dropdown {
+            background-color: #004f7a;
+        }
+
+        .nice-select .option:hover,
+        .nice-select .option.focus,
+        .nice-select .option.selected.focus {
+            background-color: #002b42;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100">
@@ -52,7 +66,9 @@
                     {{-- <img src="{{asset('site/assets/image/home-img.png')}}" alt="Image"> --}}
                 </div>
 
-                <h6 class="font-medium text-gray-600 text-lg md:text-2xl uppercase mb-8">{{ siteSetting('website_name') }}</h1></h6>
+                <h6 class="font-medium text-gray-600 text-lg md:text-2xl uppercase mb-8">
+                    {{ siteSetting('website_name') }}</h1>
+                </h6>
 
                 <h1 class="font-normal text-gray-900 text-2xl md:text-5xl leading-none mb-8">
                     {{ siteSetting('website_heading') }}</h1>
@@ -70,8 +86,8 @@
     </section>
     <!-- ====== About Section Start -->
     <section class="py-10 md:py-16">
-        <div class="container mx-auto">
-            <div class="flex flex-wrap items-center justify-between -mx-4">
+        <div class="container max-w-screen-xl mx-auto px-4">
+            <div class="flex flex-wrap items-center justify-between">
                 <div class="w-full px-4 lg:w-6/12">
                     <div class="flex items-center -mx-3 sm:-mx-4">
                         <div class="w-full px-3 sm:px-4 xl:w-1/2">
@@ -91,32 +107,32 @@
                                 <span class="absolute -right-7 -bottom-7 z-[-1]">
                                     <svg width="134" height="106" viewBox="0 0 134 106" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="1.66667" cy="104" r="1.66667" transform="rotate(-90 1.66667 104)"
-                                            fill="#3056D3" />
-                                        <circle cx="16.3333" cy="104" r="1.66667" transform="rotate(-90 16.3333 104)"
-                                            fill="#3056D3" />
+                                        <circle cx="1.66667" cy="104" r="1.66667"
+                                            transform="rotate(-90 1.66667 104)" fill="#3056D3" />
+                                        <circle cx="16.3333" cy="104" r="1.66667"
+                                            transform="rotate(-90 16.3333 104)" fill="#3056D3" />
                                         <circle cx="31" cy="104" r="1.66667" transform="rotate(-90 31 104)"
                                             fill="#3056D3" />
-                                        <circle cx="45.6667" cy="104" r="1.66667" transform="rotate(-90 45.6667 104)"
-                                            fill="#3056D3" />
-                                        <circle cx="60.3334" cy="104" r="1.66667" transform="rotate(-90 60.3334 104)"
-                                            fill="#3056D3" />
-                                        <circle cx="88.6667" cy="104" r="1.66667" transform="rotate(-90 88.6667 104)"
-                                            fill="#3056D3" />
-                                        <circle cx="117.667" cy="104" r="1.66667" transform="rotate(-90 117.667 104)"
-                                            fill="#3056D3" />
-                                        <circle cx="74.6667" cy="104" r="1.66667" transform="rotate(-90 74.6667 104)"
-                                            fill="#3056D3" />
-                                        <circle cx="103" cy="104" r="1.66667" transform="rotate(-90 103 104)"
-                                            fill="#3056D3" />
-                                        <circle cx="132" cy="104" r="1.66667" transform="rotate(-90 132 104)"
-                                            fill="#3056D3" />
+                                        <circle cx="45.6667" cy="104" r="1.66667"
+                                            transform="rotate(-90 45.6667 104)" fill="#3056D3" />
+                                        <circle cx="60.3334" cy="104" r="1.66667"
+                                            transform="rotate(-90 60.3334 104)" fill="#3056D3" />
+                                        <circle cx="88.6667" cy="104" r="1.66667"
+                                            transform="rotate(-90 88.6667 104)" fill="#3056D3" />
+                                        <circle cx="117.667" cy="104" r="1.66667"
+                                            transform="rotate(-90 117.667 104)" fill="#3056D3" />
+                                        <circle cx="74.6667" cy="104" r="1.66667"
+                                            transform="rotate(-90 74.6667 104)" fill="#3056D3" />
+                                        <circle cx="103" cy="104" r="1.66667"
+                                            transform="rotate(-90 103 104)" fill="#3056D3" />
+                                        <circle cx="132" cy="104" r="1.66667"
+                                            transform="rotate(-90 132 104)" fill="#3056D3" />
                                         <circle cx="1.66667" cy="89.3333" r="1.66667"
                                             transform="rotate(-90 1.66667 89.3333)" fill="#3056D3" />
                                         <circle cx="16.3333" cy="89.3333" r="1.66667"
                                             transform="rotate(-90 16.3333 89.3333)" fill="#3056D3" />
-                                        <circle cx="31" cy="89.3333" r="1.66667" transform="rotate(-90 31 89.3333)"
-                                            fill="#3056D3" />
+                                        <circle cx="31" cy="89.3333" r="1.66667"
+                                            transform="rotate(-90 31 89.3333)" fill="#3056D3" />
                                         <circle cx="45.6667" cy="89.3333" r="1.66667"
                                             transform="rotate(-90 45.6667 89.3333)" fill="#3056D3" />
                                         <circle cx="60.3333" cy="89.3338" r="1.66667"
@@ -127,10 +143,10 @@
                                             transform="rotate(-90 117.667 89.3338)" fill="#3056D3" />
                                         <circle cx="74.6667" cy="89.3338" r="1.66667"
                                             transform="rotate(-90 74.6667 89.3338)" fill="#3056D3" />
-                                        <circle cx="103" cy="89.3338" r="1.66667" transform="rotate(-90 103 89.3338)"
-                                            fill="#3056D3" />
-                                        <circle cx="132" cy="89.3338" r="1.66667" transform="rotate(-90 132 89.3338)"
-                                            fill="#3056D3" />
+                                        <circle cx="103" cy="89.3338" r="1.66667"
+                                            transform="rotate(-90 103 89.3338)" fill="#3056D3" />
+                                        <circle cx="132" cy="89.3338" r="1.66667"
+                                            transform="rotate(-90 132 89.3338)" fill="#3056D3" />
                                         <circle cx="1.66667" cy="74.6673" r="1.66667"
                                             transform="rotate(-90 1.66667 74.6673)" fill="#3056D3" />
                                         <circle cx="1.66667" cy="31.0003" r="1.66667"
@@ -139,10 +155,10 @@
                                             transform="rotate(-90 16.3333 74.6668)" fill="#3056D3" />
                                         <circle cx="16.3333" cy="31.0003" r="1.66667"
                                             transform="rotate(-90 16.3333 31.0003)" fill="#3056D3" />
-                                        <circle cx="31" cy="74.6668" r="1.66667" transform="rotate(-90 31 74.6668)"
-                                            fill="#3056D3" />
-                                        <circle cx="31" cy="31.0003" r="1.66667" transform="rotate(-90 31 31.0003)"
-                                            fill="#3056D3" />
+                                        <circle cx="31" cy="74.6668" r="1.66667"
+                                            transform="rotate(-90 31 74.6668)" fill="#3056D3" />
+                                        <circle cx="31" cy="31.0003" r="1.66667"
+                                            transform="rotate(-90 31 31.0003)" fill="#3056D3" />
                                         <circle cx="45.6667" cy="74.6668" r="1.66667"
                                             transform="rotate(-90 45.6667 74.6668)" fill="#3056D3" />
                                         <circle cx="45.6667" cy="31.0003" r="1.66667"
@@ -163,14 +179,14 @@
                                             transform="rotate(-90 74.6667 74.6668)" fill="#3056D3" />
                                         <circle cx="74.6667" cy="30.9998" r="1.66667"
                                             transform="rotate(-90 74.6667 30.9998)" fill="#3056D3" />
-                                        <circle cx="103" cy="74.6668" r="1.66667" transform="rotate(-90 103 74.6668)"
-                                            fill="#3056D3" />
-                                        <circle cx="103" cy="30.9998" r="1.66667" transform="rotate(-90 103 30.9998)"
-                                            fill="#3056D3" />
-                                        <circle cx="132" cy="74.6668" r="1.66667" transform="rotate(-90 132 74.6668)"
-                                            fill="#3056D3" />
-                                        <circle cx="132" cy="30.9998" r="1.66667" transform="rotate(-90 132 30.9998)"
-                                            fill="#3056D3" />
+                                        <circle cx="103" cy="74.6668" r="1.66667"
+                                            transform="rotate(-90 103 74.6668)" fill="#3056D3" />
+                                        <circle cx="103" cy="30.9998" r="1.66667"
+                                            transform="rotate(-90 103 30.9998)" fill="#3056D3" />
+                                        <circle cx="132" cy="74.6668" r="1.66667"
+                                            transform="rotate(-90 132 74.6668)" fill="#3056D3" />
+                                        <circle cx="132" cy="30.9998" r="1.66667"
+                                            transform="rotate(-90 132 30.9998)" fill="#3056D3" />
                                         <circle cx="1.66667" cy="60.0003" r="1.66667"
                                             transform="rotate(-90 1.66667 60.0003)" fill="#3056D3" />
                                         <circle cx="1.66667" cy="16.3333" r="1.66667"
@@ -179,10 +195,10 @@
                                             transform="rotate(-90 16.3333 60.0003)" fill="#3056D3" />
                                         <circle cx="16.3333" cy="16.3333" r="1.66667"
                                             transform="rotate(-90 16.3333 16.3333)" fill="#3056D3" />
-                                        <circle cx="31" cy="60.0003" r="1.66667" transform="rotate(-90 31 60.0003)"
-                                            fill="#3056D3" />
-                                        <circle cx="31" cy="16.3333" r="1.66667" transform="rotate(-90 31 16.3333)"
-                                            fill="#3056D3" />
+                                        <circle cx="31" cy="60.0003" r="1.66667"
+                                            transform="rotate(-90 31 60.0003)" fill="#3056D3" />
+                                        <circle cx="31" cy="16.3333" r="1.66667"
+                                            transform="rotate(-90 31 16.3333)" fill="#3056D3" />
                                         <circle cx="45.6667" cy="60.0003" r="1.66667"
                                             transform="rotate(-90 45.6667 60.0003)" fill="#3056D3" />
                                         <circle cx="45.6667" cy="16.3333" r="1.66667"
@@ -203,14 +219,14 @@
                                             transform="rotate(-90 74.6667 60.0003)" fill="#3056D3" />
                                         <circle cx="74.6667" cy="16.3333" r="1.66667"
                                             transform="rotate(-90 74.6667 16.3333)" fill="#3056D3" />
-                                        <circle cx="103" cy="60.0003" r="1.66667" transform="rotate(-90 103 60.0003)"
-                                            fill="#3056D3" />
-                                        <circle cx="103" cy="16.3333" r="1.66667" transform="rotate(-90 103 16.3333)"
-                                            fill="#3056D3" />
-                                        <circle cx="132" cy="60.0003" r="1.66667" transform="rotate(-90 132 60.0003)"
-                                            fill="#3056D3" />
-                                        <circle cx="132" cy="16.3333" r="1.66667" transform="rotate(-90 132 16.3333)"
-                                            fill="#3056D3" />
+                                        <circle cx="103" cy="60.0003" r="1.66667"
+                                            transform="rotate(-90 103 60.0003)" fill="#3056D3" />
+                                        <circle cx="103" cy="16.3333" r="1.66667"
+                                            transform="rotate(-90 103 16.3333)" fill="#3056D3" />
+                                        <circle cx="132" cy="60.0003" r="1.66667"
+                                            transform="rotate(-90 132 60.0003)" fill="#3056D3" />
+                                        <circle cx="132" cy="16.3333" r="1.66667"
+                                            transform="rotate(-90 132 16.3333)" fill="#3056D3" />
                                         <circle cx="1.66667" cy="45.3333" r="1.66667"
                                             transform="rotate(-90 1.66667 45.3333)" fill="#3056D3" />
                                         <circle cx="1.66667" cy="1.66683" r="1.66667"
@@ -219,10 +235,10 @@
                                             transform="rotate(-90 16.3333 45.3333)" fill="#3056D3" />
                                         <circle cx="16.3333" cy="1.66683" r="1.66667"
                                             transform="rotate(-90 16.3333 1.66683)" fill="#3056D3" />
-                                        <circle cx="31" cy="45.3333" r="1.66667" transform="rotate(-90 31 45.3333)"
-                                            fill="#3056D3" />
-                                        <circle cx="31" cy="1.66683" r="1.66667" transform="rotate(-90 31 1.66683)"
-                                            fill="#3056D3" />
+                                        <circle cx="31" cy="45.3333" r="1.66667"
+                                            transform="rotate(-90 31 45.3333)" fill="#3056D3" />
+                                        <circle cx="31" cy="1.66683" r="1.66667"
+                                            transform="rotate(-90 31 1.66683)" fill="#3056D3" />
                                         <circle cx="45.6667" cy="45.3333" r="1.66667"
                                             transform="rotate(-90 45.6667 45.3333)" fill="#3056D3" />
                                         <circle cx="45.6667" cy="1.66683" r="1.66667"
@@ -243,14 +259,14 @@
                                             transform="rotate(-90 74.6667 45.3338)" fill="#3056D3" />
                                         <circle cx="74.6667" cy="1.66683" r="1.66667"
                                             transform="rotate(-90 74.6667 1.66683)" fill="#3056D3" />
-                                        <circle cx="103" cy="45.3338" r="1.66667" transform="rotate(-90 103 45.3338)"
-                                            fill="#3056D3" />
-                                        <circle cx="103" cy="1.66683" r="1.66667" transform="rotate(-90 103 1.66683)"
-                                            fill="#3056D3" />
-                                        <circle cx="132" cy="45.3338" r="1.66667" transform="rotate(-90 132 45.3338)"
-                                            fill="#3056D3" />
-                                        <circle cx="132" cy="1.66683" r="1.66667" transform="rotate(-90 132 1.66683)"
-                                            fill="#3056D3" />
+                                        <circle cx="103" cy="45.3338" r="1.66667"
+                                            transform="rotate(-90 103 45.3338)" fill="#3056D3" />
+                                        <circle cx="103" cy="1.66683" r="1.66667"
+                                            transform="rotate(-90 103 1.66683)" fill="#3056D3" />
+                                        <circle cx="132" cy="45.3338" r="1.66667"
+                                            transform="rotate(-90 132 45.3338)" fill="#3056D3" />
+                                        <circle cx="132" cy="1.66683" r="1.66667"
+                                            transform="rotate(-90 132 1.66683)" fill="#3056D3" />
                                     </svg>
                                 </span>
                             </div>
@@ -260,25 +276,46 @@
                 <div class="w-full px-4 lg:w-1/2">
                     <div class="mt-10 lg:mt-0">
                         <span class="block mb-4 text-lg font-semibold text-primary">
-                            Why Choose Us
+                            NDTS
                         </span>
                         <h2 class="mb-5 text-3xl font-bold text-dark dark:text-white sm:text-[40px]/[48px]">
-                            Make your customers happy by giving services.
+                            {{ siteSetting('website_heading') }}
                         </h2>
                         <p class="mb-5 text-base text-body-color dark:text-dark-6">
-                            It is a long established fact that a reader will be distracted
-                            by the readable content of a page when looking at its layout.
-                            The point of using Lorem Ipsum is that it has a more-or-less.
+                            Welcome to the National Disease Tracking System! We are one of your go-to resource for
+                            accurate information about transmitting or spread of any diseases in Pakistan. Our platform
+                            is made for the needs of the general public and doctors as well. We are a reliable source
+                            for
+                            disease-related statistics and data.
                         </p>
                         <p class="mb-8 text-base text-body-color dark:text-dark-6">
-                            A domain name is one of the first steps to establishing your
-                            brand. Secure a consistent brand image with a domain name that
-                            matches your business.
+                            You will have a great knowledge about the various diseases spreading in Pakistan with the
+                            National Disease Tracking System. Our website is updated properly which provides you with
+                            the most recent data. we ensure that you know the spread of any diseases in your area.
                         </p>
-                        <a href="javascript:void(0)"
-                            class="inline-flex items-center justify-center py-3 text-base font-medium text-center text-white border border-transparent rounded-md px-7 bg-primary hover:bg-opacity-90">
-                            Get Started
-                        </a>
+                        <p class="mb-8 text-base text-body-color dark:text-dark-6">
+                            One of the most important features of our system is the visuals which demonstrate disease
+                            occurrence through graphs and charts. With just a few clicks, you can view the statics of a
+                            particular disease in a certain province, specific age group, or even over a specific time.
+                            This
+                            allows you to analyze patterns and aids in informed decision-making and resource
+                            allocation.
+                        </p>
+                        <p class="mb-8 text-base text-body-color dark:text-dark-6">
+                            Furthermore, our platform enables you to delve deeper into the statistics by providing
+                            detailed information about patients with specific diseases throughout Pakistan. Gain
+                            valuable
+                            insights into the demographics, geographic distribution, and other crucial information for
+                            individuals suffering from a particular ailment.
+                        </p>
+
+
+                        <p class="mb-8 text-base text-body-color dark:text-dark-6">
+                            Whether you are a healthcare professional seeking accurate data to develop strategies and
+                            policies or an individual concerned about a specific disease, the National Disease Tracking
+                            System empowers you with comprehensive and reliable information. We aim to support the
+                            health sector in effectively and efficiently combating diseases.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -296,218 +333,55 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-gray-50 px-8 py-10 rounded-md mb-2">
-                    <div class="w-full py-6 flex justify-center bg-gray-100 rounded-md mb-4">
-                        <i data-feather="activity"></i>
+                    <div class="flex items-center justify-center mb-4">
+                        <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white me-1">
+                            All Province
+                        </h5>
+                    </div>
+                    <div class="cursor-pointer w-full py-6 flex flex-col items-center justify-center bg-gray-100 text-theme-primary-400 rounded-md mb-4"
+                        id="dateRangeButton">
+                        <div class="font-bold" id="provinceChartHeading">{{ $diseases->first()->diagnose }}</div>
+                        <input type="hidden" id="first-disease" value="{{ $diseases->first()->id }}">
+                        <div class="text-sm text-gray-500">change?</div>
                     </div>
 
-                    {{-- <h4 class="font-medium text-gray-700 text-lg mb-4">High experience</h4> --}}
 
 
                     <div class="">
-                        <div class="flex justify-between items-start w-full">
-                            <div class="flex-col items-center">
-                                <div class="flex items-center mb-1">
-                                    <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white me-1">
-                                        Website traffic</h5>
-                                    <svg data-popover-target="chart-info" data-popover-placement="bottom"
-                                        class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1"
-                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                        viewBox="0 0 20 20">
-                                        <path
-                                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm0 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm1-5.034V12a1 1 0 0 1-2 0v-1.418a1 1 0 0 1 1.038-.999 1.436 1.436 0 0 0 1.488-1.441 1.501 1.501 0 1 0-3-.116.986.986 0 0 1-1.037.961 1 1 0 0 1-.96-1.037A3.5 3.5 0 1 1 11 11.466Z" />
-                                    </svg>
-                                    <div data-popover id="chart-info" role="tooltip"
-                                        class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
-                                        <div class="p-3 space-y-2">
-                                            <h3 class="font-semibold text-gray-900 dark:text-white">Activity growth -
-                                                Incremental</h3>
-                                            <p>Report helps navigate cumulative growth of community activities. Ideally,
-                                                the chart should have a growing trend, as stagnating chart signifies a
-                                                significant decrease of community activity.</p>
-                                            <h3 class="font-semibold text-gray-900 dark:text-white">Calculation</h3>
-                                            <p>For each date bucket, the all-time volume of activities is calculated.
-                                                This means that activities in period n contain all activities up to
-                                                period n, plus the activities generated by your community in period.</p>
-                                            <a href="#"
-                                                class="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline">Read
-                                                more <svg class="w-2 h-2 ms-1.5 rtl:rotate-180" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                                                </svg></a>
-                                        </div>
-                                        <div data-popper-arrow></div>
-                                    </div>
-                                </div>
-                                <button id="dateRangeButton" data-dropdown-toggle="dateRangeDropdown"
+                        <div class="flex justify-center items-center w-full">
+                            <div class="flex-col items-center justify-center">
+                                {{-- <button id="dateRangeButton"
                                     data-dropdown-ignore-click-outside-class="datepicker" type="button"
-                                    class="inline-flex items-center text-blue-700 dark:text-blue-600 font-medium hover:underline">31
-                                    Nov - 31 Dev <svg class="w-3 h-3 ms-2" aria-hidden="true"
+                                    class="inline-flex items-center text-blue-700 dark:text-blue-600 font-medium hover:underline">
+                                    Select Desease
+                                    <svg class="w-3 h-3 ms-2" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                             stroke-width="2" d="m1 1 4 4 4-4" />
                                     </svg>
-                                </button>
+                                </button> --}}
                                 <div id="dateRangeDropdown"
                                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-80 lg:w-96 dark:bg-gray-700 dark:divide-gray-600">
                                     <div class="p-3" aria-labelledby="dateRangeButton">
-                                        <div date-rangepicker datepicker-autohide class="flex items-center">
-                                            <div class="relative">
-                                                <div
-                                                    class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                        fill="currentColor" viewBox="0 0 20 20">
-                                                        <path
-                                                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                                    </svg>
-                                                </div>
-                                                <input name="start" type="text"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="Start date">
-                                            </div>
-                                            <span class="mx-2 text-gray-500 dark:text-gray-400">to</span>
-                                            <div class="relative">
-                                                <div
-                                                    class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                        fill="currentColor" viewBox="0 0 20 20">
-                                                        <path
-                                                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                                    </svg>
-                                                </div>
-                                                <input name="end" type="text"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="End date">
-                                            </div>
-                                        </div>
+
+                                        <select required name="disease_id" id="disease_id"
+                                            onchange="provinceChart(this)"
+                                            class="mb-4 wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
+                                            <option value="">{{ __('Select disease') }}</option>
+                                            @foreach ($diseases as $disease)
+                                                <option value="{{ $disease->id }}">{{ __($disease->diagnose) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="flex justify-end items-center">
-                                <button id="widgetDropdownButton" data-dropdown-toggle="widgetDropdown"
-                                    data-dropdown-placement="bottom" type="button"
-                                    class="inline-flex items-center justify-center text-gray-500 w-8 h-8 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm"><svg
-                                        class="w-3.5 h-3.5 text-gray-800 dark:text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                                        <path
-                                            d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                                    </svg><span class="sr-only">Open dropdown</span>
-                                </button>
-                                <div id="widgetDropdown"
-                                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                        aria-labelledby="widgetDropdownButton">
-                                        <li>
-                                            <a href="#"
-                                                class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg
-                                                    class="w-3 h-3 me-2" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2"
-                                                        d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279" />
-                                                </svg>Edit widget
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg
-                                                    class="w-3 h-3 me-2" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                                    viewBox="0 0 20 20">
-                                                    <path
-                                                        d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z" />
-                                                    <path
-                                                        d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
-                                                </svg>Download data
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg
-                                                    class="w-3 h-3 me-2" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2"
-                                                        d="m5.953 7.467 6.094-2.612m.096 8.114L5.857 9.676m.305-1.192a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0ZM17 3.84a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0Zm0 10.322a2.581 2.581 0 1 1-5.162 0 2.581 2.581 0 0 1 5.162 0Z" />
-                                                </svg>Add to repository
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg
-                                                    class="w-3 h-3 me-2" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                                    viewBox="0 0 18 20">
-                                                    <path
-                                                        d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z" />
-                                                </svg>Delete widget
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Line Chart -->
-                        <div class="py-6" id="pie-chart"></div>
-
-                        <div
-                            class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
-                            <div class="flex justify-between items-center pt-5">
-                                <!-- Button -->
-                                <button id="dropdownDefaultButton" data-dropdown-toggle="lastDaysdropdown"
-                                    data-dropdown-placement="bottom"
-                                    class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
-                                    type="button">
-                                    Last 7 days
-                                    <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="m1 1 4 4 4-4" />
-                                    </svg>
-                                </button>
-                                <div id="lastDaysdropdown"
-                                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                        aria-labelledby="dropdownDefaultButton">
-                                        <li>
-                                            <a href="#"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last
-                                                7 days</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last
-                                                30 days</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last
-                                                90 days</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <a href="#"
-                                    class="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
-                                    Traffic analysis
-                                    <svg class="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="m1 9 4-4-4-4" />
-                                    </svg>
-                                </a>
-                            </div>
+                        <div class="py-6" id="pie-chart">
                         </div>
+
                     </div>
                 </div>
 
@@ -669,7 +543,8 @@
                                             <a href="#"
                                                 class="flex items-center font-medium text-theme-info-600 dark:text-theme-info-500 dark:hover:text-theme-info-600 hover:text-theme-info-700 hover:underline">Read
                                                 more <svg class="w-2 h-2 ml-1.5" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 6 10">
                                                     <path stroke="currentColor" stroke-linecap="round"
                                                         stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                                                 </svg></a>
@@ -725,8 +600,9 @@
                                         class="bg-theme-success-100 text-theme-success-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-theme-success-900 dark:text-theme-success-300">
                                         <svg class="w-2.5 h-2.5 mr-1.5" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4" />
+                                            <path stroke="currentColor" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="2"
+                                                d="M5 13V1m0 0L1 5m4-4 4 4" />
                                         </svg> 57%
                                     </dd>
                                 </dl>
@@ -813,338 +689,19 @@
 
     </section>
 
-    <section class="py-10 md:py-16">
-
-        <div class="container max-w-screen-xl mx-auto px-4">
-
-            <div class="flex flex-col lg:flex-row justify-between">
-                <div class="mb-10 lg:mb-0">
-                    <h1 class="font-medium text-gray-700 text-3xl md:text-4xl mb-5">Portfolio</h1>
-
-                    <p class="font-normal text-gray-500 text-xs md:text-base">I have brought here my biggest and
-                        favorite works <br> as a professional.</p>
-                </div>
-
-                <div class="space-y-24">
-                    <div class="flex space-x-6">
-                        <h1 class="font-normal text-gray-700 text-3xl md:text-4xl">01</h1>
-
-                        <span class="w-28 h-0.5 bg-gray-300 mt-5"></span>
-
-                        <div>
-                            <h1 class="font-normal text-gray-700 text-3xl md:text-4xl mb-5">Demo API Generator</h1>
-
-                            <p class="font-normal text-gray-500 text-sm md:text-base">A dummy data free and documented
-                                API generator to facilitate <br> the process of testing the front-end portion of
-                                projects.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex space-x-6">
-                        <h1 class="font-normal text-gray-700 text-3xl md:text-4xl">02</h1>
-
-                        <span class="w-28 h-0.5 bg-gray-300 mt-5"></span>
-
-                        <div>
-                            <h1 class="font-normal text-gray-700 text-3xl md:text-4xl mb-5">Demo API Generator</h1>
-
-                            <p class="font-normal text-gray-500 text-sm md:text-base">A dummy data free and documented
-                                API generator to facilitate <br> the process of testing the front-end portion of
-                                projects.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex space-x-6">
-                        <h1 class="font-normal text-gray-700 text-3xl md:text-4xl">03</h1>
-
-                        <span class="w-28 h-0.5 bg-gray-300 mt-5"></span>
-
-                        <div>
-                            <h1 class="font-normal text-gray-700 text-3xl md:text-4xl mb-5">Demo API Generator</h1>
-
-                            <p class="font-normal text-gray-500 text-sm md:text-base">A dummy data free and documented
-                                API generator to facilitate <br> the process of testing the front-end portion of
-                                projects.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="py-10 md:py-16">
-
-        <div class="container max-w-screen-xl mx-auto px-4">
-
-            <h1 class="font-medium text-gray-700 text-3xl md:text-4xl mb-5">Education</h1>
-
-            <p class="font-normal text-gray-500 text-xs md:text-base mb-20">Below is a summary of the places I studied
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-                    <h4 class="font-medium text-gray-700 text-lg mb-4">2015 – 2016</h4>
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <div class="relative">
-                        <h6 class="font-semibold text-gray-500 text-md relative z-10">See the place here</h6>
-                        <span class="w-32 h-1 bg-blue-200 absolute bottom-1 left-0 z-0"></span>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-                    <h4 class="font-medium text-gray-700 text-lg mb-4">2015 – 2016</h4>
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <div class="relative">
-                        <h6 class="font-semibold text-gray-500 text-md relative z-10">See the place here</h6>
-                        <span class="w-32 h-1 bg-blue-200 absolute bottom-1 left-0 z-0"></span>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-                    <h4 class="font-medium text-gray-700 text-lg mb-4">2015 – 2016</h4>
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <div class="relative">
-                        <h6 class="font-semibold text-gray-500 text-md relative z-10">See the place here</h6>
-                        <span class="w-32 h-1 bg-blue-200 absolute bottom-1 left-0 z-0"></span>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-                    <h4 class="font-medium text-gray-700 text-lg mb-4">2015 – 2016</h4>
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <div class="relative">
-                        <h6 class="font-semibold text-gray-500 text-md relative z-10">See the place here</h6>
-                        <span class="w-32 h-1 bg-blue-200 absolute bottom-1 left-0 z-0"></span>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-                    <h4 class="font-medium text-gray-700 text-lg mb-4">2015 – 2016</h4>
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <div class="relative">
-                        <h6 class="font-semibold text-gray-500 text-md relative z-10">See the place here</h6>
-                        <span class="w-32 h-1 bg-blue-200 absolute bottom-1 left-0 z-0"></span>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-                    <h4 class="font-medium text-gray-700 text-lg mb-4">2015 – 2016</h4>
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <div class="relative">
-                        <h6 class="font-semibold text-gray-500 text-md relative z-10">See the place here</h6>
-                        <span class="w-32 h-1 bg-blue-200 absolute bottom-1 left-0 z-0"></span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="py-10 md:py-16">
+    <footer class="py-10 md:py-16">
 
         <div class="container max-w-screen-xl mx-auto px-4">
 
             <div class="text-center">
-                <h1 class="font-normal text-gray-300 text-3xl md:text-6xl lg:text-7xl mb-20 md:mb-32 lg:mb-48">Please
-                    do not measure your skills in <br> percentages!</h1>
-
-                <p class="font-medium text-gray-700 text-xs md:text-base">In my many years of experience, I use
-                    @laravel for backend projects and @vuejs for <br> front-end projects. I’m an avid programmer, so I
-                    create designs based on the <br> weekend @figmadesign.</p>
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="py-10 md:py-16">
-
-        <div class="container max-w-screen-xl mx-auto px-4">
-
-            <h1 class="font-medium text-gray-700 text-3xl md:text-4xl mb-5">Experience</h1>
-
-            <p class="font-normal text-gray-500 text-xs md:text-base mb-20">Below is a summary of the places I studied
-            </p>
-
-            <div class="flex flex-col lg:flex-row justify-between">
-                <div class="space-y-8 md:space-y-16 mb-16 md:mb-0">
-                    <h6 class="font-medium text-gray-400 text-base uppercase">Company</h6>
-
-                    <p class="font-semibold text-gray-600 text-base">Massa Fames <span
-                            class="font-normal text-gray-300">/ New York</span></p>
-
-                    <p class="font-semibold text-gray-600 text-base">Massa Fames <span
-                            class="font-normal text-gray-300">/ New York</span></p>
-
-                    <p class="font-semibold text-gray-600 text-base">Massa Fames <span
-                            class="font-normal text-gray-300">/ New York</span></p>
-
-                    <p class="font-semibold text-gray-600 text-base">Massa Fames <span
-                            class="font-normal text-gray-300">/ New York</span></p>
-
-                    <p class="font-semibold text-gray-600 text-base">Massa Fames <span
-                            class="font-normal text-gray-300">/ New York</span></p>
-                </div>
-
-                <div class="space-y-8 md:space-y-16 mb-16 md:mb-0">
-                    <h6 class="font-medium text-gray-400 text-base uppercase">Position</h6>
-
-                    <p class="font-normal text-gray-400 text-base">Junior Front-End Developer</p>
-
-                    <p class="font-normal text-gray-400 text-base">Junior Front-End Developer</p>
-
-                    <p class="font-normal text-gray-400 text-base">Junior Front-End Developer</p>
-
-                    <p class="font-normal text-gray-400 text-base">Junior Front-End Developer</p>
-
-                    <p class="font-normal text-gray-400 text-base">Junior Front-End Developer</p>
-                </div>
-
-                <div class="space-y-8 md:space-y-16">
-                    <h6 class="font-medium text-gray-400 text-base uppercase">Year</h6>
-
-                    <p class="font-normal text-gray-400 text-base">2016</p>
-
-                    <p class="font-normal text-gray-400 text-base">2016</p>
-
-                    <p class="font-normal text-gray-400 text-base">2016</p>
-
-                    <p class="font-normal text-gray-400 text-base">2016</p>
-
-                    <p class="font-normal text-gray-400 text-base">2016</p>
-                </div>
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="py-10 md:py-16">
-
-        <div class="container max-w-screen-xl mx-auto px-4">
-
-            <h1 class="font-medium text-gray-700 text-3xl md:text-4xl mb-5">Brands</h1>
-
-            <p class="font-normal text-gray-500 text-xs md:text-base mb-10 md:mb-20">Below is a summary of the places I
-                studied</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                <img src="{{ asset('site/assets/image/brand-1.png') }}" alt="Image">
-
-                <img src="{{ asset('site/assets/image/brand-2.png') }}" alt="Image">
-
-                <img src="{{ asset('site/assets/image/brand-3.png') }}" alt="Image">
-
-                <img src="{{ asset('site/assets/image/brand-4.png') }}" alt="Image">
-
-                <img src="{{ asset('site/assets/image/brand-5.png') }}" alt="Image">
-
-                <img src="{{ asset('site/assets/image/brand-6.png') }}" alt="Image">
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="py-10 md:py-16">
-
-        <div class="container max-w-screen-xl mx-auto px-4">
-
-            <h1 class="font-medium text-gray-700 text-3xl md:text-4xl mb-5">Testimonial</h1>
-
-            <p class="font-normal text-gray-500 text-xs md:text-base mb-10 md:mb-20">Below is a summary of the places I
-                studied</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <h6 class="font-semibold text-gray-500 text-md">Stephan Clark <span
-                            class="font-medium text-gray-300 text-sm">- CEO at EarlyBird</span></h6>
-                </div>
-
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <h6 class="font-semibold text-gray-500 text-md">Stephan Clark <span
-                            class="font-medium text-gray-300 text-sm">- CEO at EarlyBird</span></h6>
-                </div>
-
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <h6 class="font-semibold text-gray-500 text-md">Stephan Clark <span
-                            class="font-medium text-gray-300 text-sm">- CEO at EarlyBird</span></h6>
-                </div>
-
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <h6 class="font-semibold text-gray-500 text-md">Stephan Clark <span
-                            class="font-medium text-gray-300 text-sm">- CEO at EarlyBird</span></h6>
-                </div>
-
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <h6 class="font-semibold text-gray-500 text-md">Stephan Clark <span
-                            class="font-medium text-gray-300 text-sm">- CEO at EarlyBird</span></h6>
-                </div>
-
-                <div class="bg-gray-50 px-8 py-10 rounded-md">
-
-                    <p class="font-normal text-gray-500 text-md mb-4">Lorem ipsum dolor sit amet, consectetur <br>
-                        adipiscing elit, sed do eiusmod tempor <br> incididunt ut labore et dolore magna aliqua.</p>
-
-                    <h6 class="font-semibold text-gray-500 text-md">Stephan Clark <span
-                            class="font-medium text-gray-300 text-sm">- CEO at EarlyBird</span></h6>
-                </div>
-            </div>
-
-        </div>
-
-    </section>
-
-    <footer class="py-10 md:py-16 mb-20 md:mb-40 lg::mb-52">
-
-        <div class="container max-w-screen-xl mx-auto px-4">
-
-            <div class="text-center">
-                <h1 class="font-medium text-gray-700 text-4xl md:text-5xl mb-5">Testimonial</h1>
-
-                <p class="font-normal text-gray-400 text-md md:text-lg mb-20">I’m not currently taking on new client
-                    work but feel free to contact me for any <br> other inquiries.</p>
+                <h1 class="font-medium text-gray-700 text-4xl md:text-5xl mb-5">{{ siteSetting('website_name') }}</h1>
+
+                <p class="font-normal text-gray-400 text-md md:text-lg mb-20">
+                    Join us today and stay informed about the prevailing diseases in Pakistan. Together, we can
+                    work towards a healthier nation and more targeted interventions. Explore the National
+                    Disease Tracking System and access the complete statistics you need to make informed
+                    decisions about your health and well-being.
+                </p>
 
                 <div class="flex items-center justify-center space-x-8">
                     <a href="#"
@@ -1190,36 +747,103 @@
     </footer>
 
 
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+
     <script>
-        feather.replace()
+        feather.replace();
     </script>
+    <script src="{{ asset('admin/app-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/site/plugins/nice-select2/dist/js/nice-select2.js') }}"></script>
     <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
+        var options = {
+            searchable: true,
+        };
+        let countrySelectDropdown = NiceSelect.bind(document.getElementById("disease_id"), options);
+
         let color1 = "#1C64F2";
         let color2 = "#16BDCA";
         let color3 = "#9061F9";
         let color4 = "#1C64F2";
-        // ApexCharts options and config
-        window.addEventListener("load", function() {
+        let provinceChartDiseaseDropdown = null;
+        let provinceApexChart = null;
+        // set the dropdown menu element
+        const $targetEl = document.getElementById('dateRangeDropdown');
 
-    $.ajax({
-        url: `{{ route('admin.resource.fetchState') }}?id=${elem.value}`,
-        type: 'GET',
-        success: res => {
-            let options = '<option value="">Select State...</option>';
-            res.data.forEach(obj => {
-                options += `<option value="${obj.id}">${obj.name}</option>`;
+        // set the element that trigger the dropdown menu on click
+        const $triggerEl = document.getElementById('dateRangeButton');
+
+        // options with default values
+        const dropdownOptions = {
+            placement: 'bottom',
+            triggerType: 'click',
+            offsetSkidding: 0,
+            offsetDistance: 10,
+            delay: 300,
+            ignoreClickOutsideClass: false,
+            onHide: () => {
+                console.log('dropdown has been hidden');
+            },
+            onShow: () => {
+                console.log('dropdown has been shown');
+            },
+            onToggle: () => {
+                console.log('dropdown has been toggled');
+            },
+        };
+
+        // instance options object
+        const instanceOptions = {
+            id: 'dateRangeDropdown',
+            override: true
+        };
+
+        window.addEventListener("load", function() {
+            window.initFlowbite()
+            provinceChartDiseaseDropdown = new Dropdown($targetEl, $triggerEl, dropdownOptions, instanceOptions);
+            console.log(document.getElementById("first-disease"))
+            provinceChart(document.getElementById("first-disease"))
+
+        });
+        const provinceChart = (elem) => {
+            if (!elem.value) {
+                return false;
+            }
+            let value = elem.value;
+            var selectedText = $(elem).find("option:selected").text();
+            if (selectedText) {
+                $("#provinceChartHeading").html(selectedText)
+            }
+            provinceChartDiseaseDropdown.hide();
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('provinceChart') }}",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: value
+                },
+                success: function(response) {
+                    provinceCreateChart(response)
+                }
             });
-            $(`select[name=${name}]`).html(options);
-            $(`select[name=${name}]`).css({display: 'block'});
-        },
-        error: err => {
-            console.error(err);
         }
-    });
-            const getChartOptions = () => {
+        const provinceCreateChart = (response) => {
+            var dataIdPercentage = response.data;
+            var provinceNames = Object.keys(dataIdPercentage);
+            var patientCounts = Object.values(dataIdPercentage);
+
+            var getChartOptions = () => {
                 return {
-                    series: [52.8, 26.8, 20.4],
-                    colors: [color1, color2, color3],
+                    series: patientCounts,
+                    labels: provinceNames,
+                    colors: ["#1C64F2", "#16BDCA", "#9061F9", "#f4bd96"],
                     chart: {
                         height: 420,
                         width: "100%",
@@ -1240,7 +864,6 @@
                             }
                         },
                     },
-                    labels: ["Direct", "Organic search", "Referrals"],
                     dataLabels: {
                         enabled: true,
                         style: {
@@ -1271,14 +894,83 @@
                             show: false,
                         },
                     },
-                }
-            }
+                };
+            };
+            var getNullChartOptions = () => {
 
-            if (document.getElementById("pie-chart") && typeof ApexCharts !== 'undefined') {
-                const chart = new ApexCharts(document.getElementById("pie-chart"), getChartOptions());
-                chart.render();
+                return {
+                    series: [1],
+                    colors: ['#f0f0f0'],
+                    labels: ['no data'],
+                    chart: {
+                        height: 420,
+                        width: "100%",
+                        type: "pie",
+                    },
+                    stroke: {
+                        colors: ["white"],
+                        lineCap: "",
+                    },
+                    plotOptions: {
+                        pie: {
+                            labels: {
+                                show: false,
+                            },
+                            size: "100%",
+                            dataLabels: {
+                                offset: -25
+                            }
+                        },
+                    },
+                    dataLabels: {
+                        enabled: false,
+                        style: {
+                            fontFamily: "Inter, sans-serif",
+                        },
+                    },
+                    legend: {
+                        position: "bottom",
+                        fontFamily: "Inter, sans-serif",
+                    },
+                    yaxis: {
+                        labels: {
+                            formatter: function(value) {
+                                return 0;
+                            },
+                        },
+                    },
+                    xaxis: {
+                        labels: {
+                            formatter: function(value) {
+                                return value + "%"
+                            },
+                        },
+                        axisTicks: {
+                            show: false,
+                        },
+                        axisBorder: {
+                            show: false,
+                        },
+                    },
+                };
+            };
+            console.log(dataIdPercentage)
+            if (provinceApexChart) {
+                if (!response.success) {
+                    provinceApexChart.updateOptions(getNullChartOptions());
+                    return;
+                }
+                provinceApexChart.updateOptions(getChartOptions());
+            } else {
+                if (!response.success) {
+                    provinceApexChart = new ApexCharts(document.getElementById("pie-chart"), getNullChartOptions());
+                    provinceApexChart.render();
+                    return;
+                }
+                provinceApexChart = new ApexCharts(document.getElementById("pie-chart"), getChartOptions());
+                provinceApexChart.render();
             }
-        });
+        }
 
         // ApexCharts options and config
         window.addEventListener("load", function() {
