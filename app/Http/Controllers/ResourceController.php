@@ -32,7 +32,7 @@ class ResourceController extends Controller
 
     public function fetchStaffsByHospital(Request $request)
     {
-        $staffs = User::where('role_id', 6)->where(['parent_id' => $request->id])->get();
+        $staffs = User::where('role_id', 4)->where(['parent_id' => $request->id])->get();
         return response()->json(['data' => $staffs]);
     }
     public function fetchHospitals(Request $request)
