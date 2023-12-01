@@ -38,7 +38,7 @@
 
         <div class="container max-w-screen-xl mx-auto px-4">
 
-            <nav class="flex items-center justify-between mb-40">
+            <nav class="flex items-center justify-between">
                 <img class="h-20" src="{{ Storage::disk('site')->url(siteSetting('logo')) }}" alt="Logo">
                 {{-- <img src="{{asset('site/assets/image/navbar-logo.png')}}" alt="Logo"> --}}
 
@@ -59,27 +59,6 @@
                     Login
                 </a>
             </nav>
-
-            <div class="text-center">
-                <div class="flex justify-center mb-16">
-                    <img src="{{ Storage::disk('site')->url(siteSetting('logo')) }}" alt="Image">
-                    {{-- <img src="{{asset('site/assets/image/home-img.png')}}" alt="Image"> --}}
-                </div>
-
-                <h6 class="font-medium text-gray-600 text-lg md:text-2xl uppercase mb-8">
-                    {{ siteSetting('website_name') }}</h1>
-                </h6>
-
-                <h1 class="font-normal text-gray-900 text-2xl md:text-5xl leading-none mb-8">
-                    {{ siteSetting('website_heading') }}</h1>
-
-                {{-- <p class="font-normal text-gray-600 text-md md:text-xl mb-16">{{ siteSetting('about') }}</p> --}}
-
-                {{-- <a href="#"
-                    class="px-7 py-3 md:px-9 md:py-4 font-medium md:font-semibold bg-gray-700 text-gray-50 text-sm rounded-md hover:bg-gray-50 hover:text-gray-700 transition ease-linear duration-500">
-                    Hire me
-                </a> --}}
-            </div>
 
         </div>
 
