@@ -57,7 +57,7 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('POST')
-                                <input type="hidden" name="role_id" value="6">
+                                <input type="hidden" name="role_id" value="4">
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
                                         <label

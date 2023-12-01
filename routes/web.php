@@ -71,6 +71,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('dashboard')->controller(DashboardController::class)->group(function () {
         Route::get('/', 'index')->name('dashboard')->middleware('can:Dashboard-read');
+        // Route::get('disease-graph', 'graph')->name('graph')->middleware('can:Dashboard-read');
     });
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -172,6 +173,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/staffs', 'fetchStaffsByHospital')->name('fetchStaff');
                 Route::get('/hospitals', 'fetchHospitals')->name('fetchHospitals');
                 Route::get('/diseases', 'fetchDiseases')->name('fetchDiseases');
+                Route::get('disease-graph', 'graph')->name('graph');
             });
 
     });

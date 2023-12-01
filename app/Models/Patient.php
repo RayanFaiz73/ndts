@@ -70,4 +70,14 @@ class Patient extends Model
     {
         return $this->belongsTo(Patient::class, 'foreign_key', 'other_key');
     }
+
+    /**
+    * Get all of the hospitals for the User
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function hospitals()
+    {
+    return $this->hasMany(User::class, 'id', 'hospital_id')->where('role_id',3);
+    }
 }

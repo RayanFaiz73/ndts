@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Porto - Tailwind Template</title>
+    <title>{{siteSetting('website_name')}}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     {{--
     <link rel="stylesheet" href="assets/css/tailwind.css"> --}}
@@ -257,7 +257,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-full px-4 lg:w-1/2 xl:w-5/12">
+                <div class="w-full px-4 lg:w-1/2">
                     <div class="mt-10 lg:mt-0">
                         <span class="block mb-4 text-lg font-semibold text-primary">
                             Why Choose Us

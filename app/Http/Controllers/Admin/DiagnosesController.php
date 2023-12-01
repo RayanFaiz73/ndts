@@ -201,6 +201,7 @@ class DiagnosesController extends Controller
         // dd($diagnose);
         return view('admin.diseases.modal',compact('diagnose'));
     }
+
 public function diseaseModal(Request $request, string $id){
     $disease = Diagnoses::findOrFail($id);
 
@@ -218,22 +219,22 @@ public function diseaseModal(Request $request, string $id){
         $count_male = 0;
         $count_female = 0;
         $count_other = 0;
-            foreach($province->hospitals as $hospital){
+        foreach($province->hospitals as $hospital){
 
-                $count += $hospital->patients->where('diagnoses_id', $id)->count();
-                $count_male += $hospital->patients->where('diagnoses_id', $id)->where('sex','male')->count();
-                $count_female += $hospital->patients->where('diagnoses_id', $id)->where('sex','female')->count();
-                $count_other += $hospital->patients->where('diagnoses_id', $id)->where('sex','other')->count();
-            }
-            $data[$province->state->name] = $count;
-            $data_card[$province->state->name] = [
-                "all" => $count,
-                "male" => $count_male,
-                "female" => $count_female,
-                "other" => $count_other
-            ];
-            $total_patients += $count;
+            $count += $hospital->patients->where('diagnoses_id', $id)->count();
+            $count_male += $hospital->patients->where('diagnoses_id', $id)->where('sex','male')->count();
+            $count_female += $hospital->patients->where('diagnoses_id', $id)->where('sex','female')->count();
+            $count_other += $hospital->patients->where('diagnoses_id', $id)->where('sex','other')->count();
         }
+        $data[$province->state->name] = $count;
+        $data_card[$province->state->name] = [
+            "all" => $count,
+            "male" => $count_male,
+            "female" => $count_female,
+            "other" => $count_other
+        ];
+        $total_patients += $count;
+    }
         // dd($count);
 
     $data_id_percentage = [];
@@ -250,7 +251,6 @@ public function diseaseModal(Request $request, string $id){
         // dd($data_id_percentage);
     return view('admin.diseases.disease_modal', compact('disease', 'provinces', 'data_id_percentage', 'show_graph','data_card'));
 }
-
 
 
 }
