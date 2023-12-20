@@ -1,18 +1,18 @@
 <x-app-layout>
-@section('styles')
-<link rel="stylesheet" href="{{ asset('assets/site/plugins/nice-select2/dist/css/nice-select2.css') }}" />
-<style>
-    .nice-select .nice-select-dropdown {
-        background-color: #004f7a;
-    }
+    @section('styles')
+    <link rel="stylesheet" href="{{ asset('assets/site/plugins/nice-select2/dist/css/nice-select2.css') }}" />
+    <style>
+        .nice-select .nice-select-dropdown {
+            background-color: #004f7a;
+        }
 
-    .nice-select .option:hover,
-    .nice-select .option.focus,
-    .nice-select .option.selected.focus {
-        background-color: #002b42;
-    }
-</style>
-@endsection
+        .nice-select .option:hover,
+        .nice-select .option.focus,
+        .nice-select .option.selected.focus {
+            background-color: #002b42;
+        }
+    </style>
+    @endsection
     <x-slot name="header">
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex items-center justify-between h-10">
@@ -32,6 +32,7 @@
             </div>
         </div>
     </x-slot>
+    {{-- <iframe src="https://chat.openai.com/" title="programiz pro website" height="500" width="500"></iframe> --}}
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div
@@ -134,7 +135,8 @@
                                                 class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                                 {{ __('Hospital') }}
                                             </label>
-                                            <select required="required" name="hospital_id" id="hospital_id" onChange="fetchStaffsByHospital(this, 'staff_id', '{{ route('admin.resource.fetchStaff') }}')"
+                                            <select required="required" name="hospital_id" id="hospital_id"
+                                                onChange="fetchStaffsByHospital(this, 'staff_id', '{{ route('admin.resource.fetchStaff') }}')"
                                                 onChange="(this)"
                                                 class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                                 <option value=""> {{ __('Select Hospital') }} </option>
@@ -158,7 +160,8 @@
                                                 class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                                 {{ __('Hospital') }}
                                             </label>
-                                            <select required="required" name="hospital_id" id="hospital_id" onChange="fetchStaffsByHospital(this, 'staff_id', '{{ route('admin.resource.fetchStaff') }}')"
+                                            <select required="required" name="hospital_id" id="hospital_id"
+                                                onChange="fetchStaffsByHospital(this, 'staff_id', '{{ route('admin.resource.fetchStaff') }}')"
                                                 onChange="(this)"
                                                 class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                                 <option value=""> {{ __('Select Hospital') }} </option>
@@ -184,8 +187,7 @@
                                                 class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                                 {{ __('Data Operator') }}
                                             </label>
-                                            <select required="required" name="staff_id" id="staff_id"
-                                                onChange="(this)"
+                                            <select required="required" name="staff_id" id="staff_id" onChange="(this)"
                                                 class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                                 <option value=""> {{ __('Select Data Operator') }} </option>
                                                 @foreach ($staffs as $staff)
@@ -207,8 +209,7 @@
                                                 class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                                 {{ __('Data Operator') }}
                                             </label>
-                                            <select required="required" name="staff_id" id="staff_id"
-                                                onChange="(this)"
+                                            <select required="required" name="staff_id" id="staff_id" onChange="(this)"
                                                 class="wide selectize bg-theme-primary-400 border border-theme-success-200 text-theme-secondary-100 text-sm rounded-lg focus:ring-theme-primary-500 focus:border-theme-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 placeholder-theme-primary-100 dark:text-white dark:focus:ring-theme-primary-500 dark:focus:border-theme-primary-500">
                                                 <option value=""> {{ __('Select Data Operator') }} </option>
                                             </select>
@@ -220,7 +221,8 @@
                                     @elseif(Auth::user()->role_id == 3)
                                     <div class="contents" id="rolesDiv">
                                         <div class="w-full lg:w-1/2 px-3 mb-6 lg:mb-3">
-                                            <label class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
+                                            <label
+                                                class="block mb-2 text-sm font-medium text-theme-primary-100 dark:text-white">
                                                 {{ __('Data Operator') }}
                                             </label>
                                             <select required="required" name="staff_id" id="staff_id" onChange="(this)"
@@ -383,4 +385,3 @@
     </script>
     @endsection
 </x-app-layout>
-

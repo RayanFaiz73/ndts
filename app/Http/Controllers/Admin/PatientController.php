@@ -61,9 +61,9 @@ class PatientController extends Controller
             $totalRecords = Patient::wherehas('hospital', function($query){
                 $query->where('state_id',Auth::user()->state_id);
             } )->count();
-            $totalRecordwithFilter = where(function ($query) use ($searchValue) {
+            $totalRecordwithFilter = Patient::where(function ($query) use ($searchValue) {
             $query->whereHas('diagnoses', function ($query) use ($searchValue){
-            $query->where('diagnose', 'like', '%' . $searchValue . '%');
+                $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
             ->orWhere('name', 'like', '%' . $searchValue . '%')
             ->orWhere('dob', 'like', '%' . $searchValue . '%')
@@ -87,7 +87,7 @@ class PatientController extends Controller
         }
         elseif(Auth::user()->role_id == 3){
             $totalRecords = Patient::where('hospital_id', Auth::user()->id)->count();
-            $totalRecordwithFilter = where(function ($query) use ($searchValue) {
+            $totalRecordwithFilter = Patient::where(function ($query) use ($searchValue) {
             $query->whereHas('diagnoses', function ($query) use ($searchValue){
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
@@ -107,7 +107,7 @@ class PatientController extends Controller
 
         }else{
             $totalRecords = Patient::where('staff_id', Auth::user()->id)->count();
-            $totalRecordwithFilter = where(function ($query) use ($searchValue) {
+            $totalRecordwithFilter = Patient::where(function ($query) use ($searchValue) {
             $query->whereHas('diagnoses', function ($query) use ($searchValue){
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
@@ -116,7 +116,7 @@ class PatientController extends Controller
             ->orWhere('nic', 'like', '%' . $searchValue . '%');
             })->where('staff_id', Auth::user()->id)->get()->count();
 
-            $records = where(function ($query) use ($searchValue) {
+            $records = Patient::where(function ($query) use ($searchValue) {
             $query->whereHas('diagnoses', function ($query) use ($searchValue){
             $query->where('diagnose', 'like', '%' . $searchValue . '%');
             })
@@ -238,17 +238,17 @@ class PatientController extends Controller
         }
         $diagnoses = Diagnoses::all();
         if (Auth::user()->role_id == 1) {
-        $staffs = user::where('role_id', 6)->get();
+        $staffs = user::where('role_id', 4)->get();
         }elseif(Auth::user()->role_id == 2){
             $staffs = User::whereHas('parent',function($query){
                 $query->where('state_id',Auth::user()->state_id);
             })
-            ->where('role_id', 6)
+            ->where('role_id', 4)
             ->get();
             // dd($users);
-            // $staffs = user::where('role_id', 6)->get();
+            // $staffs = user::where('role_id', 4)->get();
         }else{
-        $staffs = User::where('role_id', 6)->where('parent_id',Auth::id())->get();
+        $staffs = User::where('role_id', 4)->where('parent_id',Auth::id())->get();
         }
 
        return view('admin.patients.create',compact('hospitals','diagnoses','staffs'));
@@ -324,11 +324,11 @@ public function store(Request $request)
         }
         $diagnoses = Diagnoses::all();
         if (Auth::user()->role_id == 1) {
-           $staffs = user::where('role_id', 6)->get();
+           $staffs = user::where('role_id', 4)->get();
         }elseif(Auth::user()->role_id == 2){
-        $staffs = user::where('role_id', 6)->get();
+        $staffs = user::where('role_id', 4)->get();
         }else{
-        $staffs = User::where('role_id', 6)->where('parent_id',Auth::id())->get();
+        $staffs = User::where('role_id', 4)->where('parent_id',Auth::id())->get();
         }
         return view('admin.patients.edit',compact('patient','hospitals','diagnoses','staffs'));
     }

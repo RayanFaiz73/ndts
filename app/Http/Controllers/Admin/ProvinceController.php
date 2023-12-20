@@ -146,13 +146,6 @@ class ProvinceController extends Controller
     }
         public function index(Request $request)
         {
-            // $searchQuery = $request->input('search');
-
-            // $provinces = User::where('role_id', 2)
-            //     ->when($searchQuery, function ($query) use ($searchQuery) {
-            //         $query->where('data_name', 'LIKE', '%' . $searchQuery . '%');
-            //     })
-            //     ->paginate(10);
 
             return view('admin.provinces.index');
         }
@@ -163,7 +156,6 @@ class ProvinceController extends Controller
     {
         $heading = "Province";
         $permission = $this->permission;
-        // $managers = User::where('role_id',2)->get();
         $roles = Role::all();
         $countries = Country::where('id', 166)->get();
         $states = State::where('country_id', 166)->get();
@@ -214,7 +206,6 @@ class ProvinceController extends Controller
         $province = User::findorFail($id);
        $countries = Country::where('id', 166)->get();
        $states = State::where('country_id', 166)->get();
-        // $states = State::where('country_id',$province->state->country_id)->get();
         return view('admin.provinces.edit',compact('province','heading','countries','states'));
     }
 

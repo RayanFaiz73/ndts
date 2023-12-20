@@ -89,40 +89,23 @@
     </div>
     @if(!$all)
     <div class="mt-4 items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
-        {{-- @if($check['status'] == 'delete')
-            @can('delete-'.$titles['policy'])
-            <a onclick="deleteRole({{$role->id}},'{{$role->name}}')" class="btn btn-danger   my-1 me-2">Delete Role</a> --}}
             @can("$permission-delete")
             <x-danger-button class="bg-theme-danger-500"  onclick="openDeleteModal({{$role->id}},'{{$role->name}}')">
-                <i class="fas fa-plus-square mr-1 text-white"></i> {{ __('Delete') }}
+                <i class="fas fa-trash mr-1 text-white"></i> {{ __('Delete') }}
             </x-danger-button>
             @endcan
-            {{-- @endcan
-            @can('update-'.$titles['policy']) --}}
 
             @can("$permission-update")
             <x-warning-link :href="route('admin.permission.edit',['role'=>$role->id])">
-                <i class="fas fa-plus-square mr-1 text-white"></i> {{ __('Edit') }}
+                <i class="fas fa-edit mr-1 text-white"></i> {{ __('Edit') }}
             </x-warning-link>
             @endcan
-            {{-- @endcan
-            @can('read-'.$titles['policy'])
-            <button type="button" class="btn btn-primary btn-active-primary w-100 mt-2" data-bs-toggle="modal" data-bs-target="#kt_modal_update_role">View Role</button> --}}
 
             @can("$permission-read")
             <x-primary-button  onclick="openViewModal({{$role->id}},'{{$role->name}}')">
-                <i class="fas fa-plus-square mr-1 text-white"></i> {{ __('View') }}
+                <i class="fas fa-eye mr-1 text-white"></i> {{ __('View') }}
             </x-primary-button>
             @endcan
-            {{-- @endcan
-            @else
-            @can('read-'.$titles['policy'])
-            <a href="{{route('admin.permissions.view',['id'=>$role->id])}}" class="btn btn-light btn-active-primary my-1 me-2">View Role</a>
-            @endcan
-            @can('update-'.$titles['policy'])
-            <a href="{{route('admin.permissions.edit',['id'=>$role->id])}}" class="btn btn-light btn-active-light-primary my-1" >Edit Role</a>
-            @endcan
-        @endif --}}
     </div>
     @endif
 </div>

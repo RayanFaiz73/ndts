@@ -215,13 +215,7 @@
                                 currentSelect = $('#state_id_div');
                                 url =`{{ route('admin.resource.fetchDiseases') }}?diagnose=${value}`;
                             }
-                            // else if(mainDiv.attr('id') == 'city_id_div'){
-                            //     newDropDown = citySelectDropdown;
-                            //     currentSelect = $('#city_id_div');
-                            //     url =`{{ route('admin.resource.fetchDiseases') }}?diagnose=${value}`;
-                            // }
                             let selectedValue = $(currentSelect).val();
-                            // newDropDown.update();
                             $(elem).val(value);
                             $(currentSelect).val(selectedValue);
                         });

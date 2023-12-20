@@ -66,7 +66,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 py-3">
+                    <div class="grid grid-cols-3 py-3">
                         <dl>
                             <dt class="text-base font-normal text-theme-secondary-100 dark:text-gray-400 pb-1">Male</dt>
                             <dd class="leading-none text-xl font-bold text-green-500 dark:text-green-400"
@@ -76,6 +76,12 @@
                             <dt class="text-base font-normal text-theme-secondary-100 dark:text-gray-400 pb-1">Female
                             </dt>
                             <dd class="leading-none text-xl font-bold text-red-600 dark:text-red-500" id="female_count">
+                                0</dd>
+                        </dl>
+                        <dl>
+                            <dt class="text-base font-normal text-theme-secondary-100 dark:text-gray-400 pb-1">Other
+                            </dt>
+                            <dd class="leading-none text-xl font-bold text-theme-warning-500 dark:text-red-500" id="other_count">
                                 0</dd>
                         </dl>
                     </div>
@@ -186,7 +192,7 @@
             });
     </script>
     <script>
-        let $donutChart = null;
+            let $donutChart = null;
             function sendDataToController(provinceId, diseaseIds) {
             $.ajax({
             url: '{{ route('admin.resource.graph') }}',
@@ -198,6 +204,7 @@
             success: function(response) {
             $('#male_count').text(response.data.total_males);
             $('#female_count').text(response.data.total_females);
+            $('#other_count').text(response.data.total_others);
             updateChart(response);
             },
             error: function(xhr, status, error) {
@@ -336,7 +343,7 @@
 
 
             });
-    </script>
+        </script>
     <script>
         function updateDiseaseChart(data) {
                     let diseases = data.data.diseases.name;
@@ -395,7 +402,7 @@
                                 show: false,
                                 labels: {
                                     formatter: function(value) {
-                                        return value + '%';
+                                        return value ;
                                     }
                                 }
                             }

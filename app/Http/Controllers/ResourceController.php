@@ -141,10 +141,10 @@ class ResourceController extends Controller
         $count_other = 0;
 
         foreach ($patients as $patient) {
-            $count += $patient->where('diagnoses_id', $diseasesId)->count();
-            $count_male += $patient->where('diagnoses_id', $diseasesId)->where('sex', 'male')->count();
-            $count_female += $patient->where('diagnoses_id', $diseasesId)->where('sex', 'female')->count();
-            $count_other += $patient->where('diagnoses_id', $diseasesId)->where('sex', 'other')->count();
+            $count = $patient->where('diagnoses_id', $diseasesId)->count();
+            $count_male = $patient->where('diagnoses_id', $diseasesId)->where('sex', 'male')->count();
+            $count_female = $patient->where('diagnoses_id', $diseasesId)->where('sex', 'female')->count();
+            $count_other = $patient->where('diagnoses_id', $diseasesId)->where('sex', 'other')->count();
         }
         $diseaseName = Diagnoses::find($diseasesId)->diagnose;
         $data['diseases'] = [

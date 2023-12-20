@@ -168,6 +168,7 @@
                 myModal.hide();
                 document.querySelectorAll('[modal-backdrop]').forEach((elem) => elem.remove());
             }
+
         </script>
     @endsection
 

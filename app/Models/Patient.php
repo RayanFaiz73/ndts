@@ -80,4 +80,8 @@ class Patient extends Model
     {
     return $this->hasMany(User::class, 'id', 'hospital_id')->where('role_id',3);
     }
+
+    public function diagnoses() {
+    return $this->belongsTo(Diagnoses::class, 'diagnoses_id', 'id');
+    }
 }
